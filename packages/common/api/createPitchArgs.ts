@@ -1,4 +1,4 @@
-import type { FreeService, PaidService } from "@rese/client-server/model/Pitch";
+import type { FreeService, PaidService } from "@rese/common/model/Pitch";
 
 export type createPitchArgs = {
   pitchName: string;
