@@ -12,9 +12,9 @@ export const pitchesQL = `
           mangerId: ID!
           name: String!
           location: String
-          numberOfSubPitch: Number
-          openAt: Number
-          closeAt: Number
+          numberOfSubPitch: Int
+          openAt: Int
+          closeAt: Int
           paidServices:[String]
           freeServices:[String]
     }
