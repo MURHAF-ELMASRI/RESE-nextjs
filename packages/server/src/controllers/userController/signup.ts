@@ -1,13 +1,13 @@
-import checkTurkishPhoneNumber from "@rese/client-server/util/checkTurkishPhoneNumber";
+import checkTurkishPhoneNumber from "@rese/common/util/checkTurkishPhoneNumber";
 import bcrypt from "bcrypt";
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { check, validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
-import { pick} from "lodash";
+import { pick } from "lodash";
+import { v4 as uuidv4 } from "uuid";
 import { secret } from "../../config/jwtSecret";
 import sendConfirmationEmail from "../../service/mailService/sendConfirmationEmail";
 import userTable from "../../Tables/userTable";
-import { v4 as uuidv4 } from 'uuid';
 
 const signup: RequestHandler[] = [
   async (req: Request, res: Response, next: NextFunction) => {

@@ -1,5 +1,5 @@
+import type { PitchType } from "@rese/common/model/Pitch";
 import mongoose from "mongoose";
-import type { PitchType } from "@rese/client-server/model/Pitch";
 
 const pitchModel = new mongoose.Schema<PitchType>({
   mangerId: {

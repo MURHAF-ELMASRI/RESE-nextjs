@@ -1,4 +1,4 @@
-import { UserType } from "@rese/client-server/model/User";
+import { UserType } from "@rese/common/model/User";
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema<UserType>(
@@ -48,7 +48,7 @@ const userSchema = new mongoose.Schema<UserType>(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 export default mongoose.model("User", userSchema);
