@@ -5,9 +5,7 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import CORS_WHITELIST from "./config/CORS_WHITELIST";
 import env from "./config/env";
-import pitchRouter from "./routes/pitchRouter";
-import userRouter from "./routes/userRouter";
-
+import {graphqlHTTP} from 'express-graphql'
 const app = express();
 
 // util
@@ -32,14 +30,16 @@ app.use(
 );
 
 app.use(morgan("tiny"));
+app.use("/graphql", graphqlHTTP({
+  
+}))
 
 app.get("/", (req, res) => {
   res.status(200).json({ msg: "server is working" });
 });
 
-app.use("/user", userRouter);
 
-app.use("/pitch", pitchRouter);
+
 
 const PORT = env.port || 5000;
 const MONGODB_URL = env.mongoURI || "";
@@ -48,7 +48,7 @@ mongoose
   .connect(MONGODB_URL)
   .then(() => {
     // eslint-disable-next-line no-console
-    console.log("  MongoDB is connected successfully.");
+    console.log("MongoDB is connected successfully.");
     app.listen(PORT, () => {
       // eslint-disable-next-line no-console
       console.log(`Server is running on port ${PORT}`);
