@@ -25,4 +25,4 @@ export const uiSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const { openSideBar, closeSideBar, toggleSideBar } = uiSlice.actions;
 
-export default uiSlice.reducer;
+export default uiSlice;

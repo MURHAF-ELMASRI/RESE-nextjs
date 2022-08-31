@@ -2,11 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import pitchReducer from "./Pitch/pitchSlice";
 import uiReducer from "./ui/uiSlice";
 import userReducer from "./User/UserSlice";
+
 export const store = configureStore({
   reducer: {
-    user: userReducer,
-    pitch: pitchReducer,
-    ui: uiReducer,
+    [userReducer.name]: userReducer.reducer,
+    [pitchReducer.name]: pitchReducer.reducer,
+    [uiReducer.name]: uiReducer.reducer,
   },
 });
 

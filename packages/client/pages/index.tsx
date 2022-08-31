@@ -1,7 +1,17 @@
 import { useMemo, useState } from "react";
-
+import { Provider } from "react-redux";
+import { useAppSelector } from "../src/hooks/useAppSelector";
+import { store } from "../state/store";
 interface Props {
   pitch: [{ _id: string; name: string }];
+}
+
+function Test() {
+  const data = useAppSelector((state) => state.ui);
+
+  console.log(data);
+
+  return <div>Test Test</div>;
 }
 
 export default function Home(props: Props) {
@@ -19,19 +29,22 @@ export default function Home(props: Props) {
   // if (!isLoggedIn) {
   //   return <UnSignedUser />;
   // }
-  if (isPlayer) {
-    return <div>player</div>;
-  }
-  return <div>manger</div>;
+
+  return (
+    <Provider store={store}>
+      <div>manger</div>
+      <Test />
+    </Provider>
+  );
 }
 
-export async function getServerSideProps() {
-  return {
-    props: {
-      pitch: [
-        { _id: "hi", name: "hid" },
-        { _id: "hello", name: "o" },
-      ],
-    },
-  };
-}
+// export async function getServerSideProps() {
+//   return {
+//     props: {
+//       pitch: [
+//         { _id: "hi", name: "hid" },
+//         { _id: "hello", name: "o" },
+//       ],
+//     },
+//   };
+// }

@@ -13,7 +13,8 @@
     "skipLibCheck": true,
     "paths": {
       "@rese/*": ["packages/*/tsconfig.json"]
-    }
+    },
+    
   },
   "include": ["./packages/server/**/*", "./packages/client/**/*"]
 }

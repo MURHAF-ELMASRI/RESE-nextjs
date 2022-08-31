@@ -36,4 +36,4 @@ export const pitchSlice = createSlice({
 export const { addPitch, clearPitches, deletePitch, initializePitches } =
   pitchSlice.actions;
 
-export default pitchSlice.reducer;
+export default pitchSlice;

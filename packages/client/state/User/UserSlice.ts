@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { HYDRATE } from "next-redux-wrapper";
 
 export interface User {
   _id?: string;
@@ -25,10 +26,11 @@ export const userSlice = createSlice({
       localStorage.setItem("token", action.payload.token);
       state.user = action.payload;
     },
+    
   },
 });
 
 // Action creators are generated for each case reducer function
 export const { setUser } = userSlice.actions;
 
-export default userSlice.reducer;
+export default userSlice;
