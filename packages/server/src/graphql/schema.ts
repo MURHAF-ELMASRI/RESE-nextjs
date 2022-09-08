@@ -1,13 +1,4 @@
-import { buildSchema } from "graphql";
-import { query } from "./query";
-import { pitchesQL, subPitchQL } from "./types";
+import { GraphQLSchema } from "graphql";
+import { query } from "./queries/query";
 
-const schema = `
-    ${pitchesQL}
-
-    ${subPitchQL}
-
-    ${query}
-`;
-
-export default buildSchema(schema);
+export default new GraphQLSchema({ query });
