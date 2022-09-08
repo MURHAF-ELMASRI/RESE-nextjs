@@ -4,7 +4,7 @@ const repositoriesContext = {
   pitch: pitchRepository,
 };
 
-//TODO add loader to here for optimization
+//TODO add loader here for optimization
 const LoadersContext = {};
 
 export const context = {

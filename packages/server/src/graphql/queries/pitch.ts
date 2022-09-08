@@ -1,12 +1,6 @@
-import { GraphQLID, GraphQLNonNull, GraphQLObjectType } from "graphql";
-import { Context, context } from "../context/context";
+import { GraphQLID, GraphQLNonNull } from "graphql";
 import { pitchQL } from "../types/pitch";
-
-type QueryType<Args extends string = any, TSource = any,T=any> = {
-  type: GraphQLObjectType;
-  args: Record<Args, any>;
-  resolve: (object: TSource, args: Args, context: Context) => T;
-};
+import { QueryType } from "./query";
 
 const pitch: QueryType = {
   type: pitchQL,
@@ -18,4 +12,4 @@ const pitch: QueryType = {
   },
 };
 
-const a = pitch.resolve({}, "keke", context);
+export default pitch;
