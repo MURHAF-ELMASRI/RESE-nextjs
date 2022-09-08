@@ -7,6 +7,7 @@ import morgan from "morgan";
 import CORS_WHITELIST from "./config/CORS_WHITELIST";
 import env from "./config/env";
 import schema from "./graphql/schema";
+import pitchTable from "./Tables/pitchTable";
 
 const app = express();
 
@@ -33,19 +34,22 @@ app.use(
 );
 
 const rootValue = {
-  pitch: () => {
-    console.log("hello world");
-    return { _id: "helloworld", name: "hi" };
+  pitch: async (_id: string) => {
+    const jfjfj = { _id: 12, name: "murhaf" };
+    const pitchRecord = await pitchTable.find({ _id });
+    console.log(jfjfj, _id, pitchRecord);
+    return jfjfj;
   },
 };
 
 app.use(morgan("tiny"));
 
+
+
 app.use(
   "/graphql",
   graphqlHTTP({
     schema,
-    rootValue,
     graphiql: true,
   })
 );
