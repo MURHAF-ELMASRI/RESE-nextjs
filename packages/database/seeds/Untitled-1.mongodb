@@ -1,0 +1,16 @@
+use("rese")
+
+db.pitches.insertMany([{
+  name:"Sporum",
+  location:"23.342, 2342.524",
+  numberOfSubField:3,
+  openAt:3,
+  closeAt:4,
+},
+{
+  name:"Elazig sport",
+  location:"23.342, 2342.524",
+  numberOfSubField:3,
+  openAt:1,
+  closeAt:4,
+}])

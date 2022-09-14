@@ -1,25 +1,14 @@
 import {
-  GraphQLID,
+  GraphQLInputObjectType,
   GraphQLInt,
   GraphQLList,
   GraphQLNonNull,
-  GraphQLObjectType,
   GraphQLString,
-  
 } from "graphql";
 
-export const pitchQL = new GraphQLObjectType({
-  name: "Pitch",
-  fields: () => ({
-    _id: {
-      type: new GraphQLNonNull(GraphQLID),
-      description: "_id of sport facility",
-      
-    },
-    mangerId: {
-      type: new GraphQLNonNull(GraphQLID),
-      description: "_id of manger of facility",
-    },
+export const newPitch = new GraphQLInputObjectType({
+  name: "NewPitch",
+  fields: {
     name: {
       type: new GraphQLNonNull(GraphQLString),
       description: "name of sport facility",
@@ -44,5 +33,6 @@ export const pitchQL = new GraphQLObjectType({
       type: new GraphQLList(new GraphQLNonNull(GraphQLString)),
       description: "list of provided free services",
     },
-  }),
+  },
 });
+

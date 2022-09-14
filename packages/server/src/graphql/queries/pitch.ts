@@ -1,8 +1,8 @@
 import { GraphQLID, GraphQLNonNull } from "graphql";
 import { pitchQL } from "../types/pitch";
-import { QueryType } from "./query";
+import { ExtendedQueryType } from "./query";
 
-const pitch: QueryType = {
+const pitch: ExtendedQueryType = {
   type: pitchQL,
   args: {
     id: new GraphQLNonNull(GraphQLID),

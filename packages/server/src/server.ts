@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import CORS_WHITELIST from "./config/CORS_WHITELIST";
 import env from "./config/env";
+import { context } from "./graphql/context/context";
 import schema from "./graphql/schema";
 import pitchTable from "./Tables/pitchTable";
 
@@ -44,11 +45,10 @@ const rootValue = {
 
 app.use(morgan("tiny"));
 
-
-
 app.use(
   "/graphql",
   graphqlHTTP({
+    context,
     schema,
     graphiql: true,
   })

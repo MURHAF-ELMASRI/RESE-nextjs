@@ -1,11 +1,12 @@
+import { GraphQLList } from "graphql";
 import { pitchQL } from "../types/pitch";
-import { QueryType } from "./query";
+import { ExtendedQueryType } from "./query"
 
-const pitches: QueryType = {
-  type: pitchQL,
-  resolve: async (_, __, context) => {
-    return await context.repositories.pitch.getAll();
-  },
+
+//TODO: constrain showing pitch by location
+const pitches: ExtendedQueryType = {
+  type: new GraphQLList(pitchQL),
+  resolve: async (_, __, context) => context.repositories.pitch.getAll(),
 };
 
 export default pitches;
