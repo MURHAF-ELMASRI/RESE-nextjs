@@ -4,14 +4,10 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import {
-    FreeService,
-    PaidService,
-    PitchType
-} from "@rese/common/model/Pitch";
+import { FreeService, PaidService, PitchType } from "@rese/common/model/Pitch";
 import { FormikHandlers, useFormik } from "formik";
+import { motion } from "framer-motion";
 import { memo } from "react";
-
 interface InitialValue {
   name: string;
   location: string;
@@ -29,7 +25,7 @@ interface Props {
 export default memo(Filter);
 
 function Filter(props: Props) {
-  const { onClose } = props;
+  const { onClose, isOpen } = props;
   const classes = useStyles();
   const formik = useFormik<InitialValue>({
     initialValues: {
@@ -44,45 +40,54 @@ function Filter(props: Props) {
   });
 
   return (
-    <div className={classes.container}>
-      <div className={classes.header}>
-        <Typography className={classes.title}>Filter</Typography>
-        <IconButton onClick={onClose}>
-          <Icon
-            icon="mdi:close"
-            width={20}
-            height={20}
-            className={classes.closeIcon}
-          />
-        </IconButton>
-      </div>
+    <motion.div
+      className={classes.filterContainer}
+      transition={{ duration: 0.3 }}
+      animate={{
+        opacity: isOpen ? 1 : 0,
+        y: isOpen ? 0 : -400,
+      }}
+    >
+      <div className={classes.container}>
+        <div className={classes.header}>
+          <Typography className={classes.title}>Filter</Typography>
+          <IconButton onClick={onClose}>
+            <Icon
+              icon="mdi:close"
+              width={20}
+              height={20}
+              className={classes.closeIcon}
+            />
+          </IconButton>
+        </div>
 
-      <TextFiledWithIcon
-        name="name"
-        onChange={formik.handleChange}
-        value={formik.values.name}
-      />
-      {/* <TextFiledWithIcon
+        <TextFiledWithIcon
+          name="name"
+          onChange={formik.handleChange}
+          value={formik.values.name}
+        />
+        {/* <TextFiledWithIcon
         name="location"
         onChange={formik.handleChange}
         icon="mdi:map-marker-radius"
         value={formik.values.location}
       /> */}
 
-      <TextFiledWithIcon
-        name="date"
-        onChange={formik.handleChange}
-        icon="mdi:heart-plus-outline"
-        value={formik.values.date}
-      />
+        <TextFiledWithIcon
+          name="date"
+          onChange={formik.handleChange}
+          icon="mdi:heart-plus-outline"
+          value={formik.values.date}
+        />
 
-      <TextFiledWithIcon
-        name="date"
-        onChange={formik.handleChange}
-        icon="mdi:heart-plus-outline"
-        value={formik.values.date}
-      />
-    </div>
+        <TextFiledWithIcon
+          name="date"
+          onChange={formik.handleChange}
+          icon="mdi:heart-plus-outline"
+          value={formik.values.date}
+        />
+      </div>
+    </motion.div>
   );
 }
 interface TextFiledProps {
@@ -156,5 +161,11 @@ const useStyles = makeStyles((theme) => ({
   },
   inputEmpty: {
     color: theme.palette.grey[50],
+  },
+  filterContainer: {
+    position: "absolute",
+    right: 0,
+    top: 3,
+    zIndex: 99,
   },
 }));

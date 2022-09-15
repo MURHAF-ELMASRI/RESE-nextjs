@@ -1,3 +1,5 @@
 {
-  "cSpell.words": ["rese"]
+  "cSpell.words": ["rese"],
+  "eslint.codeActionsOnSave.rules": null,
+  "eslint.workingDirectories": ["packages/*/**"]
 }
