@@ -1,6 +1,7 @@
 import { CacheProvider } from "@emotion/react";
 import { ThemeProvider } from "@material-ui/core";
 import { AnimatePresence } from "framer-motion";
+import { AppProps } from "next/app";
 import { Provider as ReduxProvider } from "react-redux";
 import { theme } from "../config/theme";
 import SideBar from "../containers/SideBar/SideBar";
@@ -12,18 +13,15 @@ const clientSideEmotionCache = createEmotionCache();
 function MyApp({
   Component,
   pageProps,
-  emotionCache = clientSideEmotionCache,
-}: any) {
+}: AppProps) {
   return (
     <ReduxProvider store={store}>
-      <CacheProvider value={emotionCache}>
         <ThemeProvider theme={theme}>
           <AnimatePresence exitBeforeEnter>
             <SideBar />
             <Component {...pageProps} />
           </AnimatePresence>
         </ThemeProvider>
-      </CacheProvider>
     </ReduxProvider>
   );
 }

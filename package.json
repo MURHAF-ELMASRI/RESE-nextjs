@@ -10,5 +10,9 @@
   "scripts": {
     "server": "yarn --cwd ./packages/server dev",
     "client": "yarn --cwd ./packages/client dev"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin":"^5.37.0",
+    "@typescript-eslint/parser":"^5.37.0"
   }
 }
