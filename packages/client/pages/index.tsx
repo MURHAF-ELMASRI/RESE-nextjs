@@ -1,90 +1,49 @@
-import { useMemo, useState } from "react";
-import { useRouter } from 'next/router'
-import { Provider } from "react-redux";
-import { useAppSelector } from "../src/hooks/useAppSelector";
-import { store } from "../state/store";
 import { Icon } from "@iconify/react";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import { makeStyles } from '@material-ui/core/styles';
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import { PitchType } from "@rese/common/model/Pitch";
-import axios, { AxiosResponse } from "axios";
-import { motion } from "framer-motion";
+import { useRouter } from 'next/router';
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useToggle } from "react-use";
+import { api } from "../api/api";
 import Filter from "../components/Filter";
 import PitchListItem from "../components/PitchListItem";
 import { initializePitches } from "../state/Pitch/pitchSlice";
 import { RootState } from "../state/store";
-import { pageTransition } from "../util/const";
 
-interface Props {
-  pitch: [{ _id: string; name: string }];
+
+export async function getServerSideProps() {
+  return {
+    props: {
+      pitch: [
+        { _id: "hi", name: "hid" },
+        { _id: "hello", name: "o" },
+      ],
+    },
+  };
 }
 
-function Test() {
-  const data = useAppSelector((state) => state.ui);
 
-  console.log(data);
-
-  return <div>Test Test</div>;
-}
-
-export default function Home(props: Props) {
-  console.log(props);
-
-  //TODO: get user from redux
-  const [user, setUser] = useState();
-  const isLoggedIn = useMemo(() => !!user, [user]);
-  const isPlayer = useMemo(
-    () => isLoggedIn /*  &&!!user.type === "player",*/,
-    [isLoggedIn]
-  );
-
-  if (!isLoggedIn) {
-    return <UnSignedUser />;
-  }
-
-  return (
-    <Provider store={store}>
-      <div>manger</div>
-      <Test />
-    </Provider>
-  );
-}
-
-// export async function getServerSideProps() {
-//   return {
-//     props: {
-//       pitch: [
-//         { _id: "hi", name: "hid" },
-//         { _id: "hello", name: "o" },
-//       ],
-//     },
-//   };
-// }
-
-function UnSignedUser() {
+export default function Home() {
   const classes = useStyle();
-  const pitches = useSelector((state: RootState) => state.pitch.pitches);
+  const {pitches,ui} = useSelector((state: RootState) => ({pitches:state.pitch.pitches,ui:state.ui}));
   const dispatch = useDispatch();
   const {push} = useRouter();
 
+
   const [isFilterOpen, toggleFilter] = useToggle(false);
 
-  useEffect(() => {
-    axios
-      //TODO: put all routes in object
-      .get(`${process.env.REACT_APP_SERVER_URL}/pitches/`)
+  useEffect(() => {    
+      api.getPitches()
       .then(
-        (response: AxiosResponse<{ pitches: PitchType[] }>) => response.data
+        (response) => response.data
       )
       .then((data) => {
-        dispatch(initializePitches(data.pitches));
+        dispatch(initializePitches(data));
       })
       .catch((e) => {
         //TODO: show error to user using alert in mui
@@ -96,7 +55,7 @@ function UnSignedUser() {
     push("/pitches");
   }, [push]);
 
-  const handleFilter = useCallback((filteredDate) => {
+  const handleFilter = useCallback((filteredDate: any) => {
     console.log(filteredDate);
   }, []);
 
@@ -107,12 +66,12 @@ function UnSignedUser() {
   return (
     <div className={classes.container}>
 
-        {/* <Filter
+        <Filter
           allPitches={pitches}
           isOpen={isFilterOpen}
           onClose={() => toggleFilter(false)}
           onFilter={handleFilter}
-        /> */}
+        />
 
       <div className={classes.thumbnail} />
 
