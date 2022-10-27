@@ -5,27 +5,25 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import { query } from '@rese/database/query/query';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useToggle } from "react-use";
-import { api } from "../api/api";
 import Filter from "../components/Filter";
 import PitchListItem from "../components/PitchListItem";
-import { initializePitches } from "../state/Pitch/pitchSlice";
 import { RootState } from "../state/store";
 
-
-export async function getServerSideProps() {
-  return {
-    props: {
-      pitch: [
-        { _id: "hi", name: "hid" },
-        { _id: "hello", name: "o" },
-      ],
-    },
-  };
-}
+// export async function getServerSideProps() {
+//   return {
+//     props: {
+//       pitch: [
+//         { _id: "hi", name: "hid" },
+//         { _id: "hello", name: "o" },
+//       ],
+//     },
+//   };
+// }
 
 
 export default function Home() {
@@ -38,17 +36,7 @@ export default function Home() {
   const [isFilterOpen, toggleFilter] = useToggle(false);
 
   useEffect(() => {    
-      api.getPitches()
-      .then(
-        (response) => response.data
-      )
-      .then((data) => {
-        dispatch(initializePitches(data));
-      })
-      .catch((e) => {
-        //TODO: show error to user using alert in mui
-        console.log(e.message);
-      });
+      console.log("updated")
   }, [dispatch]);
 
   const handleClickPitches = useCallback(() => {
@@ -127,6 +115,15 @@ export default function Home() {
     </div>
   );
 }
+
+export const getServerSideProps = async () => {
+  const pitches = await query.getPitches();
+
+  return {
+    props:pitches
+  }
+}
+
 
 const useStyle = makeStyles((theme) => ({
   container: {
