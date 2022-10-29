@@ -1,4 +1,4 @@
-import type { PitchType } from "@rese/common/model/Pitch";
+import type { PitchType } from '@rese/common/model/Pitch';
 import mongoose from "mongoose";
 
 const pitchModel = new mongoose.Schema<PitchType>({

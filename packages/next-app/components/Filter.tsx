@@ -45,7 +45,7 @@ function Filter(props: Props) {
       transition={{ duration: 0.3 }}
       animate={{
         opacity: isOpen ? 1 : 0,
-        y: isOpen ? 0 : -400,
+        y: isOpen ? 316 : 0,
       }}
     >
       <div className={classes.container}>
@@ -165,7 +165,7 @@ const useStyles = makeStyles((theme) => ({
   filterContainer: {
     position: "absolute",
     right: 0,
-    top: 3,
+    top: -316,
     zIndex: 99,
   },
 }));

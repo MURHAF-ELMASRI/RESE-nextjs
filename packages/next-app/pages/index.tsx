@@ -5,14 +5,16 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import { query } from '@rese/database/query/query';
+import query from '@rese/database/query/query';
+import { InferGetServerSidePropsType } from "next";
 import { useRouter } from 'next/router';
 import { useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useToggle } from "react-use";
+import { useAppSelector } from "src/hooks/useAppSelector";
 import Filter from "../components/Filter";
 import PitchListItem from "../components/PitchListItem";
-import { RootState } from "../state/store";
+
 
 // export async function getServerSideProps() {
 //   return {
@@ -26,9 +28,18 @@ import { RootState } from "../state/store";
 // }
 
 
-export default function Home() {
+export const getServerSideProps = async () => {
+  const pitches = await query.getPitches()
+  return {
+    props:{pitches:pitches}
+  }
+}
+
+
+
+export default function Home({pitches}:InferGetServerSidePropsType<typeof getServerSideProps>) {
   const classes = useStyle();
-  const {pitches,ui} = useSelector((state: RootState) => ({pitches:state.pitch.pitches,ui:state.ui}));
+  const ui = useAppSelector((state) => state.ui);
   const dispatch = useDispatch();
   const {push} = useRouter();
 
@@ -106,8 +117,8 @@ export default function Home() {
 
       </div>
 
-      {pitches?.map((e, idx) => (
-        <ButtonBase key={idx} className={classes.iconButton}>
+      {pitches?.map((e) => (
+        <ButtonBase key={e._id} className={classes.iconButton}>
           <PitchListItem data={e} />
         </ButtonBase>
       ))}
@@ -116,13 +127,6 @@ export default function Home() {
   );
 }
 
-export const getServerSideProps = async () => {
-  const pitches = await query.getPitches();
-
-  return {
-    props:pitches
-  }
-}
 
 
 const useStyle = makeStyles((theme) => ({
