@@ -4,7 +4,7 @@
 # optimization
 
 [ ] change pitch to facility
-
+[ ] add next seo
 # learned topics
 
 ### data loader
