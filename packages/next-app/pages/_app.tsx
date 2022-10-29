@@ -5,7 +5,7 @@ import { Provider as ReduxProvider } from "react-redux";
 import { theme } from "../config/theme";
 import SideBar from "../containers/SideBar/SideBar";
 import { store } from "../state/store";
-
+import '../styles/global.css';
 
 function MyApp({
   Component,
