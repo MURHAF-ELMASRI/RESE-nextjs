@@ -1,7 +1,7 @@
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import Typography from "@material-ui/core/Typography";
-import type { PitchType } from "@rese/common/model/Pitch";
-import React from "react";
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import Typography from '@material-ui/core/Typography';
+import type { PitchType } from '@rese/common/model/Pitch';
+import React from 'react';
 
 export default React.memo(PitchListItem);
 type Props = {
@@ -9,7 +9,6 @@ type Props = {
 };
 function PitchListItem({ data }: Props) {
   const { name, openAt, closeAt, freeServices } = data;
-  console.log(name, openAt, closeAt);
 
   const classes = useStyle();
   return (
@@ -34,30 +33,33 @@ function PitchListItem({ data }: Props) {
 
 const useStyle = makeStyles((theme) => ({
   container: {
-    display: "flex",
-    width: "100%",
-    padding: "8px 16px",
+    display: 'flex',
+    width: '100%',
+    padding: '8px 16px',
     borderBottom: `solid 1px ${theme.palette.divider}`,
+    '&:hover': {
+      backgroundColor: theme.palette.action.hover,
+    },
   },
   left: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
     gap: 8,
   },
   right: {
     maxWidth: 48,
   },
   featureContainer: {
-    display: "flex",
+    display: 'flex',
     gap: 8,
   },
   service: {
-    padding: "4px 8px",
+    padding: '4px 8px',
     background: theme.palette.background.default,
     borderRadius: 16,
   },
   name: {
-    textAlign: "start",
+    textAlign: 'start',
   },
 }));
