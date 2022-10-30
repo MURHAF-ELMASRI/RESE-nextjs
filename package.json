@@ -9,10 +9,9 @@
   ],
   "scripts": {
     "server": "yarn --cwd ./packages/server dev",
-    "client": "yarn --cwd ./packages/next-app dev"
+    "next": "yarn --cwd ./packages/next-app dev"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin":"^5.37.0",
-    "@typescript-eslint/parser":"^5.37.0"
+    "prettier": "2.7.1"
   }
 }

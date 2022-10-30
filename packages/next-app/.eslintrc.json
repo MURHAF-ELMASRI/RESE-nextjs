@@ -1,0 +1,16 @@
+ {
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+ "env": {
+  "node": true
+ },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:mui-unused-classes/recommended",
+    "eslint:recommended"
+  ],
+  "rules": {
+    "no-console":"warn"
+  }
+}
