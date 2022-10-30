@@ -12,18 +12,27 @@ export const theme = createTheme({
         active: "#8BDCBC",
         hoverOpacity: 0.3,
       },
-    },
-    typography: {
-      allVariants: {
-        color: "#071A52",
-      },
-    },
+  },
+  
     overrides: {
       MuiIconButton: {
         root: {
           color: "#071A52",
         },
       },
-    },
+      MuiInput: {
+        underline: {
+          "&:hover:not(.Mui-disabled):before": {
+            borderBottomColor: "#9e9e9e",
+          },
+        }
+      },
+      // MuiTypography: {
+      //   body1: {
+      //     color: "#071A52",
+      //   }
+      // }
+  },
+    
   });
   
