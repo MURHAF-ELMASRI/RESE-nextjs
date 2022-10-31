@@ -7,7 +7,7 @@ import { memo, useCallback } from 'react';
 interface Props {
   icon?: string;
   onChange: (x: string) => void;
-  name?: string;
+  name: string;
   value: string;
   title: string;
   variant?: 'outlined';

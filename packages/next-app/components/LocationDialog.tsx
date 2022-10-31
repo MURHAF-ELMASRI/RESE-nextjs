@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import useMediaQuery from "@material-ui/core/useMediaQuery/useMediaQuery";
 import { PitchType } from "@rese/common/model/Pitch";
 import { memo, useCallback, useState } from "react";
-import Button from "./Button";
+import Button from "./ButtonRese";
 import GoogleMap from "./maps/GoogleMap";
 
 interface Props {
