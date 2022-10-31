@@ -13,17 +13,6 @@ import { useAppSelector } from 'src/hooks/useAppSelector';
 import Filter from '../components/Filter';
 import PitchListItem from '../components/PitchListItem';
 
-// export async function getServerSideProps() {
-//   return {
-//     props: {
-//       pitch: [
-//         { _id: "hi", name: "hid" },
-//         { _id: "hello", name: "o" },
-//       ],
-//     },
-//   };
-// }
-
 export const getServerSideProps = async () => {
   const pitches = await query.getPitches();
   return {
@@ -100,6 +89,11 @@ export default function Home({
           {pitches?.map((e) => (
             <PitchListItem data={e} key={e._id} />
           ))}
+        </Paper>
+        <Paper className={classes.pitchesList} elevation={2}>
+          <Typography className={classes.listTitle}>
+            Select Pitch to display
+          </Typography>
         </Paper>
       </div>
     </div>

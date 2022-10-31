@@ -2506,6 +2506,13 @@ eslint-plugin-jsx-a11y@^6.5.1:
     minimatch "^3.1.2"
     semver "^6.3.0"
 
+eslint-plugin-mui-path-imports@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-mui-path-imports/-/eslint-plugin-mui-path-imports-0.0.3.tgz#ae12c2b4ef14549a62930018b09886b2f923b691"
+  integrity sha512-RYRyHuVUpJcXDuW/JPayU5O9N/75BfYYfY7hMyGdU6glNdciD3A9Y9uxEgdHocg9iX0oLDxVrdy51Or4o7yJdA==
+  dependencies:
+    requireindex "^1.2.0"
+
 eslint-plugin-mui-unused-classes@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/eslint-plugin-mui-unused-classes/-/eslint-plugin-mui-unused-classes-1.0.3.tgz#5601c17ac6094b36452117fe84792eeaaddc23a8"
@@ -4469,6 +4476,11 @@ regexpp@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/regexpp/-/regexpp-3.2.0.tgz#0425a2768d8f23bad70ca4b90461fa2f1213e1b2"
   integrity sha512-pq2bWo9mVD43nbts2wGv17XLiNLya+GklZ8kaDLV2Z08gDCsGpnKn9BFMepvWuHCbyVvY7J5o5+BVvoQbmlJLg==
+
+requireindex@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/requireindex/-/requireindex-1.2.0.tgz#3463cdb22ee151902635aa6c9535d4de9c2ef1ef"
+  integrity sha512-L9jEkOi3ASd9PYit2cwRfyppc9NoABujTP8/5gFcbERmo5jUoAKovIC3fsF17pkTnGsrByysqX+Kxd2OTNI1ww==
 
 reselect@^4.1.5:
   version "4.1.6"

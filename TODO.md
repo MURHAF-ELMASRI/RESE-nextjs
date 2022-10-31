@@ -3,8 +3,10 @@
 
 # optimization
 
+[ ] write rule for mui
 [ ] change pitch to facility
 [ ] add next seo
+
 # learned topics
 
 ### data loader
