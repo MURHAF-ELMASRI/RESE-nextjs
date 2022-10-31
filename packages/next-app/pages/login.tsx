@@ -1,8 +1,7 @@
-import { Icon } from '@iconify/react';
-import Button from '@material-ui/core/Button';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import TextField from '@material-ui/core/TextField';
+import ButtonRese from 'components/ButtonRese';
 import ImageRese from 'components/ImageRese';
+import TextFieldRese from 'components/TextFieldRese';
 import { useFormik } from 'formik';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
@@ -32,7 +31,6 @@ function Login() {
 
   return (
     <motion.div className={classes.container} {...pageTransition}>
-      <div className={classes.upLine} />
 
       <ImageRese width={112} src={Logo} className={classes.logo} />
 
@@ -40,39 +38,43 @@ function Login() {
 
       <ImageRese width={270} src={rectangle} className={classes.rightRect} />
 
-      <TextField
-        label="Email"
-        onChange={formik.handleChange}
-        name="email"
-        className={classes.input}
-        variant="outlined"
-      />
-      <TextField
-        label="Password"
-        onChange={formik.handleChange}
-        name="password"
-        className={classes.input}
-        variant="outlined"
-      />
-      <div className={classes.buttonContainer}>
-        <Button
-          color="primary"
-          variant="contained"
-          className={classes.buttonGreen}
-        >
-          Login
-        </Button>
+      <div className={classes.inputContainer}>
+        <TextFieldRese
+          title="Email"
+          onChange={formik.handleChange}
+          name="email"
+          className={classes.input}
+          variant="outlined"
+          value={formik.values.email}
+        />
+        <TextFieldRese
+          title="Password"
+          onChange={formik.handleChange}
+          name="password"
+          className={classes.input}
+          variant="outlined"
+          value={formik.values.password}
+        />
+      </div>
 
-        <Button
+      <div className={classes.buttonContainer}>
+        <ButtonRese
+          color="primary"
+          label="Login"
+          onClick={() => {
+            console.log('login');
+          }}
+        />
+        {/*         
+
+        <ButtonRese
           color="default"
           variant="contained"
           className={classes.buttonGray}
-          startIcon={
-            <Icon className={classes.iconGreen} icon="mdi:google" width={24} />
-          }
+          
         >
           Login with google
-        </Button>
+        </ButtonRe>
         <Button
           color="primary"
           variant="contained"
@@ -83,7 +85,7 @@ function Login() {
           }
         >
           Sign Up
-        </Button>
+        </Button> */}
       </div>
     </motion.div>
   );
@@ -98,14 +100,9 @@ const useStyle = makeStyles((theme) => ({
     width: '100%',
     position: 'relative',
     overflow: 'hidden',
-    //   gap:16,
+    padding: '0 24px',
   },
-  upLine: {
-    width: '100%',
-    height: 6,
-    background: theme.palette.primary.main,
-    zIndex: 10,
-  },
+ 
   logo: {
     marginTop: 60,
     maxWidth: 112,
@@ -123,31 +120,20 @@ const useStyle = makeStyles((theme) => ({
     top: 300,
   },
   input: {
-    maxWidth: 600,
-    minWidth: 290,
     marginBottom: 24,
+  },
+  inputContainer: {
+    maxWidth: 400,
     zIndex: 10,
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
   },
   buttonContainer: {
     display: 'flex',
     flexDirection: 'column',
     gap: 16,
-  },
-
-  buttonGreen: {
-    justifyContent: 'flex-start',
+    maxWidth: 400,
     width: '100%',
-    color: '#fff',
-  },
-  buttonGray: {
-    justifyContent: 'flex-start',
-    width: '100%',
-    color: theme.palette.primary.main,
-  },
-  icon: {
-    color: '#fff',
-  },
-  iconGreen: {
-    color: theme.palette.primary.main,
   },
 }));
