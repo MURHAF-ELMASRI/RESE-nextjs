@@ -4,6 +4,7 @@ export const theme = createTheme({
   palette: {
     primary: {
       main: '#17B978',
+      contrastText: '#fff',
     },
     secondary: {
       main: '#FACF5A',
@@ -14,6 +15,12 @@ export const theme = createTheme({
     },
     text: {
       primary: '#071A52',
+    },
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    gray: {
+      main: '#D8D8D8',
+      contrastText: '#17B978',
     },
   },
 
