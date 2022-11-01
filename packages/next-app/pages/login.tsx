@@ -1,4 +1,3 @@
-import makeStyles from '@mui/styles/makeStyles';
 import ButtonRese from 'components/ButtonRese';
 import ImageRese from 'components/ImageRese';
 import TextFieldRese from 'components/TextFieldRese';
@@ -6,6 +5,7 @@ import { useFormik } from 'formik';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
+import { makeStyles } from 'tss-react/mui';
 import Logo from '../assets/logo.png';
 import rectangle from '../assets/rectangle.png';
 import { pageTransition } from '../util/const';
@@ -13,7 +13,7 @@ import { pageTransition } from '../util/const';
 export default React.memo(Login);
 
 function Login() {
-  const classes = useStyle();
+  const { classes } = useStyles();
   const { push } = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -31,7 +31,6 @@ function Login() {
 
   return (
     <motion.div className={classes.container} {...pageTransition}>
-
       <ImageRese width={112} src={Logo} className={classes.logo} />
 
       <ImageRese width={200} src={rectangle} className={classes.leftRect} />
@@ -46,6 +45,8 @@ function Login() {
           className={classes.input}
           variant="outlined"
           value={formik.values.email}
+          type="email"
+          formik
         />
         <TextFieldRese
           title="Password"
@@ -54,44 +55,42 @@ function Login() {
           className={classes.input}
           variant="outlined"
           value={formik.values.password}
+          type="password"
+          formik
         />
       </div>
 
       <div className={classes.buttonContainer}>
         <ButtonRese
-          color="primary"
           label="Login"
+          icon="mdi:login-variant"
           onClick={() => {
             console.log('login');
           }}
         />
-        {/*         
 
         <ButtonRese
-          color="default"
-          variant="contained"
-          className={classes.buttonGray}
-          
-        >
-          Login with google
-        </ButtonRe>
-        <Button
-          color="primary"
-          variant="contained"
-          className={classes.buttonGreen}
-          onClick={navigateToSignup}
-          startIcon={
-            <Icon className={classes.icon} icon="mdi:plus" width={24} />
-          }
-        >
-          Sign Up
-        </Button> */}
+          icon="mdi:google"
+          color="gray"
+          label="Login with google"
+          onClick={() => {
+            console.log('with google');
+          }}
+        />
+
+        <ButtonRese
+          icon="mdi:plus"
+          label="Create New Account"
+          onClick={() => {
+            console.log('Create New Account');
+          }}
+        />
       </div>
     </motion.div>
   );
 }
 
-const useStyle = makeStyles((theme) => ({
+const useStyles = makeStyles()(() => ({
   container: {
     display: 'flex',
     height: '100%',
@@ -102,7 +101,7 @@ const useStyle = makeStyles((theme) => ({
     overflow: 'hidden',
     padding: '0 24px',
   },
- 
+
   logo: {
     marginTop: 60,
     maxWidth: 112,

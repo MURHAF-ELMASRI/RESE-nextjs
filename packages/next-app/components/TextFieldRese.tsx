@@ -12,6 +12,8 @@ interface Props {
   title: string;
   variant?: 'outlined';
   className?: string;
+  formik?: boolean;
+  type?: React.InputHTMLAttributes<unknown>['type'];
 }
 
 export default memo(TextFieldRese);
@@ -25,24 +27,26 @@ function TextFieldRese(props: Props) {
     title,
     variant = 'standard',
     className,
+    formik = false,
+    type = 'text',
   } = props;
 
   const { classes } = useStyles();
 
   const handleChange = useCallback(
     (event: any) => {
-      onChange(event.target.value);
+      onChange(formik ? event : event.target.value);
     },
     [onChange]
   );
 
   return (
     <TextField
-      
       name={name}
       onChange={handleChange}
       value={value}
       label={title}
+      type={type}
       variant={variant}
       className={className}
       InputProps={{
