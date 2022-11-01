@@ -1,10 +1,10 @@
 import { Icon } from '@iconify/react';
-import MatButton from '@mui/material/Button';
+import Button from '@mui/material/Button';
 import { memo } from 'react';
 import { makeStyles } from 'tss-react/mui';
 interface Props {
   className?: string;
-  color?: 'primary' | 'default';
+  color?: 'primary' | 'secondary' | 'gray';
   label: string;
   onClick: () => void;
   icon?: string;
@@ -14,40 +14,32 @@ function ButtonRese(props: Props) {
   const { className, color = 'primary', onClick, label, icon } = props;
   const { classes, cx } = useStyles();
   return (
-    <MatButton
+    <Button
       onClick={onClick}
       variant="contained"
       color={color}
-      className={cx(className, classes.button, {
-        [classes.buttonGray]: color === 'default',
-        [classes.buttonGreen]: color === 'primary',
-      })}
+      className={cx(className, classes.button,{[classes.isIcon]:!!icon})}
       startIcon={
         icon ? (
-          <Icon className={classes.iconGreen} icon={icon} width={24} />
+          <Icon
+            icon={icon}
+            width={24}
+          />
         ) : null
       }
     >
       {label}
-    </MatButton>
+    </Button>
   );
 }
 
 export default memo(ButtonRese);
 
-const useStyles = makeStyles()((theme) => ({
+const useStyles = makeStyles()(() => ({
   button: {
-    color: '#fff',
     width: '100%',
   },
-  buttonGreen: {
+  isIcon: {
     justifyContent: 'flex-start',
-    width: '100%',
-  },
-  buttonGray: {
-    color: theme.palette.primary.main,
-  },
-  iconGreen: {
-    color: theme.palette.primary.main,
   },
 }));
