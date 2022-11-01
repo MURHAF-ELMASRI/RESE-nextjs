@@ -1,8 +1,10 @@
+import { Link as LinkMUI, Typography } from '@mui/material';
 import ButtonRese from 'components/ButtonRese';
 import ImageRese from 'components/ImageRese';
 import TextFieldRese from 'components/TextFieldRese';
 import { useFormik } from 'formik';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
 import { makeStyles } from 'tss-react/mui';
@@ -48,16 +50,24 @@ function Login() {
           type="email"
           formik
         />
-        <TextFieldRese
-          title="Password"
-          onChange={formik.handleChange}
-          name="password"
-          className={classes.input}
-          variant="outlined"
-          value={formik.values.password}
-          type="password"
-          formik
-        />
+        <div className={classes.passwordContainer}>
+          <TextFieldRese
+            title="Password"
+            onChange={formik.handleChange}
+            name="password"
+            className={classes.passwordInput}
+            variant="outlined"
+            value={formik.values.password}
+            type="password"
+            formik
+          />
+
+          <LinkMUI textAlign="end" component={Link} href="/forget-password">
+            <Typography className={classes.forgetPassword}>
+              Forgot Password?
+            </Typography>
+          </LinkMUI>
+        </div>
       </div>
 
       <div className={classes.buttonContainer}>
@@ -120,6 +130,7 @@ const useStyles = makeStyles()(() => ({
   },
   input: {
     marginBottom: 24,
+    width: '100%',
   },
   inputContainer: {
     maxWidth: 400,
@@ -134,5 +145,21 @@ const useStyles = makeStyles()(() => ({
     gap: 16,
     maxWidth: 400,
     width: '100%',
+  },
+  passwordInput: {
+    width: '100%',
+  },
+  passwordContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    flexDirection: 'column',
+
+    width: '100%',
+    marginBottom: 24,
+  },
+  forgetPassword: {
+    textAlign: 'end',
+    cursor: 'pointer',
+    fontSize: 14,
   },
 }));
