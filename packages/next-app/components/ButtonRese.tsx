@@ -1,9 +1,7 @@
 import { Icon } from '@iconify/react';
-import MatButton from '@material-ui/core/Button';
-import makeStyle from '@material-ui/core/styles/makeStyles';
-import classNames from 'classnames';
+import MatButton from '@mui/material/Button';
 import { memo } from 'react';
-
+import { makeStyles } from 'tss-react/mui';
 interface Props {
   className?: string;
   color?: 'primary' | 'default';
@@ -14,13 +12,13 @@ interface Props {
 
 function ButtonRese(props: Props) {
   const { className, color = 'primary', onClick, label, icon } = props;
-  const classes = useStyle();
+  const { classes, cx } = useStyles();
   return (
     <MatButton
       onClick={onClick}
       variant="contained"
       color={color}
-      className={classNames(className, classes.button, {
+      className={cx(className, classes.button, {
         [classes.buttonGray]: color === 'default',
         [classes.buttonGreen]: color === 'primary',
       })}
@@ -37,7 +35,7 @@ function ButtonRese(props: Props) {
 
 export default memo(ButtonRese);
 
-const useStyle = makeStyle((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   button: {
     color: '#fff',
     width: '100%',

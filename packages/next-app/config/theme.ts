@@ -1,38 +1,37 @@
-import { createTheme } from "@material-ui/core";
+import { createTheme } from '@mui/material';
 
 export const theme = createTheme({
-    palette: {
-      primary: {
-        main: "#17B978",
-      },
-      secondary: {
-        main: "#FACF5A",
-      },
-      action: {
-        active: "#8BDCBC",
-        hoverOpacity: 0.3,
-      },
+  palette: {
+    primary: {
+      main: '#17B978',
+    },
+    secondary: {
+      main: '#FACF5A',
+    },
+    action: {
+      active: '#8BDCBC',
+      hoverOpacity: 0.3,
+    },
+    text: {
+      primary: '#071A52',
+    },
   },
-  
-    overrides: {
-      MuiIconButton: {
+
+  components: {
+    MuiIconButton: {
+      styleOverrides: {
         root: {
-          color: "#071A52",
+          color: '#071A52',
         },
       },
-      MuiInput: {
-        underline: {
-          "&:hover:not(.Mui-disabled):before": {
-            borderBottomColor: "#9e9e9e",
-          },
-        }
+    },
+
+    MuiTypography: {
+      styleOverrides: {
+        body1: {
+          color: '#071A52',
+        },
       },
-      // MuiTypography: {
-      //   body1: {
-      //     color: "#071A52",
-      //   }
-      // }
+    },
   },
-    
-  });
-  
+});

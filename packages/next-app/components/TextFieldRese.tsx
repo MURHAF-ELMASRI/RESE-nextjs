@@ -1,8 +1,8 @@
 import { Icon } from '@iconify/react';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import makeStyles from '@material-ui/core/styles/makeStyles';
-import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
 import { memo, useCallback } from 'react';
+import { makeStyles } from 'tss-react/mui';
 
 interface Props {
   icon?: string;
@@ -27,7 +27,7 @@ function TextFieldRese(props: Props) {
     className,
   } = props;
 
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const handleChange = useCallback(
     (event: any) => {
@@ -38,6 +38,7 @@ function TextFieldRese(props: Props) {
 
   return (
     <TextField
+      
       name={name}
       onChange={handleChange}
       value={value}
@@ -55,7 +56,7 @@ function TextFieldRese(props: Props) {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   icon: {
     color: theme.palette.secondary.main,
   },

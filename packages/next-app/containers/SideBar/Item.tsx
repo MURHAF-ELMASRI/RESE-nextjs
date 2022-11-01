@@ -1,10 +1,9 @@
-import { Icon } from "@iconify/react";
-import IconButton from "@material-ui/core/IconButton";
-import makeStyle from "@material-ui/core/styles/makeStyles";
-import Typography from "@material-ui/core/Typography";
-import classNames from "classnames";
-import { useRouter } from "next/router";
-import { memo, useCallback } from "react";
+import { Icon } from '@iconify/react';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import { useRouter } from 'next/router';
+import { memo, useCallback } from 'react';
+import { makeStyles } from 'tss-react/mui';
 
 type Props = {
   path: string;
@@ -14,17 +13,17 @@ type Props = {
 
 function Item(props: Props) {
   const { path, title, icon } = props;
-  const classes = useStyle();
+  const { classes, cx } = useStyles();
   const { push, pathname } = useRouter();
 
   const handleClick = useCallback(() => push(pathname), [pathname, push]);
 
-  const isSelected = pathname === path
-  
+  const isSelected = pathname === path;
+
   return (
     <IconButton
       key={path}
-      className={classNames(classes.listItemContainer, {
+      className={cx(classes.listItemContainer, {
         [classes.selectedListItem]: isSelected,
       })}
       onClick={handleClick}
@@ -39,17 +38,17 @@ function Item(props: Props) {
 
 export default memo(Item);
 
-const useStyle = makeStyle((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   listItemContainer: {
-    width: "100%",
+    width: '100%',
     height: 48,
     borderRadius: 0,
-    justifyContent: "flex-start",
+    justifyContent: 'flex-start',
   },
   listItem: {
     gap: 16,
-    display: "flex",
-    justifyContent: "flex-start",
+    display: 'flex',
+    justifyContent: 'flex-start',
   },
   selectedListItem: {
     backgroundColor: theme.palette.action.active,

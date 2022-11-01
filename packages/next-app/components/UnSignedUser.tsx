@@ -1,28 +1,29 @@
-import { useQuery } from "@apollo/client";
-import { Icon } from "@iconify/react";
-import ButtonBase from "@material-ui/core/ButtonBase";
-import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import { PitchType } from "@rese/common/model/Pitch";
-import axios, { AxiosResponse } from "axios";
-import { motion } from "framer-motion";
-import { useRouter } from "next/Router";
-import { memo, useCallback, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useToggle } from "react-use";
-import Filter from "./Filter";
-import PitchListItem from "./PitchListItem";
-import { initializePitches } from "../state/Pitch/pitchSlice";
-import { pageTransition } from "../util/const";
-import queryQL from "../src/graphql/queryQL";
+import { useQuery } from '@apollo/client';
+import { Icon } from '@iconify/react';
+import ButtonBase from '@mui/material/ButtonBase';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import { makeStyles } from 'tss-react/mui';
+
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { PitchType } from '@rese/common/model/Pitch';
+import axios, { AxiosResponse } from 'axios';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/Router';
+import { memo, useCallback, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useToggle } from 'react-use';
+import queryQL from '../src/graphql/queryQL';
+import { initializePitches } from '../state/Pitch/pitchSlice';
+import { pageTransition } from '../util/const';
+import Filter from './Filter';
+import PitchListItem from './PitchListItem';
 
 export default memo(UnSignedUser);
 
 function UnSignedUser() {
-  const classes = useStyle();
+  const { classes } = useStyles();
   const { loading, error, pitches } = useQuery(queryQL.query.pitch);
 
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ function UnSignedUser() {
   }, [dispatch]);
 
   const handleClickPitches = useCallback(() => {
-    router.push("/pitches");
+    router.push('/pitches');
   }, [router]);
 
   const handleFilter = useCallback((filteredDate) => {
@@ -55,7 +56,7 @@ function UnSignedUser() {
   }, []);
 
   const handleSignupPage = useCallback(() => {
-    router.push("/login");
+    router.push('/login');
   }, [router]);
 
   return (
@@ -80,9 +81,9 @@ function UnSignedUser() {
       <div className={classes.header}>
         <div className={classes.searchContainer}>
           <TextField
-            name={"search"}
+            name={'search'}
             onChange={handleSignupPage}
-            label={"search"}
+            label={'search'}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -126,39 +127,39 @@ function UnSignedUser() {
   );
 }
 
-const useStyle = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   container: {
-    display: "flex",
-    flexDirection: "column",
-    position: "relative",
-    width: "100%",
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+    width: '100%',
   },
   thumbnail: {
-    width: "100%",
+    width: '100%',
     height: 8,
     backgroundColor: theme.palette.primary.main,
   },
   header: {
-    display: "flex",
-    width: "100%",
+    display: 'flex',
+    width: '100%',
     boxShadow: theme.shadows[1],
   },
   search: {
-    marginRight: "auto",
+    marginRight: 'auto',
   },
   icon: {
     color: theme.palette.text.primary,
   },
   iconButton: {
     maxWidth: 464,
-    justifyContent: "start",
+    justifyContent: 'start',
   },
   iconContainer: {
     borderRadius: 8,
   },
-  searchContainer: { padding: 8, marginRight: "auto" },
+  searchContainer: { padding: 8, marginRight: 'auto' },
   filterContainer: {
-    position: "absolute",
+    position: 'absolute',
     right: 0,
     top: 3,
     zIndex: 99,

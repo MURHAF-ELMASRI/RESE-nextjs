@@ -1,6 +1,5 @@
-import Paper from '@material-ui/core/Paper';
-import makeStyles from '@material-ui/core/styles/makeStyles';
-import Typography from '@material-ui/core/Typography';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import query from '@rese/database/query/query';
 import IconButtonRese from 'components/IconButtonRese';
 import TextFieldRese from 'components/TextFieldRese';
@@ -10,6 +9,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useToggle } from 'react-use';
 import { useAppSelector } from 'src/hooks/useAppSelector';
+import { makeStyles } from 'tss-react/mui';
 import Filter from '../components/Filter';
 import PitchListItem from '../components/PitchListItem';
 
@@ -25,7 +25,7 @@ export const getServerSideProps = async () => {
 export default function Home({
   pitches,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const classes = useStyle();
+  const { classes } = useStyle();
   const ui = useAppSelector((state) => state.ui);
   const dispatch = useDispatch();
   const { push } = useRouter();
@@ -63,8 +63,6 @@ export default function Home({
         onFilter={handleFilter}
       />
 
-      <div className={classes.thumbnail} />
-
       <div className={classes.header}>
         <Typography className={classes.pitches} onClick={handleClickPitches}>
           Pitches
@@ -78,6 +76,7 @@ export default function Home({
         <Paper className={classes.pitchesList} elevation={2}>
           <div className={classes.searchContainer}>
             <TextFieldRese
+              name="search"
               onChange={search}
               title={'search'}
               value={searchInput}
@@ -90,7 +89,7 @@ export default function Home({
             <PitchListItem data={e} key={e._id} />
           ))}
         </Paper>
-        <Paper className={classes.pitchesList} elevation={2}>
+        <Paper className={classes.pitchInfo} elevation={2}>
           <Typography className={classes.listTitle}>
             Select Pitch to display
           </Typography>
@@ -100,7 +99,7 @@ export default function Home({
   );
 }
 
-const useStyle = makeStyles((theme) => ({
+const useStyle = makeStyles()((theme) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -108,18 +107,14 @@ const useStyle = makeStyles((theme) => ({
     width: '100%',
     height: '100%',
   },
-  thumbnail: {
-    width: '100%',
-    height: 8,
-    backgroundColor: theme.palette.primary.main,
-  },
   header: {
     display: 'flex',
     justifyContent: 'flex-end',
     width: '100%',
     boxShadow: theme.shadows[1],
     alignItems: 'center',
-    padding: '8px 24px',
+    padding: '16px 24px',
+    gap: 16,
   },
 
   searchContainer: {
@@ -130,7 +125,8 @@ const useStyle = makeStyles((theme) => ({
   main: {
     padding: 24,
     display: 'flex',
-    flexDirection: 'column',
+    justifyContent: 'space-between',
+    gap: 64,
   },
   pitches: {
     display: 'flex',
@@ -139,7 +135,12 @@ const useStyle = makeStyles((theme) => ({
   },
   pitchesList: {
     maxWidth: 464,
+    width: '100%',
   },
+  pitchInfo: {
+    width: '100%',
+  },
+
   listTitle: {
     fontSize: 24,
     padding: 16,

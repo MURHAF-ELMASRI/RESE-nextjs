@@ -1,13 +1,12 @@
-import { Icon } from "@iconify/react";
-import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import { FreeService, PaidService, PitchType } from "@rese/common/model/Pitch";
-import { FormikHandlers, useFormik } from "formik";
-import { motion } from "framer-motion";
-import { memo } from "react";
+import { Icon } from '@iconify/react';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import { FreeService, PaidService, PitchType } from '@rese/common/model/Pitch';
+import { useFormik } from 'formik';
+import { motion } from 'framer-motion';
+import { memo } from 'react';
+import { makeStyles } from 'tss-react/mui';
+import TextFieldRese from './TextFieldRese';
 interface InitialValue {
   name: string;
   location: string;
@@ -26,11 +25,11 @@ export default memo(Filter);
 
 function Filter(props: Props) {
   const { onClose, isOpen } = props;
-  const classes = useStyles();
+  const { classes } = useStyles();
   const formik = useFormik<InitialValue>({
     initialValues: {
-      name: "",
-      location: "",
+      name: '',
+      location: '',
       date: undefined,
       services: [] as FreeService & PaidService,
     },
@@ -61,8 +60,9 @@ function Filter(props: Props) {
           </IconButton>
         </div>
 
-        <TextFiledWithIcon
+        <TextFieldRese
           name="name"
+          title="name"
           onChange={formik.handleChange}
           value={formik.values.name}
         />
@@ -73,82 +73,48 @@ function Filter(props: Props) {
         value={formik.values.location}
       /> */}
 
-        <TextFiledWithIcon
+        <TextFieldRese
           name="date"
+          title="date"
           onChange={formik.handleChange}
           icon="mdi:heart-plus-outline"
-          value={formik.values.date}
+          value={formik.values.date ? formik.values.date.toString() : ''}
+          
         />
 
-        <TextFiledWithIcon
+        <TextFieldRese
           name="date"
+          title="date"
           onChange={formik.handleChange}
           icon="mdi:heart-plus-outline"
-          value={formik.values.date}
+          value={formik.values.date ? formik.values.date.toString() : ''}
         />
       </div>
     </motion.div>
   );
 }
-interface TextFiledProps {
-  icon?: string;
-  onChange: FormikHandlers["handleChange"];
-  name: string;
-  value: any;
-}
 
-function TextFiledWithIcon(props: TextFiledProps) {
-  const { icon, onChange, name, value } = props;
-  const classes = useStyles();
-
-  const isEmpty = !!value;
-
-  return (
-    <TextField
-      name={name}
-      onChange={onChange}
-      className={classes.textField}
-      color="secondary"
-      variant="outlined"
-      label={name}
-      InputProps={{
-        endAdornment: icon && (
-          <InputAdornment position="end">
-            <Icon icon={icon} width={20} className={classes.icon} />
-          </InputAdornment>
-        ),
-        className: classes.inputEmpty,
-      }}
-      InputLabelProps={{
-        classes: {
-          root: isEmpty ? classes.inputFilled : classes.inputEmpty,
-        },
-      }}
-    />
-  );
-}
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   container: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
     padding: 28,
     backgroundColor: theme.palette.primary.main,
-    width: "100vw",
+    width: '100vw',
     maxWidth: 502,
     gap: 16,
     borderRadius: 8,
   },
   header: {
-    display: "flex",
-    justifyContent: "space-between",
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   title: {
     color: theme.palette.grey[50],
     fontSize: 24,
   },
   textField: {
-    width: "100%",
+    width: '100%',
   },
   icon: {
     color: theme.palette.secondary.main,
@@ -163,7 +129,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.grey[50],
   },
   filterContainer: {
-    position: "absolute",
+    position: 'absolute',
     right: 0,
     top: -316,
     zIndex: 99,

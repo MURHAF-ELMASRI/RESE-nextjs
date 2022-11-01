@@ -17,8 +17,9 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@rese/common":["../common/*"],
-      "@rese/database":["../database/*"],
+      "@rese/common": ["../common/*"],
+      "@rese/database": ["../database/*"],
+      "@": ["./*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

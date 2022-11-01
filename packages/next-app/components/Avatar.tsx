@@ -1,6 +1,5 @@
-import makeStyle from "@material-ui/core/styles/makeStyles";
-import classNames from "classnames";
-import React, { memo } from "react";
+import { memo } from 'react';
+import { makeStyles } from 'tss-react/mui';
 
 interface Props {
   src: string;
@@ -10,12 +9,9 @@ interface Props {
 
 function Avatar(props: Props) {
   const { src, className, onClick } = props;
-  const classes = useStyle();
+  const { classes, cx } = useStyles();
   return (
-    <div
-      className={classNames(className, classes.avatarContainer)}
-      onClick={onClick}
-    >
+    <div className={cx(className, classes.avatarContainer)} onClick={onClick}>
       <img className={classes.avatar} src={src} />
     </div>
   );
@@ -23,15 +19,15 @@ function Avatar(props: Props) {
 
 export default memo(Avatar);
 
-const useStyle = makeStyle((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   avatar: {
-    width: "100%",
+    width: '100%',
   },
   avatarContainer: {
     width: 32,
     height: 32,
-    display: "flex",
-    overflow: "hidden",
+    display: 'flex',
+    overflow: 'hidden',
     backgroundColor: theme.palette.secondary.main,
     borderRadius: 500000,
   },

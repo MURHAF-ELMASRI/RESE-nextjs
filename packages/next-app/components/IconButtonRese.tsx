@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react';
-import ButtonBase from '@material-ui/core/ButtonBase';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import ButtonBase from '@mui/material/ButtonBase';
 import { memo } from 'react';
+import { makeStyles } from 'tss-react/mui';
 
 interface Props {
   icon: string;
@@ -15,7 +15,7 @@ export default memo(IconButtonRese);
 function IconButtonRese(props: Props) {
   const { onClick, icon, className, size = 24 } = props;
 
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div className={className}>
@@ -26,7 +26,7 @@ function IconButtonRese(props: Props) {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   iconButton: {
     borderRadius: '50%',
     padding: 8,

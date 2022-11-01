@@ -1,7 +1,7 @@
-import makeStyles from '@material-ui/core/styles/makeStyles';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import type { PitchType } from '@rese/common/model/Pitch';
 import React from 'react';
+import { makeStyles } from 'tss-react/mui';
 
 export default React.memo(PitchListItem);
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 function PitchListItem({ data }: Props) {
   const { name, openAt, closeAt, freeServices } = data;
 
-  const classes = useStyle();
+  const { classes } = useStyles();
   return (
     <div className={classes.container}>
       <div className={classes.left}>
@@ -31,7 +31,7 @@ function PitchListItem({ data }: Props) {
   );
 }
 
-const useStyle = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   container: {
     display: 'flex',
     width: '100%',

@@ -1,4 +1,4 @@
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import ButtonRese from 'components/ButtonRese';
 import ImageRese from 'components/ImageRese';
 import TextFieldRese from 'components/TextFieldRese';

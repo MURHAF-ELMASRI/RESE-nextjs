@@ -1,13 +1,13 @@
-import  makeStyles  from "@material-ui/core/styles/makeStyles";
-import FormControl from "@material-ui/core/FormControl";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import SelectMui from "@material-ui/core/Select";
-import classnames from "classnames";
-import { FormikHandlers } from "formik";
-import { uniqueId } from "lodash";
-import React, { useState } from "react";
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import SelectMui from '@mui/material/Select';
+import { makeStyles } from 'tss-react/mui';
+
+import { FormikHandlers } from 'formik';
+import { uniqueId } from 'lodash';
+import React, { useState } from 'react';
 
 export default React.memo(Select);
 
@@ -18,10 +18,10 @@ interface Props<V = any> {
     value: V;
   }[];
   value: V;
-  onChange: FormikHandlers["handleChange"];
+  onChange: FormikHandlers['handleChange'];
   name: string;
   helperText?: string;
-  variant?: "filled" | "outlined" | "standard";
+  variant?: 'filled' | 'outlined' | 'standard';
   className?: string;
 }
 
@@ -32,17 +32,17 @@ function Select(props: Props) {
     value,
     label,
     helperText,
-    variant = "outlined",
+    variant = 'outlined',
     className,
     name,
   } = props;
-  const classes = useStyle();
+  const { classes, cx } = useStyles();
   const [id] = useState(uniqueId());
 
   return (
     <FormControl
       variant={variant}
-      className={classnames(classes.formControl, className)}
+      className={cx(classes.formControl, className)}
     >
       <InputLabel id={id}>{label}</InputLabel>
       <SelectMui
@@ -63,7 +63,7 @@ function Select(props: Props) {
   );
 }
 
-const useStyle = makeStyles((theme) => ({
+const useStyles = makeStyles()(() => ({
   formControl: {
     minWidth: 120,
   },

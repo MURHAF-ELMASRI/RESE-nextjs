@@ -1,9 +1,8 @@
-import { Icon } from "@iconify/react";
-import makeStyle from "@material-ui/core/styles/makeStyles";
-import useTheme from "@material-ui/core/styles/useTheme";
-import Tooltip from "@material-ui/core/Tooltip";
-import React, { memo } from "react";
-
+import { Icon } from '@iconify/react';
+import useTheme from '@mui/material/styles/useTheme';
+import Tooltip from '@mui/material/Tooltip';
+import { memo } from 'react';
+import { makeStyles } from 'tss-react/mui';
 interface Props {
   onClick?: () => void;
   text?: string;
@@ -14,14 +13,14 @@ interface Props {
 function Marker(props: Props) {
   const { onClick, text } = props;
   const color = useTheme().palette.error.main;
-  const classes = useStyle();
+  const { classes } = useStyles();
   return (
     <div onClick={onClick} className={classes.container}>
       {text ? (
         <Tooltip title={text}>
           <Icon
             className={classes.icon}
-            icon={"mdi:map-marker"}
+            icon={'mdi:map-marker'}
             color={color}
             width={24}
           />
@@ -29,7 +28,7 @@ function Marker(props: Props) {
       ) : (
         <Icon
           className={classes.icon}
-          icon={"mdi:map-marker"}
+          icon={'mdi:map-marker'}
           color={color}
           width={24}
         />
@@ -40,14 +39,14 @@ function Marker(props: Props) {
 
 export default memo(Marker);
 
-const useStyle = makeStyle((theme) => ({
+const useStyles = makeStyles()(() => ({
   container: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
     left: 0,
-    userSelect: "none",
-    cursor: "pointer",
-    "&:hover": {
+    userSelect: 'none',
+    cursor: 'pointer',
+    '&:hover': {
       zIndex: 1,
     },
   },

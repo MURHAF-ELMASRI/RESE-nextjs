@@ -1,7 +1,6 @@
-import makeStyle from '@material-ui/core/styles/makeStyles';
-import classNames from 'classnames';
 import Image, { StaticImageData } from 'next/image';
 import { memo } from 'react';
+import { makeStyles } from 'tss-react/mui';
 
 interface Props {
   width: number;
@@ -11,10 +10,10 @@ interface Props {
 
 function ImageRese(props: Props) {
   const { width, src, className } = props;
-  const classes = useStyle();
+  const { classes,cx } = useStyles();
 
   return (
-    <div className={classNames(classes.container, className)} style={{ width }}>
+    <div className={cx(classes.container, className)} style={{ width }}>
       <Image src={src} objectFit="cover" />
     </div>
   );
@@ -22,13 +21,12 @@ function ImageRese(props: Props) {
 
 export default memo(ImageRese);
 
-const useStyle = makeStyle((theme) => ({
+const useStyles = makeStyles()(() => ({
   container: {
     margin: '32px auto',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    
   },
 }));

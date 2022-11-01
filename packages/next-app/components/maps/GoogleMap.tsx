@@ -1,4 +1,5 @@
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import { makeStyles } from 'tss-react/mui';
+
 import { PitchType } from "@rese/common/model/Pitch";
 import GoogleMapReact from "google-map-react";
 import { memo } from "react";
@@ -17,7 +18,7 @@ interface Props {
 
 function GoogleMap(props: Props) {
   const { pitches, onClick } = props;
-  const classes = useStyle();
+  const { classes } = useStyles();
 
   return (
     <div className={classes.container}>
@@ -46,7 +47,7 @@ function GoogleMap(props: Props) {
 
 export default memo(GoogleMap);
 
-const useStyle = makeStyles(() => ({
+const useStyles = makeStyles()(() => ({
   container: {
     width: "100%",
     height: "100%",
