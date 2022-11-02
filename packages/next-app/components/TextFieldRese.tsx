@@ -1,9 +1,8 @@
 import { Icon } from '@iconify/react';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { makeStyles } from 'tss-react/mui';
-
 interface Props {
   icon?: string;
   onChange: (x: string) => void;
@@ -14,6 +13,9 @@ interface Props {
   className?: string;
   formik?: boolean;
   type?: React.InputHTMLAttributes<unknown>['type'];
+  showError: boolean | undefined;
+  helperText: string | undefined;
+  touched?: boolean;
 }
 
 export default memo(TextFieldRese);
@@ -29,6 +31,9 @@ function TextFieldRese(props: Props) {
     className,
     formik = false,
     type = 'text',
+    showError = undefined,
+    helperText,
+    touched = undefined,
   } = props;
 
   const { classes } = useStyles();
@@ -40,6 +45,15 @@ function TextFieldRese(props: Props) {
     [onChange]
   );
 
+  const shouldShowError = useMemo(
+    () => (showError === undefined ? false : !!touched && !!helperText),
+    [touched, showError, helperText]
+  );
+  const helperTextUI = useMemo(
+    () => (showError === undefined ? helperText : touched ? helperText : ''),
+    [showError, helperText, touched]
+  );
+
   return (
     <TextField
       name={name}
@@ -49,6 +63,8 @@ function TextFieldRese(props: Props) {
       type={type}
       variant={variant}
       className={className}
+      helperText={helperTextUI}
+      error={shouldShowError}
       InputProps={{
         endAdornment: icon && (
           <InputAdornment position="end">

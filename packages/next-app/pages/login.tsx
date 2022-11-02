@@ -1,3 +1,4 @@
+import { formValidation } from '@/features/login/formValidation';
 import { Link as LinkMUI, Typography } from '@mui/material';
 import ButtonRese from 'components/ButtonRese';
 import ImageRese from 'components/ImageRese';
@@ -18,6 +19,7 @@ function Login() {
   const { classes } = useStyles();
   const { push } = useRouter();
   const formik = useFormik({
+    validationSchema: formValidation,
     initialValues: {
       email: '',
       password: '',
@@ -48,6 +50,9 @@ function Login() {
           variant="outlined"
           value={formik.values.email}
           type="email"
+          helperText={formik.errors.email}
+          touched={formik.touched.email}
+          showError
           formik
         />
         <div className={classes.passwordContainer}>
@@ -59,6 +64,9 @@ function Login() {
             variant="outlined"
             value={formik.values.password}
             type="password"
+            touched={formik.touched.password}
+            helperText={formik.errors.password}
+            showError
             formik
           />
 
@@ -74,9 +82,7 @@ function Login() {
         <ButtonRese
           label="Login"
           icon="mdi:login-variant"
-          onClick={() => {
-            console.log('login');
-          }}
+          onClick={formik.submitForm}
         />
 
         <ButtonRese
@@ -84,16 +90,14 @@ function Login() {
           color="gray"
           label="Login with google"
           onClick={() => {
-            console.log('with google');
+            alert('this need to be implemented');
           }}
         />
 
         <ButtonRese
           icon="mdi:plus"
           label="Create New Account"
-          onClick={() => {
-            console.log('Create New Account');
-          }}
+          onClick={navigateToSignup}
         />
       </div>
     </motion.div>
