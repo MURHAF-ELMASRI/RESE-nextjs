@@ -19,7 +19,8 @@
     "paths": {
       "@rese/common": ["../common/*"],
       "@rese/database": ["../database/*"],
-      "@/features/*": ["./features/*"]
+      "@/features/*": ["./features/*"],
+      "@/config/*": ["./config/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

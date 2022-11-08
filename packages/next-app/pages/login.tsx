@@ -1,4 +1,5 @@
 import { formValidation } from '@/features/login/formValidation';
+import { gql, useMutation } from '@apollo/client';
 import { Link as LinkMUI, Typography } from '@mui/material';
 import ButtonRese from 'components/ButtonRese';
 import ImageRese from 'components/ImageRese';
@@ -15,17 +16,43 @@ import { pageTransition } from '../util/const';
 
 export default React.memo(Login);
 
+const loginMutation = gql`
+  mutation loginMutation($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      __typename
+      ... on User {
+        fullName
+        id
+      }
+      ... on loginError {
+        error
+        email
+        password
+      }
+    }
+  }
+`;
+
 function Login() {
   const { classes } = useStyles();
   const { push } = useRouter();
+  const [mutateFunction, { data, loading, error }] = useMutation(loginMutation);
+
   const formik = useFormik({
     validationSchema: formValidation,
     initialValues: {
-      email: '',
-      password: '',
+      email: 'murhaf@gmail.com',
+      password: '12345678',
     },
-    onSubmit: (v) => {
-      console.log('submit the values', v.email, v.password);
+    onSubmit: async (v, helper) => {
+      const a = await mutateFunction({ variables: v });
+      if (a.data?.login?.error) {
+        console.log(a, a.data?.login?.email);
+        helper.setErrors({
+          email: a.data?.login?.email,
+          password: a.data?.login?.password,
+        });
+      }
     },
   });
 

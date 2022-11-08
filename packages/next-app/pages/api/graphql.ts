@@ -24,6 +24,7 @@ type User {
 }
 
 type loginError {
+  error: Boolean
   email: String
   password: String
 }
@@ -47,11 +48,14 @@ function createGraphqlEndpoint<Context extends Record<string, any> = {}>(
         const { email, password } = args;
         const { res } = context;
         res.setHeader('set-cookie', 'rese=hell-world');
-        console.log(email);
         const data = await query.getUser({ email });
-        console.log({ data });
         if (!data) {
-          return { __typename: 'loginError', email: 'email not found' };
+          return {
+            __typename: 'loginError',
+            email: 'email not found',
+            password: 'password is not correct',
+            error: true,
+          };
         }
 
         return {
@@ -72,4 +76,4 @@ function createGraphqlEndpoint<Context extends Record<string, any> = {}>(
   });
 }
 
-export default createGraphqlEndpoint<Context>('/api/login');
+export default createGraphqlEndpoint<Context>('/api/graphql');
