@@ -2,9 +2,9 @@ import { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   schema: './packages/next-app/graphql/*.ts',
-  documents: './packages/next-app/pages/**/*.tsx',
+  documents: './packages/next-app/features/**/*.graphql',
   generates: {
-    './test.ts': {
+    './packages/next-app/hooks/graphql/apolloHooks.ts': {
       plugins: [
         'typescript',
         'typescript-operations',
@@ -15,13 +15,6 @@ const config: CodegenConfig = {
       },
     },
     './packages/next-app/types/resolvers-types.ts': {
-      config: {
-        contextType: 'models#MyContextType',
-        mappers: {
-          User: './models#UserModel',
-          Profile: './models#UserProfile',
-        },
-      },
       plugins: ['typescript', 'typescript-resolvers'],
     },
   },
