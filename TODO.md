@@ -21,6 +21,10 @@
 - add new color to theme both in js and ts
 - mocking vs stubbing
 - data loader and N+1 problem in graphql
+- problem: codegen was not recognize graphql fils
+  - solution: the files' path should be set where the codegen work
+- problem: reading graphql files because nodejs read file does not work for webpack or next
+  - use gql tag and exports the schema to use it in graphql-yoga
 
 ### data loader
 

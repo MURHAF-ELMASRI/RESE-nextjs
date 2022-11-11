@@ -1,7 +1,9 @@
-import { IResolvers } from '@graphql-tools/utils';
 import { query } from '@rese/database/query/query';
 import { createSchema, createYoga } from 'graphql-yoga';
+
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { Resolvers } from 'types/resolvers-types';
+import { loginSchema } from '../../graphql/login';
 
 export const config = {
   api: {
@@ -14,38 +16,12 @@ type Context = {
   res: NextApiResponse;
 };
 
-const typeDefs = `
-type Query {
-  greetings:{
-    name:String
-  }
-}
-type User {
-  fullName: String
-  id:Int
-}
-
-type loginError {
-  error: Boolean
-  email: String
-  password: String
-}
-
-union A = User | loginError
-
-type Mutation {
-  login(email: String, password: String): A
-}
-`;
-
 function createGraphqlEndpoint<Context extends Record<string, any> = {}>(
   url: string
 ) {
-  const resolvers: IResolvers<any, Context> = {
+  const resolvers: Resolvers = {
     Query: {
-      greetings: () => {
-        name: 'This is the `greetings` field of the root `Query` type';
-      },
+      greetings: () => 'This is the `greetings` field of the root `Query` type',
     },
     Mutation: {
       login: async (_, args, context) => {
@@ -74,7 +50,7 @@ function createGraphqlEndpoint<Context extends Record<string, any> = {}>(
   return createYoga<Context>({
     graphqlEndpoint: url,
     schema: createSchema({
-      typeDefs,
+      typeDefs: loginSchema,
       resolvers,
     }),
   });

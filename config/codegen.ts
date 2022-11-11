@@ -1,10 +1,10 @@
 import { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
-  schema: 'http://localhost:3000/api/login',
+  schema: './packages/next-app/graphql/*.ts',
+  documents: './packages/next-app/pages/**/*.tsx',
   generates: {
     './test.ts': {
-      documents: 'login.graphql',
       plugins: [
         'typescript',
         'typescript-operations',
@@ -13,6 +13,16 @@ const config: CodegenConfig = {
       config: {
         withHooks: true,
       },
+    },
+    './packages/next-app/types/resolvers-types.ts': {
+      config: {
+        contextType: 'models#MyContextType',
+        mappers: {
+          User: './models#UserModel',
+          Profile: './models#UserProfile',
+        },
+      },
+      plugins: ['typescript', 'typescript-resolvers'],
     },
   },
 };

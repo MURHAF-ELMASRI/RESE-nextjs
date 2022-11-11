@@ -1,5 +1,0 @@
-query getGreet {
-  greetings {
-    name
-  }
-}
