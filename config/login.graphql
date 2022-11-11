@@ -1,0 +1,5 @@
+query getGreet {
+  greetings {
+    name
+  }
+}

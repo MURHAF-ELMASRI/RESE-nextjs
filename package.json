@@ -9,9 +9,16 @@
   ],
   "scripts": {
     "server": "yarn --cwd ./packages/server dev",
-    "next": "yarn --cwd ./packages/next-app dev"
+    "next": "yarn --cwd ./packages/next-app dev",
+    "generate": "graphql-codegen --config ./config/codegen.ts"
   },
   "devDependencies": {
-    "prettier": "2.7.1"
+    "@graphql-codegen/cli": "2.13.11",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.6",
+    "graphql": "^16.6.0",
+    "prettier": "2.7.1",
+    "typescript": "^4.8.4",
+    "@graphql-codegen/introspection": "2.2.1",
+    "@graphql-codegen/client-preset": "1.1.3"
   }
 }

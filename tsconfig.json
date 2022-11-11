@@ -11,10 +11,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "checkJs": true,
-    "importHelpers": true,
-    "paths": {
-      "@rese/*": ["packages/*"]
-    }
+    "importHelpers": true
   },
-  "include": ["./packages/server/**/*"]
+  "include": ["./packages/**/**/*", "./packages/**/*", "./config/*"]
 }

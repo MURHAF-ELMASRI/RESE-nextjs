@@ -17,7 +17,7 @@ import { pageTransition } from '../util/const';
 export default React.memo(Login);
 
 const loginMutation = gql`
-  mutation loginMutation($email: String!, $password: String!) {
+  mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       __typename
       ... on User {
