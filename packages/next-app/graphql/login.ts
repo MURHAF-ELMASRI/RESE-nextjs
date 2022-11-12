@@ -2,15 +2,14 @@ import gql from 'graphql-tag';
 
 export const loginSchema = gql`
   type Query {
-    greetings: String
+    greetings: String!
   }
   type User {
-    fullName: String
-    id: Int
+    fullName: String!
+    id: Int!
   }
 
   type loginError {
-    error: Boolean
     email: String
     password: String
   }
@@ -18,6 +17,6 @@ export const loginSchema = gql`
   union loginOrError = User | loginError
 
   type Mutation {
-    login(email: String, password: String): loginOrError
+    login(email: String!, password: String!): loginOrError
   }
 `;

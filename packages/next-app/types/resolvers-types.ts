@@ -4,6 +4,7 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -20,25 +21,24 @@ export type Mutation = {
 
 
 export type MutationLoginArgs = {
-  email?: InputMaybe<Scalars['String']>;
-  password?: InputMaybe<Scalars['String']>;
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  greetings?: Maybe<Scalars['String']>;
+  greetings: Scalars['String'];
 };
 
 export type User = {
   __typename?: 'User';
-  fullName?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
+  fullName: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 export type LoginError = {
   __typename?: 'loginError';
   email?: Maybe<Scalars['String']>;
-  error?: Maybe<Scalars['Boolean']>;
   password?: Maybe<Scalars['String']>;
 };
 
@@ -136,22 +136,21 @@ export type ResolversParentTypes = {
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  login?: Resolver<Maybe<ResolversTypes['loginOrError']>, ParentType, ContextType, Partial<MutationLoginArgs>>;
+  login?: Resolver<Maybe<ResolversTypes['loginOrError']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  greetings?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  greetings?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  fullName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  fullName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type LoginErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['loginError'] = ResolversParentTypes['loginError']> = {
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  error?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

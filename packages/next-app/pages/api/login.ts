@@ -1,9 +1,9 @@
 import { query } from '@rese/database/query/query';
 import { createSchema, createYoga } from 'graphql-yoga';
+import { useLoginMutation } from 'hooks/graphql/apolloHooks';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Resolvers } from 'types/resolvers-types';
-import { loginSchema } from '../../graphql/login';
 
 export const config = {
   api: {
@@ -16,44 +16,69 @@ type Context = {
   res: NextApiResponse;
 };
 
-function createGraphqlEndpoint<Context extends Record<string, any> = {}>(
-  url: string
-) {
-  const resolvers: Resolvers = {
-    Query: {
-      greetings: () => 'This is the `greetings` field of the root `Query` type',
-    },
-    Mutation: {
-      login: async (_, args, context) => {
-        const { email, password } = args;
-        const { res } = context;
-        res.setHeader('set-cookie', 'rese=hell-world');
-        const data = await query.getUser({ email });
-        if (!data) {
-          return {
-            __typename: 'loginError',
-            email: 'email not found',
-            password: 'password is not correct',
-            error: true,
-          };
-        }
-
+const resolvers: Resolvers<Context> = {
+  Query: {
+    greetings: () => 'This is the `greetings` field of the root `Query` type',
+  },
+  Mutation: {
+    login: async (_, args, context) => {
+      const { email, password } = args;
+      if (!email) {
         return {
-          __typename: 'User',
-          fullName: 'full Name',
-          id: 'id',
+          __typename: 'loginError',
+          email: 'should be set',
+          password:""
         };
-      },
-    },
-  };
+      }
 
-  return createYoga<Context>({
-    graphqlEndpoint: url,
-    schema: createSchema({
-      typeDefs: loginSchema,
-      resolvers,
-    }),
-  });
+      console.log('herre in api ');
+      const { res } = context;
+      res.setHeader('set-cookie', 'rese=hell-world');
+
+      const data = await query.getUser({ email });
+      if (!data) {
+        return {
+          __typename: 'loginError',
+          email: 'email not found',
+          password: 'password is not correct',
+        };
+      }
+
+      return {
+        __typename: 'User',
+        fullName: 'full Name',
+        id: 32,
+      };
+    },
+  },
+};
+
+const typeDefs = `
+type Query {
+  greetings: String
+}
+type User {
+  fullName: String
+  id: Int
 }
 
-export default createGraphqlEndpoint<Context>('/api/login');
+type loginError {
+  error: Boolean
+  email: String
+  password: String
+}
+
+union loginOrError = User | loginError
+
+type Mutation {
+  login(email: String, password: String): loginOrError
+}
+`;
+
+export default createYoga<Context>({
+  graphqlEndpoint: '/api/login',
+  schema: createSchema({
+    typeDefs,
+    resolvers,
+  }),
+});

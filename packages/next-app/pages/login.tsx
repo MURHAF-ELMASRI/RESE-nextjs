@@ -1,11 +1,12 @@
 import { formValidation } from '@/features/login/formValidation';
-import { gql, useMutation } from '@apollo/client';
+import { gql } from '@apollo/client';
 import { Link as LinkMUI, Typography } from '@mui/material';
 import ButtonRese from 'components/ButtonRese';
 import ImageRese from 'components/ImageRese';
 import TextFieldRese from 'components/TextFieldRese';
 import { useFormik } from 'formik';
 import { motion } from 'framer-motion';
+import { useLoginMutation } from 'hooks/graphql/apolloHooks';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
@@ -36,7 +37,7 @@ const loginMutation = gql`
 function Login() {
   const { classes } = useStyles();
   const { push } = useRouter();
-  const [mutateFunction, { data, loading, error }] = useMutation(loginMutation);
+  const [mutate, result] = useLoginMutation();
 
   const formik = useFormik({
     validationSchema: formValidation,
@@ -45,12 +46,11 @@ function Login() {
       password: '12345678',
     },
     onSubmit: async (v, helper) => {
-      const a = await mutateFunction({ variables: v });
-      if (a.data?.login?.error) {
-        console.log(a, a.data?.login?.email);
+      const { data } = await mutate({ variables: v });
+      if (data?.login?.__typename === 'loginError') {
         helper.setErrors({
-          email: a.data?.login?.email,
-          password: a.data?.login?.password,
+          email: data.login.email ?? '',
+          password: data.login.password ?? '',
         });
       }
     },
