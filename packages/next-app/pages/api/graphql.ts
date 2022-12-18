@@ -37,7 +37,7 @@ const resolvers: Resolvers<Context> = {
             email: 'email not found',
           };
         }
-        
+
         const match = await bcrypt.compare(password, data.password);
         if (!match) {
           return {
@@ -57,6 +57,10 @@ const resolvers: Resolvers<Context> = {
           __typename: 'User',
           fullName: data.fullName,
           id: data.id,
+          email: data.email,
+          phone: data.phone,
+          status:data.status,
+          token,
         };
       } catch (e: any) {
         console.log(e.message);
