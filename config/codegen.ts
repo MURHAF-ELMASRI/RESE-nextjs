@@ -1,10 +1,10 @@
 import { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
-  schema: './packages/next-app/graphql/*.ts',
+  schema: './packages/next-app/graphql/schema/*.ts',
   documents: './packages/next-app/features/**/*.graphql',
   generates: {
-    './packages/next-app/hooks/graphql/apolloHooks.ts': {
+    './packages/next-app/graphql/graphql/generated/apolloHooks.ts': {
       plugins: [
         'typescript',
         'typescript-operations',

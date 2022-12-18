@@ -9,7 +9,11 @@ export const query = {
   },
   getUser: async ({ email }: { email: string }) => {
     await connectMongo();
-    return userTable.findOne({ email }, ['email', 'fullName', 'password']);
+    return userTable.findOne({ email }, [
+      'email',
+      'fullName',
+      'password',
+    ] as const);
   },
 };
 export default query;

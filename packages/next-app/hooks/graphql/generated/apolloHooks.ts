@@ -17,7 +17,7 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  login?: Maybe<LoginOrError>;
+  login: LoginOrError;
 };
 
 
@@ -33,9 +33,18 @@ export type Query = {
 
 export type User = {
   __typename?: 'User';
+  email: Scalars['String'];
   fullName: Scalars['String'];
   id: Scalars['Int'];
+  phone: Scalars['String'];
+  status: UserStatus;
+  token: Scalars['String'];
 };
+
+export enum UserStatus {
+  Active = 'active',
+  Pending = 'pending'
+}
 
 export type LoginError = {
   __typename?: 'loginError';
@@ -51,7 +60,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login?: { __typename: 'User', fullName: string, id: number } | { __typename: 'loginError', email?: string | null, password?: string | null } | null };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename: 'User', id: number, fullName: string, phone: string, status: UserStatus, token: string, email: string } | { __typename: 'loginError', password?: string | null, emailField?: string | null } };
 
 
 export const LoginDocument = gql`
@@ -59,12 +68,16 @@ export const LoginDocument = gql`
   login(email: $email, password: $password) {
     __typename
     ... on User {
-      fullName
       id
+      fullName
+      phone
+      status
+      token
+      email
     }
     ... on loginError {
-      email
       password
+      emailField: email
     }
   }
 }

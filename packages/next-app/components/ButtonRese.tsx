@@ -8,25 +8,27 @@ interface Props {
   label: string;
   onClick: () => void;
   icon?: string;
+  disabled?: boolean;
 }
 
 function ButtonRese(props: Props) {
-  const { className, color = 'primary', onClick, label, icon } = props;
+  const {
+    className,
+    color = 'primary',
+    onClick,
+    label,
+    icon,
+    disabled = false,
+  } = props;
   const { classes, cx } = useStyles();
   return (
     <Button
       onClick={onClick}
       variant="contained"
       color={color}
-      className={cx(className, classes.button,{[classes.isIcon]:!!icon})}
-      startIcon={
-        icon ? (
-          <Icon
-            icon={icon}
-            width={24}
-          />
-        ) : null
-      }
+      className={cx(className, classes.button, { [classes.isIcon]: !!icon })}
+      startIcon={icon ? <Icon icon={icon} width={24} /> : null}
+      disabled={disabled}
     >
       {label}
     </Button>

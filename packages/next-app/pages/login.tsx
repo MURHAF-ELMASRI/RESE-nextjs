@@ -6,10 +6,12 @@ import ImageRese from 'components/ImageRese';
 import TextFieldRese from 'components/TextFieldRese';
 import { useFormik } from 'formik';
 import { motion } from 'framer-motion';
-import { useLoginMutation } from 'hooks/graphql/apolloHooks';
+import { useLoginMutation } from 'hooks/graphql/generated/apolloHooks';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { setUser } from 'state/User/UserSlice';
 import { makeStyles } from 'tss-react/mui';
 import Logo from '../assets/logo.png';
 import rectangle from '../assets/rectangle.png';
@@ -38,21 +40,31 @@ function Login() {
   const { classes } = useStyles();
   const { push } = useRouter();
   const [mutate, result] = useLoginMutation();
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     validationSchema: formValidation,
     initialValues: {
-      email: 'murhaf@gmail.com',
-      password: '12345678',
+      email: '',
+      password: '',
     },
     onSubmit: async (v, helper) => {
       const { data } = await mutate({ variables: v });
-      if (data?.login?.__typename === 'loginError') {
-        helper.setErrors({
-          email: data.login.email ?? '',
+      if (!data) {
+        //TODO: show global error if there no data - or for server errors and bad request
+        return;
+      }
+
+      if (data?.login.__typename === 'loginError') {
+        return helper.setErrors({
+          email: data.login.emailField ?? '',
           password: data.login.password ?? '',
         });
       }
+      const a = data.login.status;
+
+      dispatch(setUser({ ...data.login }));
+      push('/');
     },
   });
 
@@ -110,6 +122,7 @@ function Login() {
           label="Login"
           icon="mdi:login-variant"
           onClick={formik.submitForm}
+          disabled={result.loading}
         />
 
         <ButtonRese

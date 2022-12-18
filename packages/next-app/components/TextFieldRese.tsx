@@ -36,7 +36,7 @@ function TextFieldRese(props: Props) {
     touched = undefined,
   } = props;
 
-  const { classes } = useStyles();
+  const { classes, cx } = useStyles();
 
   const handleChange = useCallback(
     (event: any) => {
@@ -62,8 +62,10 @@ function TextFieldRese(props: Props) {
       label={title}
       type={type}
       variant={variant}
-      className={className}
-      helperText={helperTextUI}
+      className={cx(className)}
+      helperText={
+        <HelperText text={helperText} shouldRender={shouldShowError} />
+      }
       error={shouldShowError}
       InputProps={{
         endAdornment: icon && (
@@ -75,9 +77,26 @@ function TextFieldRese(props: Props) {
     />
   );
 }
+const HelperText = memo(HelperTextComponent);
+function HelperTextComponent({
+  text,
+  shouldRender,
+}: {
+  text?: string;
+  shouldRender: boolean;
+}) {
+  const { classes } = useStyles();
+
+  return shouldRender ? (
+    <span className={classes.helperText}>{text}</span>
+  ) : null;
+}
 
 const useStyles = makeStyles()((theme) => ({
   icon: {
     color: theme.palette.secondary.main,
+  },
+  helperText: {
+    position: 'absolute',
   },
 }));

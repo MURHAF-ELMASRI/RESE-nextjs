@@ -16,7 +16,7 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  login?: Maybe<LoginOrError>;
+  login: LoginOrError;
 };
 
 
@@ -32,9 +32,18 @@ export type Query = {
 
 export type User = {
   __typename?: 'User';
+  email: Scalars['String'];
   fullName: Scalars['String'];
   id: Scalars['Int'];
+  phone: Scalars['String'];
+  status: UserStatus;
+  token: Scalars['String'];
 };
+
+export enum UserStatus {
+  Active = 'active',
+  Pending = 'pending'
+}
 
 export type LoginError = {
   __typename?: 'loginError';
@@ -119,6 +128,7 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
+  UserStatus: UserStatus;
   loginError: ResolverTypeWrapper<LoginError>;
   loginOrError: ResolversTypes['User'] | ResolversTypes['loginError'];
 };
@@ -136,7 +146,7 @@ export type ResolversParentTypes = {
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  login?: Resolver<Maybe<ResolversTypes['loginOrError']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
+  login?: Resolver<ResolversTypes['loginOrError'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -144,8 +154,12 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   fullName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  phone?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['UserStatus'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

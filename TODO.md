@@ -4,7 +4,8 @@
 [ ] add typing to the resolver in login
 [ ] refactor login page to make graphql-yoga reusable
 [ ] signup page
-[ ]
+[ ] adjust find function to return the type of passed field
+[ ] show global error if there no data - or for server errors and bad request
 
 # optimization
 
