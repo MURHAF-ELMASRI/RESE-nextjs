@@ -1,4 +1,4 @@
-import { formValidation } from '@/features/login/formValidation';
+import { formValidation } from './formValidation';
 import { gql } from '@apollo/client';
 import { Link as LinkMUI, Typography } from '@mui/material';
 import ButtonRese from 'components/ButtonRese';
@@ -13,28 +13,11 @@ import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUser } from 'state/User/UserSlice';
 import { makeStyles } from 'tss-react/mui';
-import Logo from '../assets/logo.png';
-import rectangle from '../assets/rectangle.png';
-import { pageTransition } from '../util/const';
+import Logo from 'assets/logo.png';
+import rectangle from 'assets/rectangle.png';
+import { pageTransition } from 'util/const';
 
 export default React.memo(Login);
-
-const loginMutation = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      __typename
-      ... on User {
-        fullName
-        id
-      }
-      ... on loginError {
-        error
-        email
-        password
-      }
-    }
-  }
-`;
 
 function Login() {
   const { classes } = useStyles();

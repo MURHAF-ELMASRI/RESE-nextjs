@@ -14,6 +14,10 @@ import SideBar from '../containers/SideBar/SideBar';
 import { store } from '../state/store';
 import '../styles/global.css';
 
+export function getServerSideProps(req, res) {
+  console.log(req, res);
+}
+
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 

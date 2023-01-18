@@ -3,8 +3,9 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   experimental: {
-    externalDir:true
-  }
-}
+    externalDir: true,
+  },
+  pageExtensions: ['page.tsx', 'api.ts'],
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

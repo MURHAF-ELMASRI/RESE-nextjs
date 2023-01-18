@@ -13,7 +13,8 @@ import { makeStyles } from 'tss-react/mui';
 import Filter from '../components/Filter';
 import PitchListItem from '../components/PitchListItem';
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (req) => {
+  console.log(req);
   const pitches = await query.getPitches();
   return {
     props: {

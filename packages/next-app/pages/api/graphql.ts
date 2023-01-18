@@ -4,7 +4,7 @@ import { createSchema, createYoga } from 'graphql-yoga';
 import jwt from 'jsonwebtoken';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Resolvers } from 'types/resolvers-types';
-import { loginSchema } from '../../graphql/schema/login';
+import { loginSchema } from '../../graphql/schema/loginSchema';
 
 export const config = {
   api: {
@@ -25,13 +25,18 @@ const resolvers: Resolvers<Context> = {
     login: async (_, args, context) => {
       try {
         const { email, password } = args;
+        console.log({ email, password });
         const { res } = context;
         if (!email || !password) {
+          console.log('new');
           throw new Error();
         }
+        console.log('34');
 
         const data = await query.getUser({ email });
+        console.log({ data });
         if (!data) {
+          console.log(data);
           return {
             __typename: 'loginError',
             email: 'email not found',
@@ -45,21 +50,23 @@ const resolvers: Resolvers<Context> = {
             password: 'password is not correct',
           };
         }
-
         const token = jwt.sign({ id: data.id }, process.env.JWT_SECRET, {
           expiresIn: '1w',
         });
 
         const one_week = 60 * 60 * 24 * 7;
-        res.setHeader('set-cookie', `token=${token};Max-Age=${one_week}`);
-
+        res.setHeader(
+          'Set-Cookie',
+          `token=${token};Max-Age=${one_week};path=/`
+        );
+        console.log(token);
         return {
           __typename: 'User',
           fullName: data.fullName,
           id: data.id,
           email: data.email,
           phone: data.phone,
-          status:data.status,
+          status: data.status,
           token,
         };
       } catch (e: any) {
