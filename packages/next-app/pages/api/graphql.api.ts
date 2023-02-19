@@ -25,7 +25,6 @@ const resolvers: Resolvers<Context> = {
     login: async (_, args, context) => {
       try {
         const { email, password } = args;
-        console.log({ email, password });
         const { res } = context;
         if (!email || !password) {
           console.log('new');
@@ -50,9 +49,14 @@ const resolvers: Resolvers<Context> = {
             password: 'password is not correct',
           };
         }
-        const token = jwt.sign({ id: data.id }, process.env.JWT_SECRET, {
-          expiresIn: '1w',
-        });
+
+        const token = jwt.sign(
+          { id: data.id },
+          process.env.JWT_SECRET ?? 'secret',
+          {
+            expiresIn: '1w',
+          }
+        );
 
         const one_week = 60 * 60 * 24 * 7;
         res.setHeader(
@@ -75,6 +79,9 @@ const resolvers: Resolvers<Context> = {
           __typename: 'loginError',
         };
       }
+    },
+    loginByToken: async (_, _, context) => {
+      const { req } = context;
     },
   },
 };

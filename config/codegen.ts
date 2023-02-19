@@ -1,8 +1,8 @@
 import { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
-  schema: './packages/next-app/graphql/schema/*.ts',
-  documents: './packages/next-app/features/**/*.graphql',
+  schema: './packages/next-app/graphql/**/*.ts',
+  documents: './packages/next-app/pages/**/*.graphql',
   generates: {
     './packages/next-app/graphql/graphql/generated/apolloHooks.ts': {
       plugins: [

@@ -14,5 +14,6 @@ const useStyles = makeStyles()((theme) => ({
     height: 6,
     background: theme.palette.primary.main,
     zIndex: 10,
+    position: 'sticky',
   },
 }));

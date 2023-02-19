@@ -2,11 +2,10 @@ import useTheme from '@mui/material/styles/useTheme';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery/useMediaQuery';
 import { motion } from 'framer-motion';
-import { memo } from 'react';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from 'hooks/state';
+import { memo, useEffect } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import Avatar from '../../components/Avatar';
-import { RootState } from '../../src/state/store';
 import Item from './Item';
 const navItems = [
   {
@@ -22,13 +21,13 @@ const navItems = [
 const WIDTH = 308;
 
 function SideBar() {
-  const user = useSelector((state: RootState) => state.user.user);
   const { classes } = useStyles();
-  const isSideBarOpen = useSelector(
-    (state: RootState) => state.ui.isSideBarOpen
-  );
   const theme = useTheme();
   const breakpoint = useMediaQuery(theme.breakpoints.up('sm'));
+  const user = useAppSelector((state) => state.user.user);
+  const isSideBarOpen = useAppSelector((state) => state.ui.isSideBarOpen);
+
+  console.log(isSideBarOpen);
 
   if (!user) {
     return null;
@@ -37,7 +36,7 @@ function SideBar() {
   return (
     <motion.div
       className={classes.container}
-      animate={{ x: isSideBarOpen && !breakpoint ? -WIDTH : 0 }}
+      animate={{ x: isSideBarOpen ? 0 : -310 }}
       transition={{ ease: 'anticipate', duration: 1 }}
       // variants={transition}
     >

@@ -1,22 +1,23 @@
-import { Icon } from "@iconify/react";
-import Button from "@mui/core/Button";
-import IconButton from "@mui/core/IconButton";
-import makeStyles from "@mui/core/styles/makeStyles";
-import TextField from "@mui/core/TextField";
-import juniorScore from "@rese/client/src/assets/juniorSoccer.svg";
-import logo from "@rese/client/src/assets/logo.png";
-import rectangle from "@rese/client/src/assets/rectangle.png";
-import type { SignupProps } from "@rese/common/api/signup";
-import { useFormik } from "formik";
-import { motion } from "framer-motion";
-import React, { useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
-import getServerUrl from "../../graphql/getServerUrl";
-import { signUp } from "../../graphql/queryQL";
-import { setUser } from "../../state/User/UserSlice";
-import { pageTransition } from "../../util/const";
-import signupValidation from "./signupValidation";
+import { Icon } from '@iconify/react';
+import Button from '@mui/core/Button';
+import IconButton from '@mui/core/IconButton';
+import makeStyles from '@mui/core/styles/makeStyles';
+import TextField from '@mui/core/TextField';
+import juniorScore from '@rese/client/src/assets/juniorSoccer.svg';
+import logo from '@rese/client/src/assets/logo.png';
+import rectangle from '@rese/client/src/assets/rectangle.png';
+import type { SignupProps } from '@rese/common/api/signup';
+import { useFormik } from 'formik';
+import { motion } from 'framer-motion';
+import React, { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
+import getServerUrl from '../../graphql/getServerUrl';
+import { signUp } from '../../graphql/queryQL';
+import { setUser } from '../../state/User/UserSlice';
+import { pageTransition } from '../../util/const';
+import signupValidation from './signupValidation';
+import { makeStyles } from 'tss-react/mui';
 
 export default React.memo(Signup);
 
@@ -31,22 +32,22 @@ function Signup() {
 
   const formik = useFormik<SignupProps>({
     initialValues: {
-      fullName: "",
-      password: "",
-      password2: "",
+      fullName: '',
+      password: '',
+      password2: '',
       phone: 0,
-      email: "",
-      userType: "player",
+      email: '',
+      userType: 'player',
     },
     validationSchema: signupValidation,
     onSubmit: async (values, formikHelper) => {
-      console.log("submitting", values, getServerUrl());
+      console.log('submitting', values, getServerUrl());
       try {
         const result = await signUp(values).then((res) => {
           return res.data;
         });
         dispatch(setUser(result));
-        navigate("/verify-user");
+        navigate('/verify-user');
       } catch (err: any) {
         console.error(err);
         const errors = err?.response?.data as {
@@ -98,7 +99,7 @@ function Signup() {
               name="password"
               className={classes.input}
               variant="outlined"
-              type={showPass1 ? "text" : "password"}
+              type={showPass1 ? 'text' : 'password'}
               InputProps={{
                 endAdornment: <EyeLogo onChange={setShowPass1} />,
               }}
@@ -112,7 +113,7 @@ function Signup() {
               name="password2"
               className={classes.input}
               variant="outlined"
-              type={showPass2 ? "text" : "password"}
+              type={showPass2 ? 'text' : 'password'}
               InputProps={{
                 endAdornment: <EyeLogo onChange={setShowPass2} />,
               }}
@@ -177,30 +178,30 @@ function EyeLogo({ onChange }: { onChange: (state: boolean) => void }) {
   );
 }
 
-const useStyle = makeStyles((theme) => ({
+const useStyle = makeStyles()((theme) => ({
   container: {
-    width: "100%",
-    height: "100%",
-    position: "relative",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    width: '100%',
+    height: '100%',
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     paddingLeft: 0,
   },
   leftRect: {
     width: 200,
-    position: "absolute",
+    position: 'absolute',
     left: -120,
     top: 0,
   },
   rightRect: {
     width: 270,
-    position: "absolute",
+    position: 'absolute',
     right: -180,
     top: 300,
   },
   upLine: {
-    width: "100%",
+    width: '100%',
     height: 6,
     background: theme.palette.primary.main,
     zIndex: 10,
@@ -212,12 +213,12 @@ const useStyle = makeStyles((theme) => ({
     zIndex: 10,
   },
   inputContainer: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
     maxWidth: 520,
-    [theme.breakpoints.up("md")]: {
-      flexDirection: "row",
-      flexWrap: "wrap",
+    [theme.breakpoints.up('md')]: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
       gap: 16,
     },
   },
@@ -227,36 +228,36 @@ const useStyle = makeStyles((theme) => ({
     zIndex: 10,
   },
   buttonGreen: {
-    justifyContent: "flex-start",
+    justifyContent: 'flex-start',
     width: 81,
-    color: "#fff",
+    color: '#fff',
     height: 36,
   },
   juniorScore: {
-    display: "none",
+    display: 'none',
     maxWidth: 300,
-    [theme.breakpoints.up("sm")]: {
-      display: "inline-block",
+    [theme.breakpoints.up('sm')]: {
+      display: 'inline-block',
     },
   },
   content: {
-    display: "flex",
+    display: 'flex',
     gap: 24,
-    width: "100%",
-    justifyContent: "center",
+    width: '100%',
+    justifyContent: 'center',
 
-    [theme.breakpoints.up("sm")]: {
-      padding: "0 104px",
-      justifyContent: "space-between",
+    [theme.breakpoints.up('sm')]: {
+      padding: '0 104px',
+      justifyContent: 'space-between',
     },
   },
   leftSection: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     gap: 8,
-    [theme.breakpoints.up("md")]: {
-      alignItems: "flex-start",
+    [theme.breakpoints.up('md')]: {
+      alignItems: 'flex-start',
     },
   },
 }));

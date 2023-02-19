@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "server": "yarn --cwd ./packages/server dev",
-    "next": "yarn --cwd ./packages/next-app dev",
+    "next": "yarn --cwd ./packages/next-app dev -p 8080",
     "generate": "graphql-codegen --config ./config/codegen.ts"
   },
   "devDependencies": {

@@ -6,17 +6,13 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { Provider as ReduxProvider } from 'react-redux';
 import { apolloClient } from '../config/appolloClient';
 import createEmotionCache from '../config/createEmotionCache';
 import { theme } from '../config/theme';
 import SideBar from '../containers/SideBar/SideBar';
-import { store } from '../state/store';
 import '../styles/global.css';
 
-export function getServerSideProps(req, res) {
-  console.log(req, res);
-}
+import { wrapper } from 'state/store';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -34,18 +30,17 @@ function MyApp(props: MyAppProps) {
         <Head>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
-        <ReduxProvider store={store}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-
-            <TopLine />
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <TopLine />
+          <div id="main-page">
             <SideBar />
             <Component {...pageProps} />
-          </ThemeProvider>
-        </ReduxProvider>
+          </div>
+        </ThemeProvider>
       </ApolloProvider>
     </CacheProvider>
   );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);

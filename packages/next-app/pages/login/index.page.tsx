@@ -32,22 +32,29 @@ function Login() {
       password: '',
     },
     onSubmit: async (v, helper) => {
-      const { data } = await mutate({ variables: v });
-      if (!data) {
-        //TODO: show global error if there no data - or for server errors and bad request
+      console.log('submitting');
+
+      try {
+        const { data } = await mutate({ variables: v });
+        console.log({ data });
+        if (!data) {
+          //TODO: show global error if there no data - or for server errors and bad request
+          return;
+        }
+
+        if (data?.login.__typename === 'loginError') {
+          return helper.setErrors({
+            email: data.login.emailField ?? '',
+            password: data.login.password ?? '',
+          });
+        }
+        const a = data.login.status;
+
+        dispatch(setUser({ ...data.login }));
+        push('/');
+      } catch (e) {
         return;
       }
-
-      if (data?.login.__typename === 'loginError') {
-        return helper.setErrors({
-          email: data.login.emailField ?? '',
-          password: data.login.password ?? '',
-        });
-      }
-      const a = data.login.status;
-
-      dispatch(setUser({ ...data.login }));
-      push('/');
     },
   });
 
