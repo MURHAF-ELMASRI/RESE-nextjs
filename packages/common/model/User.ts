@@ -5,7 +5,7 @@ export interface UserType {
   fullName: string;
   password: string;
   salt: string;
-  phone: number;
+  phone: string;
   email: string;
   userType: UserTypeType;
   status: "pending" | "active"

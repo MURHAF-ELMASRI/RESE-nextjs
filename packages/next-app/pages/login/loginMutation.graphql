@@ -9,7 +9,7 @@ mutation Login($email: String!, $password: String!) {
       token
       email
     }
-    ... on loginError {
+    ... on LoginError {
       password
       emailField: email
     }

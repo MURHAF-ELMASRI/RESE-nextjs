@@ -19,7 +19,6 @@ export const query = {
         'phone',
         'status',
       ] as const)
-      .lean();
   },
   getUserByToken: async ({ token }: { token: string }) => {
     await connectMongo();

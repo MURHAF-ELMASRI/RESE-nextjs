@@ -18,14 +18,14 @@ export const loginSchema = gql`
     token: String!
   }
 
-  type loginError {
+  type LoginError {
     email: String
     password: String
   }
 
-  union loginOrError = loginError | User
+  union LoginOrError = LoginError | User
 
   type Mutation {
-    login(email: String!, password: String!): loginOrError!
+    login(email: String!, password: String!): LoginOrError!
   }
 `;

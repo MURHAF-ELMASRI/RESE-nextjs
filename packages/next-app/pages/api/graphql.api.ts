@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { createSchema, createYoga } from 'graphql-yoga';
 import jwt from 'jsonwebtoken';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Resolvers } from 'types/resolvers-types';
+import { Resolvers, UserStatus } from 'types/resolvers-types';
 import { loginSchema } from '../../graphql/schema/loginSchema';
 
 export const config = {
@@ -37,7 +37,7 @@ const resolvers: Resolvers<Context> = {
         if (!data) {
           console.log(data);
           return {
-            __typename: 'loginError',
+            __typename: 'LoginError',
             email: 'email not found',
           };
         }
@@ -45,7 +45,7 @@ const resolvers: Resolvers<Context> = {
         const match = await bcrypt.compare(password, data.password);
         if (!match) {
           return {
-            __typename: 'loginError',
+            __typename: 'LoginError',
             password: 'password is not correct',
           };
         }
@@ -63,25 +63,21 @@ const resolvers: Resolvers<Context> = {
           'Set-Cookie',
           `token=${token};Max-Age=${one_week};path=/`
         );
-        console.log(token);
+
         return {
           __typename: 'User',
-          fullName: data.fullName,
-          id: data.id,
           email: data.email,
+          id: 23,
+          fullName: data.fullName,
           phone: data.phone,
-          status: data.status,
+          status: UserStatus.Active,
           token,
         };
-      } catch (e: any) {
-        console.log(e.message);
+      } catch {
         return {
-          __typename: 'loginError',
+          __typename: 'LoginError',
         };
       }
-    },
-    loginByToken: async (_, _, context) => {
-      const { req } = context;
     },
   },
 };

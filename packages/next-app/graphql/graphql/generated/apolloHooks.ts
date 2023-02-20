@@ -25,6 +25,14 @@ export type ErrorDescription = {
   fields?: Maybe<Scalars['JSON']>;
 };
 
+export type LoginError = {
+  __typename?: 'LoginError';
+  email?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+};
+
+export type LoginOrError = LoginError | User;
+
 export type Mutation = {
   __typename?: 'Mutation';
   login: LoginOrError;
@@ -62,21 +70,13 @@ export type LoginByTokenError = Error & {
   status: Scalars['Int'];
 };
 
-export type LoginError = {
-  __typename?: 'loginError';
-  email?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
-};
-
-export type LoginOrError = User | LoginError;
-
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename: 'User', id: number, fullName: string, phone: string, status: UserStatus, token: string, email: string } | { __typename: 'loginError', password?: string | null, emailField?: string | null } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename: 'LoginError', password?: string | null, emailField?: string | null } | { __typename: 'User', id: number, fullName: string, phone: string, status: UserStatus, token: string, email: string } };
 
 
 export const LoginDocument = gql`
@@ -91,7 +91,7 @@ export const LoginDocument = gql`
       token
       email
     }
-    ... on loginError {
+    ... on LoginError {
       password
       emailField: email
     }
