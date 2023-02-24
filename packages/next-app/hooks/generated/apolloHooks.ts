@@ -36,7 +36,7 @@ export type LoginOrError = LoginError | User;
 export type Mutation = {
   __typename?: 'Mutation';
   login: LoginOrError;
-  loginByToken: Error;
+  loginByToken: UserOrError;
 };
 
 
@@ -65,10 +65,25 @@ export type User = {
   token: Scalars['String'];
 };
 
+export type UserOrError = User | LoginByTokenError;
+
 export enum UserStatus {
   Active = 'active',
   Pending = 'pending'
 }
+
+export type LoginByTokenError = Error & {
+  __typename?: 'loginByTokenError';
+  ok: Scalars['Boolean'];
+  status: Scalars['Int'];
+};
+
+export type LoginByTokenMutationVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+
+export type LoginByTokenMutation = { __typename?: 'Mutation', loginByToken: { __typename: 'User', id: number, fullName: string, phone: string, token: string, email: string, userStatus: UserStatus } | { __typename: 'loginByTokenError', ok: boolean, a: number } };
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
@@ -79,6 +94,51 @@ export type LoginMutationVariables = Exact<{
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename: 'LoginError', password?: string | null, emailField?: string | null } | { __typename: 'User', id: number, fullName: string, phone: string, status: UserStatus, token: string, email: string } };
 
 
+export const LoginByTokenDocument = gql`
+    mutation LoginByToken($token: String!) {
+  loginByToken(token: $token) {
+    __typename
+    ... on User {
+      id
+      fullName
+      phone
+      userStatus: status
+      token
+      email
+    }
+    ... on Error {
+      ok
+      a: status
+    }
+  }
+}
+    `;
+export type LoginByTokenMutationFn = Apollo.MutationFunction<LoginByTokenMutation, LoginByTokenMutationVariables>;
+
+/**
+ * __useLoginByTokenMutation__
+ *
+ * To run a mutation, you first call `useLoginByTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginByTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginByTokenMutation, { data, loading, error }] = useLoginByTokenMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useLoginByTokenMutation(baseOptions?: Apollo.MutationHookOptions<LoginByTokenMutation, LoginByTokenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginByTokenMutation, LoginByTokenMutationVariables>(LoginByTokenDocument, options);
+      }
+export type LoginByTokenMutationHookResult = ReturnType<typeof useLoginByTokenMutation>;
+export type LoginByTokenMutationResult = Apollo.MutationResult<LoginByTokenMutation>;
+export type LoginByTokenMutationOptions = Apollo.BaseMutationOptions<LoginByTokenMutation, LoginByTokenMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {

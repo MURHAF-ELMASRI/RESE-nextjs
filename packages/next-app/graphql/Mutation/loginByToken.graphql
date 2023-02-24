@@ -12,8 +12,13 @@ type User {
   token: String!
 }
 
-union Error = UserError | AuthError
+type loginByTokenError implements Error {
+  ok: Boolean!
+  status: Int!
+}
+
+union UserOrError = User | loginByTokenError
 
 type Mutation {
-  loginByToken(token: String!): Error!
+  loginByToken(token: String!): UserOrError!
 }

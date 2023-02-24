@@ -35,7 +35,7 @@ export type LoginOrError = LoginError | User;
 export type Mutation = {
   __typename?: 'Mutation';
   login: LoginOrError;
-  loginByToken: Error;
+  loginByToken: UserOrError;
 };
 
 
@@ -64,10 +64,18 @@ export type User = {
   token: Scalars['String'];
 };
 
+export type UserOrError = User | LoginByTokenError;
+
 export enum UserStatus {
   Active = 'active',
   Pending = 'pending'
 }
+
+export type LoginByTokenError = Error & {
+  __typename?: 'loginByTokenError';
+  ok: Scalars['Boolean'];
+  status: Scalars['Int'];
+};
 
 
 
@@ -139,7 +147,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  Error: never;
+  Error: ResolversTypes['loginByTokenError'];
   ErrorDescription: never;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
@@ -149,13 +157,15 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
+  UserOrError: ResolversTypes['User'] | ResolversTypes['loginByTokenError'];
   UserStatus: UserStatus;
+  loginByTokenError: ResolverTypeWrapper<LoginByTokenError>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
-  Error: never;
+  Error: ResolversParentTypes['loginByTokenError'];
   ErrorDescription: never;
   Int: Scalars['Int'];
   JSON: Scalars['JSON'];
@@ -165,10 +175,12 @@ export type ResolversParentTypes = {
   Query: {};
   String: Scalars['String'];
   User: User;
+  UserOrError: ResolversParentTypes['User'] | ResolversParentTypes['loginByTokenError'];
+  loginByTokenError: LoginByTokenError;
 };
 
 export type ErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']> = {
-  __resolveType: TypeResolveFn<null, ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'loginByTokenError', ParentType, ContextType>;
   ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
 };
@@ -194,7 +206,7 @@ export type LoginOrErrorResolvers<ContextType = any, ParentType extends Resolver
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   login?: Resolver<ResolversTypes['LoginOrError'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
-  loginByToken?: Resolver<ResolversTypes['Error'], ParentType, ContextType, RequireFields<MutationLoginByTokenArgs, 'token'>>;
+  loginByToken?: Resolver<ResolversTypes['UserOrError'], ParentType, ContextType, RequireFields<MutationLoginByTokenArgs, 'token'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -211,6 +223,16 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UserOrErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserOrError'] = ResolversParentTypes['UserOrError']> = {
+  __resolveType: TypeResolveFn<'User' | 'loginByTokenError', ParentType, ContextType>;
+};
+
+export type LoginByTokenErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['loginByTokenError'] = ResolversParentTypes['loginByTokenError']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   Error?: ErrorResolvers<ContextType>;
   ErrorDescription?: ErrorDescriptionResolvers<ContextType>;
@@ -220,5 +242,7 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  UserOrError?: UserOrErrorResolvers<ContextType>;
+  loginByTokenError?: LoginByTokenErrorResolvers<ContextType>;
 };
 

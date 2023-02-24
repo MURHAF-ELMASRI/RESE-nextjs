@@ -1,13 +1,17 @@
-
-# mutation LoginByToken($token:String!) {
-#   loginByToken(token:$token) {
-#     ... on User {
-#       id
-#       fullName
-#       phone
-#       token
-#       email
-#     }
-    
-#   }
-# }
+mutation LoginByToken($token: String!) {
+  loginByToken(token: $token) {
+    __typename
+    ... on User {
+      id
+      fullName
+      phone
+      userStatus: status
+      token
+      email
+    }
+    ... on Error {
+      ok
+      a: status
+    }
+  }
+}
