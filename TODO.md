@@ -14,7 +14,7 @@
 [ ] set typing for the fields array in mongodb
 [ ] add next seo
 [ ] optimize query using dataloader https://vscode.dev/github/juffalow/express-graphql-example/blob/master/src/repositories/AuthorKnexRepository.ts
-
+[ ] add resolver and graphql types inside feature folder
 # learned topics
 
 - difference between plugin and extends in eslint

@@ -23,6 +23,6 @@
       "@/config/*": ["./config/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "graphql/Mutation/login.graphql", "graphql/Mutation/loginByToken.graphql", "graphql/common/scalars/JSON.graphql", "graphql/common/Error.graphql", "graphql/Query/greeting.graphql"],
   "exclude": ["**/node_modules", "**/.*/"]
 }

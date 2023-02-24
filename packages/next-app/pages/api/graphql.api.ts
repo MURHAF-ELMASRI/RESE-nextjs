@@ -1,10 +1,11 @@
 import { query } from '@rese/database/query/query';
 import bcrypt from 'bcrypt';
 import { createSchema, createYoga } from 'graphql-yoga';
+import { generateSchema, schema } from 'graphql/generateSchema';
 import jwt from 'jsonwebtoken';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Resolvers, UserStatus } from 'types/resolvers-types';
-import { loginSchema } from '../../graphql/schema/loginSchema';
+import { loginSchema } from '../../graphql/schema/Mutation/login';
 
 export const config = {
   api: {
@@ -79,13 +80,14 @@ const resolvers: Resolvers<Context> = {
         };
       }
     },
+    
   },
 };
 
 export default createYoga<Context>({
   graphqlEndpoint: '/api/graphql',
   schema: createSchema({
-    typeDefs: loginSchema,
+    typeDefs: generateSchema(),
     resolvers,
   }),
 });

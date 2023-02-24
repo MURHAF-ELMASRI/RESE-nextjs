@@ -1,0 +1,8 @@
+interface Error {
+  ok: Boolean!
+  status: Int!
+}
+
+interface ErrorDescription {
+  fields: JSON
+}

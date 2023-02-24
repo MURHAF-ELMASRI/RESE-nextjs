@@ -1,0 +1,13 @@
+
+# mutation LoginByToken($token:String!) {
+#   loginByToken(token:$token) {
+#     ... on User {
+#       id
+#       fullName
+#       phone
+#       token
+#       email
+#     }
+    
+#   }
+# }

@@ -1,0 +1,19 @@
+enum UserStatus {
+  pending
+  active
+}
+
+type User {
+  id: Int!
+  fullName: String!
+  email: String!
+  phone: String!
+  status: UserStatus!
+  token: String!
+}
+
+union Error = UserError | AuthError
+
+type Mutation {
+  loginByToken(token: String!): Error!
+}

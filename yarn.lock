@@ -1806,6 +1806,15 @@
     tslib "^2.4.0"
     unixify "^1.0.0"
 
+"@graphql-tools/load-files@^6.6.1":
+  version "6.6.1"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/load-files/-/load-files-6.6.1.tgz#91ce18d910baf8678459486d8cccd474767bec0a"
+  integrity sha512-nd4GOjdD68bdJkHfRepILb0gGwF63mJI7uD4oJuuf2Kzeq8LorKa6WfyxUhdMuLmZhnx10zdAlWPfwv1NOAL4Q==
+  dependencies:
+    globby "11.1.0"
+    tslib "^2.4.0"
+    unixify "1.0.0"
+
 "@graphql-tools/load@7.8.0":
   version "7.8.0"
   resolved "https://registry.yarnpkg.com/@graphql-tools/load/-/load-7.8.0.tgz#bd4d2e2a5117de9a60f9691a218217e96afc2ea7"
@@ -1848,6 +1857,14 @@
   integrity sha512-uUBokxXi89bj08P+iCvQk3Vew4vcfL5ZM6NTylWi8PIpoq4r5nJ625bRuN8h2uubEdRiH8ntN9M4xkd/j7AybQ==
   dependencies:
     "@graphql-tools/utils" "8.12.0"
+    tslib "^2.4.0"
+
+"@graphql-tools/merge@^8.3.18":
+  version "8.3.18"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/merge/-/merge-8.3.18.tgz#bfbb517c68598a885809f16ce5c3bb1ebb8f04a2"
+  integrity sha512-R8nBglvRWPAyLpZL/f3lxsY7wjnAeE0l056zHhcO/CgpvK76KYUt9oEkR05i8Hmt8DLRycBN0FiotJ0yDQWTVA==
+  dependencies:
+    "@graphql-tools/utils" "9.2.1"
     tslib "^2.4.0"
 
 "@graphql-tools/optimize@^1.3.0":
@@ -1966,6 +1983,14 @@
   resolved "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-9.1.0.tgz#c33893e0aa9cbd3760d94f1771477e722adb4e54"
   integrity sha512-4Ketxo98IwKA/56LP6cI6PgQBwUCujszQcTNkzjq7liJPa2mLjKnmVOJ0bauMwKcEazeYuZagceljb0POmEGvQ==
   dependencies:
+    tslib "^2.4.0"
+
+"@graphql-tools/utils@9.2.1":
+  version "9.2.1"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-9.2.1.tgz#1b3df0ef166cfa3eae706e3518b17d5922721c57"
+  integrity sha512-WUw506Ql6xzmOORlriNrD6Ugx+HjVgYxt9KCXD9mHAak+eaXSwuGGPyE60hy9xaDEoXKBsG7SkG69ybitaVl6A==
+  dependencies:
+    "@graphql-typed-document-node/core" "^3.1.1"
     tslib "^2.4.0"
 
 "@graphql-tools/utils@^8.6.5", "@graphql-tools/utils@^8.8.0", "@graphql-tools/utils@^8.9.0":
@@ -4777,7 +4802,7 @@ globals@^13.15.0:
   dependencies:
     type-fest "^0.20.2"
 
-globby@^11.0.3, globby@^11.1.0:
+globby@11.1.0, globby@^11.0.3, globby@^11.1.0:
   version "11.1.0"
   resolved "https://registry.yarnpkg.com/globby/-/globby-11.1.0.tgz#bd4be98bb042f83d796f7e3811991fbe82a0d34b"
   integrity sha512-jhIXaOzy1sb8IyocaruWSn1TjmnBVs8Ayhcy83rmxNJ8q2uWKCAj3CnJY+KpGSXCueAPc0i05kVvVKtP1t9S3g==
@@ -7526,7 +7551,7 @@ uniqid@^5.4.0:
   resolved "https://registry.yarnpkg.com/uniqid/-/uniqid-5.4.0.tgz#4e17bfcab66dfe33563411ae0c801f46ef964e66"
   integrity sha512-38JRbJ4Fj94VmnC7G/J/5n5SC7Ab46OM5iNtSstB/ko3l1b5g7ALt4qzHFgGciFkyiRNtDXtLNb+VsxtMSE77A==
 
-unixify@^1.0.0:
+unixify@1.0.0, unixify@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/unixify/-/unixify-1.0.0.tgz#3a641c8c2ffbce4da683a5c70f03a462940c2090"
   integrity sha512-6bc58dPYhCMHHuwxldQxO3RRNZ4eCogZ/st++0+fcC1nr0jiGUtAdBJ2qzmLQWSxbtz42pWt4QQMiZ9HvZf5cg==

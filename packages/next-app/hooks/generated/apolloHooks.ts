@@ -36,12 +36,18 @@ export type LoginOrError = LoginError | User;
 export type Mutation = {
   __typename?: 'Mutation';
   login: LoginOrError;
+  loginByToken: Error;
 };
 
 
 export type MutationLoginArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+
+export type MutationLoginByTokenArgs = {
+  token: Scalars['String'];
 };
 
 export type Query = {
@@ -63,12 +69,6 @@ export enum UserStatus {
   Active = 'active',
   Pending = 'pending'
 }
-
-export type LoginByTokenError = Error & {
-  __typename?: 'loginByTokenError';
-  ok: Scalars['Boolean'];
-  status: Scalars['Int'];
-};
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
