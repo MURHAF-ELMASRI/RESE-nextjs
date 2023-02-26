@@ -1,5 +1,4 @@
 import TopLine from 'components/TopLine';
-
 import { ApolloProvider } from '@apollo/client';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,8 +10,8 @@ import createEmotionCache from '../config/createEmotionCache';
 import { theme } from '../config/theme';
 import SideBar from '../containers/SideBar/SideBar';
 import '../styles/global.css';
-
-import { wrapper } from 'state/store';
+import { UiProvider } from './uiStore';
+import { UserProvider } from './userStore';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -30,17 +29,21 @@ function MyApp(props: MyAppProps) {
         <Head>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <TopLine />
-          <div id="main-page">
-            <SideBar />
-            <Component {...pageProps} />
-          </div>
-        </ThemeProvider>
+        <UserProvider>
+          <UiProvider>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <TopLine />
+              <div id="main-page">
+                <SideBar />
+                <Component {...pageProps} />
+              </div>
+            </ThemeProvider>
+          </UiProvider>
+        </UserProvider>
       </ApolloProvider>
     </CacheProvider>
   );
 }
 
-export default wrapper.withRedux(MyApp);
+export default MyApp;

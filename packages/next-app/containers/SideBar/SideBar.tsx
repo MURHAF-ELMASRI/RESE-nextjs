@@ -2,7 +2,8 @@ import useTheme from '@mui/material/styles/useTheme';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery/useMediaQuery';
 import { motion } from 'framer-motion';
-import { useAppSelector } from 'hooks/state';
+import { useUiContext } from 'pages/uiStore';
+import { useUserContext } from 'pages/userStore';
 import { memo, useEffect } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import Avatar from '../../components/Avatar';
@@ -24,10 +25,8 @@ function SideBar() {
   const { classes } = useStyles();
   const theme = useTheme();
   const breakpoint = useMediaQuery(theme.breakpoints.up('sm'));
-  const user = useAppSelector((state) => state.user.user);
-  const isSideBarOpen = useAppSelector((state) => state.ui.isSideBarOpen);
-
-  console.log(isSideBarOpen);
+  const user = useUserContext();
+  const {uiState} = useUiContext();
 
   if (!user) {
     return null;
@@ -36,7 +35,7 @@ function SideBar() {
   return (
     <motion.div
       className={classes.container}
-      animate={{ x: isSideBarOpen ? 0 : -310 }}
+      animate={{ x: uiState.isMenuOpen ? 0 : -310 }}
       transition={{ ease: 'anticipate', duration: 1 }}
       // variants={transition}
     >

@@ -1,43 +1,29 @@
 import { Button } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import query from '@rese/database/query/query';
 import ButtonRese from 'components/ButtonRese';
 import IconButtonRese from 'components/IconButtonRese';
 import TextFieldRese from 'components/TextFieldRese';
-import { useAppDispatch, useAppSelector } from 'hooks/state';
-import { InferGetServerSidePropsType } from 'next';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useCallback, useState } from 'react';
 import { useToggle } from 'react-use';
-import { AppState, wrapper } from 'state/store';
-import { closeSideBar, toggleSideBar } from 'state/ui/uiSlice';
-import { setUser } from 'state/User/UserSlice';
 import { makeStyles } from 'tss-react/mui';
 import Filter from '../components/Filter';
 import PitchListItem from '../components/PitchListItem';
+import { useUiContext } from './uiStore';
+import { useUserContext } from './userStore';
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) =>
-    async ({ req }) => {
-      const token = req.cookies['token'];
-
-      const pitches = await query.getPitches();
-
-      if (token) {
-        const user = await query.getUserByToken({ token });
-        console.log('----- dispatching user ------');
-
-        store.dispatch(setUser(user));
-        console.log('-------- dispatching user end ------');
-
-        return { props: { user, pitches } };
-      }
-      return { props: { pitches } };
-    }
-);
+export const getServerSideProps: GetServerSideProps<{
+  pitches: any[];
+}> = async () => {
+  return {
+    props: {
+      pitches: [],
+    },
+  };
+};
 
 export default function Home({
   pitches,
@@ -45,8 +31,7 @@ export default function Home({
   const { classes } = useStyle();
   const { push } = useRouter();
   const [searchInput, setSearchInput] = useState('');
-  const user = useAppSelector((state) => state.user.user);
-  const dispatch = useAppDispatch();
+  const { toggleMenu } = useUiContext();
 
   const [isFilterOpen, toggleFilter] = useToggle(false);
 
@@ -67,9 +52,8 @@ export default function Home({
   }, []);
 
   const handleTestClick = useCallback(() => {
-    console.log(toggleSideBar());
-    dispatch(toggleSideBar());
-  }, [dispatch]);
+    toggleMenu();
+  }, [toggleMenu]);
 
   return (
     <div className={classes.container}>
@@ -116,7 +100,7 @@ export default function Home({
         </Paper>
         <ButtonRese
           label="toggle sidebar"
-          onClick={() => dispatch(toggleSideBar ())}
+          onClick={() => toggleMenu()}
         ></ButtonRese>
         <Link href="/Test/Test">Go To Test</Link>
       </div>

@@ -11,21 +11,19 @@ export const query = {
   //TODO : return the types of the query according to requested dataField
   getUser: async ({ email }: { email: string }) => {
     await connectMongo();
-    return userTable
-      .findOne({ email }, [
-        'email',
-        'fullName',
-        'password',
-        'phone',
-        'status',
-      ] as const)
+    return userTable.findOne({ email }, [
+      'email',
+      'fullName',
+      'password',
+      'phone',
+      'status',
+    ] as const);
   },
-  getUserByToken: async ({ token }: { token: string }) => {
+  getUserByToken: async (_id: string) => {
     await connectMongo();
     try {
-      const user = jwt.verify(token, process.env.JWT_SECRET ?? 'secret');
       return userTable
-        .findOne({ _id: user.id }, [
+        .findOne({ _id }, [
           'email',
           'fullName',
           'phone',
