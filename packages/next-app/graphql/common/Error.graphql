@@ -1,6 +1,10 @@
-interface Error {
+type ErrorParams{
   ok: Boolean!
   status: Int!
+}
+
+interface Error {
+  params:ErrorParams!
 }
 
 interface ErrorDescription {

@@ -1,17 +1,19 @@
-mutation LoginByToken($token: String!) {
-  loginByToken(token: $token) {
+mutation LoginByToken {
+  loginByToken {
     __typename
     ... on User {
       id
       fullName
       phone
-      userStatus: status
+      status
       token
       email
     }
-    ... on Error {
-      ok
-      a: status
+    ... on loginByTokenError {
+      params {
+        ok
+        status
+      }
     }
   }
 }

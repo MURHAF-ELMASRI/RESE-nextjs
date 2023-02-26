@@ -12,6 +12,10 @@ mutation Login($email: String!, $password: String!) {
     ... on LoginError {
       password
       emailField: email
+      params {
+        ok
+        status
+      }
     }
   }
 }

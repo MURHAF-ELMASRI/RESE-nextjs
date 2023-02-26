@@ -16,17 +16,23 @@ export type Scalars = {
 };
 
 export type Error = {
-  ok: Scalars['Boolean'];
-  status: Scalars['Int'];
+  params: ErrorParams;
 };
 
 export type ErrorDescription = {
   fields?: Maybe<Scalars['JSON']>;
 };
 
-export type LoginError = {
+export type ErrorParams = {
+  __typename?: 'ErrorParams';
+  ok: Scalars['Boolean'];
+  status: Scalars['Int'];
+};
+
+export type LoginError = Error & {
   __typename?: 'LoginError';
   email?: Maybe<Scalars['String']>;
+  params: ErrorParams;
   password?: Maybe<Scalars['String']>;
 };
 
@@ -42,11 +48,6 @@ export type Mutation = {
 export type MutationLoginArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
-};
-
-
-export type MutationLoginByTokenArgs = {
-  token: Scalars['String'];
 };
 
 export type Query = {
@@ -73,8 +74,7 @@ export enum UserStatus {
 
 export type LoginByTokenError = Error & {
   __typename?: 'loginByTokenError';
-  ok: Scalars['Boolean'];
-  status: Scalars['Int'];
+  params: ErrorParams;
 };
 
 
@@ -147,8 +147,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  Error: ResolversTypes['loginByTokenError'];
+  Error: ResolversTypes['LoginError'] | ResolversTypes['loginByTokenError'];
   ErrorDescription: never;
+  ErrorParams: ResolverTypeWrapper<ErrorParams>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
   LoginError: ResolverTypeWrapper<LoginError>;
@@ -165,8 +166,9 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
-  Error: ResolversParentTypes['loginByTokenError'];
+  Error: ResolversParentTypes['LoginError'] | ResolversParentTypes['loginByTokenError'];
   ErrorDescription: never;
+  ErrorParams: ErrorParams;
   Int: Scalars['Int'];
   JSON: Scalars['JSON'];
   LoginError: LoginError;
@@ -180,14 +182,19 @@ export type ResolversParentTypes = {
 };
 
 export type ErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']> = {
-  __resolveType: TypeResolveFn<'loginByTokenError', ParentType, ContextType>;
-  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  status?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'LoginError' | 'loginByTokenError', ParentType, ContextType>;
+  params?: Resolver<ResolversTypes['ErrorParams'], ParentType, ContextType>;
 };
 
 export type ErrorDescriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ErrorDescription'] = ResolversParentTypes['ErrorDescription']> = {
   __resolveType: TypeResolveFn<null, ParentType, ContextType>;
   fields?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+};
+
+export type ErrorParamsResolvers<ContextType = any, ParentType extends ResolversParentTypes['ErrorParams'] = ResolversParentTypes['ErrorParams']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
@@ -196,6 +203,7 @@ export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export type LoginErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['LoginError'] = ResolversParentTypes['LoginError']> = {
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  params?: Resolver<ResolversTypes['ErrorParams'], ParentType, ContextType>;
   password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -206,7 +214,7 @@ export type LoginOrErrorResolvers<ContextType = any, ParentType extends Resolver
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   login?: Resolver<ResolversTypes['LoginOrError'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
-  loginByToken?: Resolver<ResolversTypes['UserOrError'], ParentType, ContextType, RequireFields<MutationLoginByTokenArgs, 'token'>>;
+  loginByToken?: Resolver<ResolversTypes['UserOrError'], ParentType, ContextType>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -228,14 +236,14 @@ export type UserOrErrorResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type LoginByTokenErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['loginByTokenError'] = ResolversParentTypes['loginByTokenError']> = {
-  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  status?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  params?: Resolver<ResolversTypes['ErrorParams'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
   Error?: ErrorResolvers<ContextType>;
   ErrorDescription?: ErrorDescriptionResolvers<ContextType>;
+  ErrorParams?: ErrorParamsResolvers<ContextType>;
   JSON?: GraphQLScalarType;
   LoginError?: LoginErrorResolvers<ContextType>;
   LoginOrError?: LoginOrErrorResolvers<ContextType>;

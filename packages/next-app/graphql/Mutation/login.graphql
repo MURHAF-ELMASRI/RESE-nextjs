@@ -16,9 +16,10 @@ type User {
   token: String!
 }
 
-type LoginError {
+type LoginError implements Error {
   email: String
   password: String
+  params: ErrorParams!
 }
 
 union LoginOrError = LoginError | User

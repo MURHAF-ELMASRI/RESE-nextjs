@@ -17,17 +17,23 @@ export type Scalars = {
 };
 
 export type Error = {
-  ok: Scalars['Boolean'];
-  status: Scalars['Int'];
+  params: ErrorParams;
 };
 
 export type ErrorDescription = {
   fields?: Maybe<Scalars['JSON']>;
 };
 
-export type LoginError = {
+export type ErrorParams = {
+  __typename?: 'ErrorParams';
+  ok: Scalars['Boolean'];
+  status: Scalars['Int'];
+};
+
+export type LoginError = Error & {
   __typename?: 'LoginError';
   email?: Maybe<Scalars['String']>;
+  params: ErrorParams;
   password?: Maybe<Scalars['String']>;
 };
 
@@ -43,11 +49,6 @@ export type Mutation = {
 export type MutationLoginArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
-};
-
-
-export type MutationLoginByTokenArgs = {
-  token: Scalars['String'];
 };
 
 export type Query = {
@@ -74,16 +75,13 @@ export enum UserStatus {
 
 export type LoginByTokenError = Error & {
   __typename?: 'loginByTokenError';
-  ok: Scalars['Boolean'];
-  status: Scalars['Int'];
+  params: ErrorParams;
 };
 
-export type LoginByTokenMutationVariables = Exact<{
-  token: Scalars['String'];
-}>;
+export type LoginByTokenMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoginByTokenMutation = { __typename?: 'Mutation', loginByToken: { __typename: 'User', id: number, fullName: string, phone: string, token: string, email: string, userStatus: UserStatus } | { __typename: 'loginByTokenError', ok: boolean, a: number } };
+export type LoginByTokenMutation = { __typename?: 'Mutation', loginByToken: { __typename: 'User', id: number, fullName: string, phone: string, status: UserStatus, token: string, email: string } | { __typename: 'loginByTokenError', params: { __typename?: 'ErrorParams', ok: boolean, status: number } } };
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
@@ -91,24 +89,26 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename: 'LoginError', password?: string | null, emailField?: string | null } | { __typename: 'User', id: number, fullName: string, phone: string, status: UserStatus, token: string, email: string } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename: 'LoginError', password?: string | null, emailField?: string | null, params: { __typename?: 'ErrorParams', ok: boolean, status: number } } | { __typename: 'User', id: number, fullName: string, phone: string, status: UserStatus, token: string, email: string } };
 
 
 export const LoginByTokenDocument = gql`
-    mutation LoginByToken($token: String!) {
-  loginByToken(token: $token) {
+    mutation LoginByToken {
+  loginByToken {
     __typename
     ... on User {
       id
       fullName
       phone
-      userStatus: status
+      status
       token
       email
     }
-    ... on Error {
-      ok
-      a: status
+    ... on loginByTokenError {
+      params {
+        ok
+        status
+      }
     }
   }
 }
@@ -128,7 +128,6 @@ export type LoginByTokenMutationFn = Apollo.MutationFunction<LoginByTokenMutatio
  * @example
  * const [loginByTokenMutation, { data, loading, error }] = useLoginByTokenMutation({
  *   variables: {
- *      token: // value for 'token'
  *   },
  * });
  */
@@ -154,6 +153,10 @@ export const LoginDocument = gql`
     ... on LoginError {
       password
       emailField: email
+      params {
+        ok
+        status
+      }
     }
   }
 }
