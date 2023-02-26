@@ -29,8 +29,8 @@ function MyApp(props: MyAppProps) {
         <Head>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
-        <UserProvider>
-          <UiProvider>
+        <UiProvider>
+          <UserProvider>
             <ThemeProvider theme={theme}>
               <CssBaseline />
               <TopLine />
@@ -39,8 +39,8 @@ function MyApp(props: MyAppProps) {
                 <Component {...pageProps} />
               </div>
             </ThemeProvider>
-          </UiProvider>
-        </UserProvider>
+          </UserProvider>
+        </UiProvider>
       </ApolloProvider>
     </CacheProvider>
   );

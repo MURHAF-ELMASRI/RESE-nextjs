@@ -4,12 +4,11 @@ enum UserStatus {
 }
 
 type User {
-  id: Int!
+  id: String!
   fullName: String!
   email: String!
   phone: String!
   status: UserStatus!
-  token: String!
 }
 
 type loginByTokenError implements Error {

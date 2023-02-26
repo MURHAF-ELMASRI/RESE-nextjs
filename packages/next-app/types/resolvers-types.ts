@@ -59,10 +59,9 @@ export type User = {
   __typename?: 'User';
   email: Scalars['String'];
   fullName: Scalars['String'];
-  id: Scalars['Int'];
+  id: Scalars['String'];
   phone: Scalars['String'];
   status: UserStatus;
-  token: Scalars['String'];
 };
 
 export type UserOrError = User | LoginByTokenError;
@@ -224,10 +223,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   fullName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   phone?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['UserStatus'], ParentType, ContextType>;
-  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

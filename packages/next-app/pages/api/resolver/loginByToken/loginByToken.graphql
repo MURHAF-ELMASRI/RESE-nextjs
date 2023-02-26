@@ -6,7 +6,6 @@ mutation LoginByToken {
       fullName
       phone
       status
-      token
       email
     }
     ... on loginByTokenError {

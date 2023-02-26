@@ -6,7 +6,6 @@ mutation Login($email: String!, $password: String!) {
       fullName
       phone
       status
-      token
       email
     }
     ... on LoginError {
