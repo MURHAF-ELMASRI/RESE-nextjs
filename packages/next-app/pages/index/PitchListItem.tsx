@@ -1,18 +1,28 @@
 import Typography from '@mui/material/Typography';
 import type { PitchType } from '@rese/common/model/Pitch';
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { makeStyles } from 'tss-react/mui';
+import { useIndex } from './indexStore';
+import ListItemButton from '@mui/material/ListItemButton';
 
 export default React.memo(PitchListItem);
 type Props = {
-  data: PitchType;
+  pitch: PitchType;
 };
-function PitchListItem({ data }: Props) {
-  const { name, openAt, closeAt, freeServices } = data;
+function PitchListItem({ pitch }: Props) {
+  const { name, openAt, closeAt, freeServices,_id } = pitch;
+  const {selectPitch,selectedPitch}=useIndex()
+
+  const isSelected=useMemo(()=>selectedPitch===_id,[selectedPitch,_id])
+  const handleClick=useCallback(()=>{
+    selectPitch(pitch)
+  },[pitch, selectPitch])
+
+
 
   const { classes } = useStyles();
   return (
-    <div className={classes.container}>
+    <ListItemButton selected={isSelected} onClick={handleClick}>
       <div className={classes.left}>
         <Typography className={classes.name}>{name}</Typography>
         <div className={classes.featureContainer}>
@@ -27,20 +37,11 @@ function PitchListItem({ data }: Props) {
         <Typography>{openAt}</Typography>
         <Typography>{closeAt}</Typography>
       </div>
-    </div>
+    </ListItemButton>
   );
 }
 
 const useStyles = makeStyles()((theme) => ({
-  container: {
-    display: 'flex',
-    width: '100%',
-    padding: '8px 16px',
-    borderBottom: `solid 1px ${theme.palette.divider}`,
-    '&:hover': {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
   left: {
     width: '100%',
     display: 'flex',

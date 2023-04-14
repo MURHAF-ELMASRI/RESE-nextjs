@@ -18,7 +18,7 @@ import queryQL from '../src/graphql/queryQL';
 import { initializePitches } from '../state/Pitch/pitchSlice';
 import { pageTransition } from '../util/const';
 import Filter from './Filter';
-import PitchListItem from './PitchListItem';
+import PitchListItem from '../pages/index/PitchListItem';
 
 export default memo(UnSignedUser);
 

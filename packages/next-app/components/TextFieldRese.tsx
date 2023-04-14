@@ -13,8 +13,8 @@ interface Props {
   className?: string;
   formik?: boolean;
   type?: React.InputHTMLAttributes<unknown>['type'];
-  showError: boolean | undefined;
-  helperText: string | undefined;
+  showError?: boolean;
+  helperText?: string;
   touched?: boolean;
 }
 

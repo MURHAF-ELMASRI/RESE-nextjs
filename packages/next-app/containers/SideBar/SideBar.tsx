@@ -2,9 +2,10 @@ import useTheme from '@mui/material/styles/useTheme';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery/useMediaQuery';
 import { motion } from 'framer-motion';
+import { useIndex } from 'pages/index/indexStore';
 import { useUiContext } from 'pages/uiStore';
 import { useUserContext } from 'pages/userStore';
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import Avatar from '../../components/Avatar';
 import Item from './Item';
@@ -26,7 +27,7 @@ function SideBar() {
   const theme = useTheme();
   const breakpoint = useMediaQuery(theme.breakpoints.up('sm'));
   const user = useUserContext();
-  const {uiState} = useUiContext();
+  const { uiState } = useUiContext();
 
   if (!user) {
     return null;

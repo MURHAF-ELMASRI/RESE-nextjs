@@ -21,9 +21,7 @@ export function UiProvider({ children }: { children: React.ReactNode }) {
     setUiState((prev) => ({ ...prev, isMenuOpen: !prev.isMenuOpen }));
   }, []);
 
-  const openMenu = useCallback(() => {
-    console.log('openMenu');
-    
+  const openMenu = useCallback(() => {    
     setUiState((prev) => ({ ...prev, isMenuOpen: true }));
   }, []);
 

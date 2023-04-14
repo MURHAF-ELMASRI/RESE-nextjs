@@ -13,6 +13,7 @@
   ],
   "rules": {
     "no-console": "warn",
-    "tss-unused-classes/unused-classes": "warn"
+    "tss-unused-classes/unused-classes": "warn",
+    "mui-path-imports/mui-path-imports": "error"
   }
 }

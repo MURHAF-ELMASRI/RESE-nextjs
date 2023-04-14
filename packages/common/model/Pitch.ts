@@ -1,10 +1,12 @@
-export type PaidService = "referee";
-export type FreeService = "treat" | "transportation" | "counter";
+import { PitchId } from 'packages/next-app/types/nominal';
 
-export type Coord = { lat: number; lng: number };
+export type PaidService = 'referee';
+export type FreeService = 'treat' | 'transportation' | 'counter';
+
+export type Coord = [number, number];
 
 export type PitchType = {
-  _id: string;
+  _id: PitchId;
   mangerId: string;
   name: string;
   numberOfSubPitch: number;
@@ -13,4 +15,7 @@ export type PitchType = {
   location: Coord;
   paidServices?: PaidService[];
   freeServices?: FreeService[];
+  thumbnailUrl: string;
+  phoneNumber: string;
+  email: string;
 };

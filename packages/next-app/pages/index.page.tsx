@@ -1,26 +1,29 @@
-import { Button } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import ButtonRese from 'components/ButtonRese';
+import { PitchType } from '@rese/common/model/Pitch';
+import query from '@rese/database/query/query';
 import IconButtonRese from 'components/IconButtonRese';
 import TextFieldRese from 'components/TextFieldRese';
+import { AnimatePresence, motion } from 'framer-motion';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import { useToggle } from 'react-use';
 import { makeStyles } from 'tss-react/mui';
 import Filter from '../components/Filter';
-import PitchListItem from '../components/PitchListItem';
+import { useIndex } from './index/indexStore';
+import PitchListItem from './index/PitchListItem';
+import PitchView from './index/PitchView';
 import { useUiContext } from './uiStore';
-import { useUserContext } from './userStore';
-
 export const getServerSideProps: GetServerSideProps<{
-  pitches: any[];
+  pitches: PitchType[];
 }> = async () => {
+  // TODO : get pitcher from db according to user location
+  const pitches = await query.getPitches();
+
   return {
     props: {
-      pitches: [],
+      pitches,
     },
   };
 };
@@ -32,8 +35,8 @@ export default function Home({
   const { push } = useRouter();
   const [searchInput, setSearchInput] = useState('');
   const { toggleMenu } = useUiContext();
-
   const [isFilterOpen, toggleFilter] = useToggle(false);
+  const selectedPitch = useIndex((x) => x.selectedPitch);
 
   const handleClickPitches = useCallback(() => {
     push('/pitches');
@@ -83,26 +86,26 @@ export default function Home({
               value={searchInput}
               variant="outlined"
               className={classes.search}
-              showError={false}
-              helperText="I don't need help"
             />
           </div>
           <Typography className={classes.listTitle}>Halı Sahalar</Typography>
           {pitches?.map((e) => (
-            <PitchListItem data={e} key={e._id} />
+            <PitchListItem pitch={e} key={e._id} />
           ))}
         </Paper>
-        <Paper className={classes.pitchInfo} elevation={2}>
-          <Typography className={classes.listTitle}>
-            Select Pitch to display
-          </Typography>
-          <Button onClick={handleTestClick}>User</Button>
-        </Paper>
-        <ButtonRese
-          label="toggle sidebar"
-          onClick={() => toggleMenu()}
-        ></ButtonRese>
-        <Link href="/Test/Test">Go To Test</Link>
+        <AnimatePresence>
+          {!selectedPitch ? null : (
+            <motion.div
+              style={{ height: '100%', flex: 1 }}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1}}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <PitchView pitch={selectedPitch}></PitchView>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
@@ -134,8 +137,8 @@ const useStyle = makeStyles()((theme) => ({
   main: {
     padding: 24,
     display: 'flex',
-    justifyContent: 'space-between',
     gap: 64,
+    height: '100%',
   },
   pitches: {
     display: 'flex',
@@ -145,6 +148,8 @@ const useStyle = makeStyles()((theme) => ({
   pitchesList: {
     maxWidth: 464,
     width: '100%',
+    height: '100%',
+    flex1: 1,
   },
   pitchInfo: {
     width: '100%',

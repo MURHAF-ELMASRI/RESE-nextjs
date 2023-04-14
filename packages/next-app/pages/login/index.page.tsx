@@ -1,21 +1,18 @@
-import { formValidation } from './formValidation';
-import { gql } from '@apollo/client';
-import { Link as LinkMUI, Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Logo from 'assets/logo.png';
+import rectangle from 'assets/rectangle.png';
 import ButtonRese from 'components/ButtonRese';
 import ImageRese from 'components/ImageRese';
 import TextFieldRese from 'components/TextFieldRese';
 import { useFormik } from 'formik';
 import { motion } from 'framer-motion';
-import { useLoginMutation } from 'hooks/graphql/generated/apolloHooks';
+import { useLoginMutation } from 'hooks/generated/apolloHooks';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { setUser } from 'state/User/UserSlice';
 import { makeStyles } from 'tss-react/mui';
-import Logo from 'assets/logo.png';
-import rectangle from 'assets/rectangle.png';
 import { pageTransition } from 'util/const';
+import { formValidation } from './formValidation';
 
 export default React.memo(Login);
 
@@ -23,7 +20,6 @@ function Login() {
   const { classes } = useStyles();
   const { push } = useRouter();
   const [mutate, result] = useLoginMutation();
-  const dispatch = useDispatch();
 
   const formik = useFormik({
     validationSchema: formValidation,
@@ -42,7 +38,7 @@ function Login() {
           return;
         }
 
-        if (data?.login.__typename === 'loginError') {
+        if (data?.login.__typename === 'LoginError') {
           return helper.setErrors({
             email: data.login.emailField ?? '',
             password: data.login.password ?? '',
@@ -50,7 +46,7 @@ function Login() {
         }
         const a = data.login.status;
 
-        dispatch(setUser({ ...data.login }));
+        // dispatch(setUser({ ...data.login }));
         push('/');
       } catch (e) {
         return;
@@ -99,11 +95,11 @@ function Login() {
             formik
           />
 
-          <LinkMUI textAlign="end" component={Link} href="/forget-password">
+          {/* <LinkMUI textAlign="end" component={Link} href="/forget-password">
             <Typography className={classes.forgetPassword}>
               Forgot Password?
             </Typography>
-          </LinkMUI>
+          </LinkMUI> */}
         </div>
       </div>
 
