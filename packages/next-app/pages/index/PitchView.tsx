@@ -97,8 +97,6 @@ function PitchListItem({ pitch }: Props) {
 const useStyles = makeStyles()((theme) => ({
   map: {
     borderRadius: 16,
-    flex: 1,
-    minHeight: 200,
     margin: '1rem',
     border: `${theme.palette.divider} 3px solid`,
   },
