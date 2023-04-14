@@ -1,6 +1,6 @@
-import { Icon } from 'leaflet';
+import { Icon, Map } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { MapContainer, Marker, TileLayer } from 'react-leaflet';
 import { makeStyles } from 'tss-react/mui';
 
@@ -16,11 +16,23 @@ interface Props {
   location: [number, number];
 }
 
-function Map(props: Props) {
+function LeafletMap(props: Props) {
   const { location } = props;
+  const mapRef = useRef<Map>(null);
+
+  useEffect(() => {    
+    setTimeout(() => {
+      console.log('resizeMap', mapRef);
+      if(mapRef.current) {
+        mapRef.current.invalidateSize()
+      }
+    }, 0);
+  }, []);
+
 
   return (
     <MapContainer
+      ref={mapRef}
       center={location}
       zoom={13}
       style={{ height: '100%', width: '100%' }}
@@ -31,6 +43,6 @@ function Map(props: Props) {
   );
 }
 
-export default memo(Map);
+export default memo(LeafletMap);
 
 const useStyles = makeStyles()(() => ({}));

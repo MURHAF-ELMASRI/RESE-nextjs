@@ -21,7 +21,6 @@ const MapNoSSR = dynamic(() => import('components/Map'), { ssr: false });
 function PitchListItem({ pitch }: Props) {
   const { classes, cx } = useStyles();
   const { row8, row4, column8 } = useFlex();
-  const [parent] = useAutoAnimate();
   const {
     name,
     openAt,
@@ -99,6 +98,7 @@ const useStyles = makeStyles()((theme) => ({
     borderRadius: 16,
     margin: '1rem',
     border: `${theme.palette.divider} 3px solid`,
+    height:306
   },
   card: {
     flex: 1,

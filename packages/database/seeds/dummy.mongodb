@@ -1,5 +1,7 @@
 use("rese")
-// db.users.find({})
+db.pitches.find({})
 
-
-db.pitches.updateMany({}, {$set: {phoneNumber: "555-555-5555",email:"abcd@efjh.com"}})
+db.pitches.updateMany({_id:"632079b0cdaebb964e83c8d2"}, {$set: {location:[
+    38.670666,
+    39.197717
+  ]}})

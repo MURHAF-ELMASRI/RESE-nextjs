@@ -97,10 +97,10 @@ export default function Home({
           {!selectedPitch ? null : (
             <motion.div
               style={{ height: '100%', flex: 1 }}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1}}
-              exit={{ scale: 0, opacity: 0 }}
+              initial={{  opacity: 0 }}
+              animate={{ opacity: 1}}
               transition={{ duration: 0.5 }}
+              key={selectedPitch._id}
             >
               <PitchView pitch={selectedPitch}></PitchView>
             </motion.div>
