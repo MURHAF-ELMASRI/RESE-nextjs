@@ -5,7 +5,7 @@ import { memo, useCallback, useMemo } from 'react';
 import { makeStyles } from 'tss-react/mui';
 interface Props {
   icon?: string;
-  onChange: (x: string | React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (x: string) => void;
   name: string;
   value: string;
   title: string;
@@ -36,9 +36,9 @@ function TextFieldRese(props: Props) {
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      onChange(formik ? event : event.target.value);
+      onChange(event.target.value);
     },
-    [formik, onChange]
+    [onChange]
   );
 
   const shouldShowError = useMemo(

@@ -75,7 +75,6 @@ function Login() {
           value={formik.values.email}
           type="email"
           helperText={formik.errors.email}
-          formik
         />
         <div className={classes.passwordContainer}>
           <TextFieldRese
@@ -86,10 +85,7 @@ function Login() {
             variant="outlined"
             value={formik.values.password}
             type="password"
-            touched={formik.touched.password}
             helperText={formik.errors.password}
-            showError
-            formik
           />
 
           {/* <LinkMUI textAlign="end" component={Link} href="/forget-password">
