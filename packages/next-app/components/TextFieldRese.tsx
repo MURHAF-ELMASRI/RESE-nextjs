@@ -5,7 +5,7 @@ import { memo, useCallback, useMemo } from 'react';
 import { makeStyles } from 'tss-react/mui';
 interface Props {
   icon?: string;
-  onChange: (x: string) => void;
+  onChange: (x: string | React.ChangeEvent<HTMLInputElement>) => void;
   name: string;
   value: string;
   title: string;
@@ -13,9 +13,7 @@ interface Props {
   className?: string;
   formik?: boolean;
   type?: React.InputHTMLAttributes<unknown>['type'];
-  showError?: boolean;
   helperText?: string;
-  touched?: boolean;
 }
 
 export default memo(TextFieldRese);
@@ -31,27 +29,21 @@ function TextFieldRese(props: Props) {
     className,
     formik = false,
     type = 'text',
-    showError = undefined,
     helperText,
-    touched = undefined,
   } = props;
 
   const { classes, cx } = useStyles();
 
   const handleChange = useCallback(
-    (event: any) => {
+    (event: React.ChangeEvent<HTMLInputElement>) => {
       onChange(formik ? event : event.target.value);
     },
-    [onChange]
+    [formik, onChange]
   );
 
   const shouldShowError = useMemo(
-    () => (showError === undefined ? false : !!touched && !!helperText),
-    [touched, showError, helperText]
-  );
-  const helperTextUI = useMemo(
-    () => (showError === undefined ? helperText : touched ? helperText : ''),
-    [showError, helperText, touched]
+    () =>  !!helperText,
+    [helperText]
   );
 
   return (

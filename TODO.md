@@ -1,12 +1,18 @@
 [x] make ui work
 [ ] login page
+  - change login icon to button
+  - 
+[ ] signup page
+  - 
+  - 
+  - 
 [ ] send cookie and route to main page
 [ ] add typing to the resolver in login
 [ ] refactor login page to make graphql-yoga reusable
 [ ] signup page
 [ ] adjust find function to return the type of passed field
 [ ] show global error if there no data - or for server errors and bad request
-
+[ ] focus for browser location
 # optimization
 
 [ ] write rule for mui
@@ -26,7 +32,7 @@
   - solution: the files' path should be set where the codegen work
 - problem: reading graphql files because nodejs read file does not work for webpack or next
   - use gql tag and exports the schema to use it in graphql-yoga
-
+- update leaflet after rendering it
 ### data loader
 
 ### graphql
