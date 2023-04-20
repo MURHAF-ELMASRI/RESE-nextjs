@@ -1,19 +1,23 @@
 import { Icon } from '@iconify/react';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { makeStyles } from 'tss-react/mui';
+import IconButtonRese from './IconButtonRese';
 interface Props {
   icon?: string;
-  onChange: (x: string) => void;
+  onChange: (
+    x: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
   name: string;
   value: string;
   title: string;
   variant?: 'outlined';
   className?: string;
-  formik?: boolean;
   type?: React.InputHTMLAttributes<unknown>['type'];
   helperText?: string;
+  touched?: boolean;
+  iconClick?: () => void;
 }
 
 export default memo(TextFieldRese);
@@ -27,34 +31,25 @@ function TextFieldRese(props: Props) {
     title,
     variant = 'standard',
     className,
-    formik = false,
     type = 'text',
     helperText,
+    touched,
+    iconClick
   } = props;
 
   const { classes, cx } = useStyles();
 
-  const handleChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      onChange(event.target.value);
-    },
-    [onChange]
-  );
-
-  const shouldShowError = useMemo(
-    () =>  !!helperText,
-    [helperText]
-  );
+  const shouldShowError = useMemo(() => !!touched, [touched]);
 
   return (
     <TextField
       name={name}
-      onChange={handleChange}
+      onChange={onChange}
       value={value}
       label={title}
       type={type}
       variant={variant}
-      className={cx(className)}
+      className={cx(classes.input, className)}
       helperText={
         <HelperText text={helperText} shouldRender={shouldShowError} />
       }
@@ -62,7 +57,7 @@ function TextFieldRese(props: Props) {
       InputProps={{
         endAdornment: icon && (
           <InputAdornment position="end">
-            <Icon icon={icon} width={20} className={classes.icon} />
+            <IconButtonRese onClick={iconClick} icon={icon}></IconButtonRese>
           </InputAdornment>
         ),
       }}
@@ -85,8 +80,8 @@ function HelperTextComponent({
 }
 
 const useStyles = makeStyles()((theme) => ({
-  icon: {
-    color: theme.palette.secondary.main,
+  input: {
+    marginBottom: theme.spacing(4),
   },
   helperText: {
     position: 'absolute',

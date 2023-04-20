@@ -1,5 +1,5 @@
 import type { PitchType } from '@rese/common/model/Pitch';
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const pitchModel = new mongoose.Schema<PitchType>({
   mangerId: {
@@ -11,7 +11,7 @@ const pitchModel = new mongoose.Schema<PitchType>({
     required: true,
   },
   location: {
-    type: String,
+    type: [Number, Number],
   },
   numberOfSubPitch: {
     type: Number,
@@ -30,4 +30,4 @@ const pitchModel = new mongoose.Schema<PitchType>({
   },
 });
 
-export default mongoose.model("pitches", pitchModel);
+export default mongoose.model('pitches', pitchModel);

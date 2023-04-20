@@ -3,7 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { FreeService, PaidService, PitchType } from '@rese/common/model/Pitch';
 import { useFormik } from 'formik';
-import { motion } from 'framer-motion';
+import { animate, motion } from 'framer-motion';
 import { memo } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import TextFieldRese from './TextFieldRese';
@@ -38,7 +38,7 @@ function Filter(props: Props) {
     },
   });
 
-  return (
+  return !isOpen ? null : (
     <motion.div
       className={classes.filterContainer}
       transition={{ duration: 0.3 }}
@@ -79,7 +79,6 @@ function Filter(props: Props) {
           onChange={formik.handleChange}
           icon="mdi:heart-plus-outline"
           value={formik.values.date ? formik.values.date.toString() : ''}
-          
         />
 
         <TextFieldRese

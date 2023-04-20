@@ -13,6 +13,7 @@ import React, { useCallback } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import { pageTransition } from 'util/const';
 import { formValidation } from './formValidation';
+import TextField from '@mui/material/TextField';
 
 export default React.memo(Login);
 
@@ -57,7 +58,7 @@ function Login() {
   const navigateToSignup = useCallback(() => {
     push('/signup');
   }, [push]);
-
+  
   return (
     <motion.div className={classes.container} {...pageTransition}>
       <ImageRese width={112} src={Logo} className={classes.logo} />
@@ -77,9 +78,8 @@ function Login() {
           type="email"
           helperText={formik.errors.email}
           touched={formik.touched.email}
-          showError
-          formik
         />
+
         <div className={classes.passwordContainer}>
           <TextFieldRese
             title="Password"
@@ -89,10 +89,8 @@ function Login() {
             variant="outlined"
             value={formik.values.password}
             type="password"
-            touched={formik.touched.password}
             helperText={formik.errors.password}
-            showError
-            formik
+            touched={formik.touched.password}
           />
 
           {/* <LinkMUI textAlign="end" component={Link} href="/forget-password">
@@ -186,10 +184,5 @@ const useStyles = makeStyles()(() => ({
 
     width: '100%',
     marginBottom: 24,
-  },
-  forgetPassword: {
-    textAlign: 'end',
-    cursor: 'pointer',
-    fontSize: 14,
   },
 }));

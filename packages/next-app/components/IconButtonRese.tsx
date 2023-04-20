@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react';
 import ButtonBase from '@mui/material/ButtonBase';
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 interface Props {
@@ -17,9 +17,15 @@ function IconButtonRese(props: Props) {
 
   const { classes } = useStyles();
 
+  const hanldeClick=useCallback(() => {
+    console.log('render');
+    onClick()
+  }, [onClick]);
+
+
   return (
     <div className={className}>
-      <ButtonBase className={classes.iconButton} onClick={onClick}>
+      <ButtonBase className={classes.iconButton} onClick={hanldeClick}>
         <Icon width={size} height={size} className={classes.icon} icon={icon} />
       </ButtonBase>
     </div>

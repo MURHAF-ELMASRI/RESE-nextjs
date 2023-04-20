@@ -22,7 +22,6 @@ function LeafletMap(props: Props) {
 
   useEffect(() => {    
     setTimeout(() => {
-      console.log('resizeMap', mapRef);
       if(mapRef.current) {
         mapRef.current.invalidateSize()
       }

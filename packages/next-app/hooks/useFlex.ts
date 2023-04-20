@@ -10,6 +10,14 @@ export default function useFlex() {
 }
 
 const useStyles = makeStyles()(() => ({
+  column: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
   column4: {
     display: 'flex',
     flexDirection: 'column',

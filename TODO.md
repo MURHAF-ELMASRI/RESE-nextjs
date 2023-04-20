@@ -1,7 +1,7 @@
 [x] make ui work
 [ ] login page
   - change login icon to button
-  - 
+  - forget password
 [ ] signup page
   - 
   - 
@@ -21,6 +21,7 @@
 [ ] add next seo
 [ ] optimize query using dataloader https://vscode.dev/github/juffalow/express-graphql-example/blob/master/src/repositories/AuthorKnexRepository.ts
 [ ] add resolver and graphql types inside feature folder
+[ ] convert phone number component to use material ui
 # learned topics
 
 - difference between plugin and extends in eslint

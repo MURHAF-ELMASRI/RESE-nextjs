@@ -15,6 +15,7 @@ import { useIndex } from './index/indexStore';
 import PitchListItem from './index/PitchListItem';
 import PitchView from './index/PitchView';
 import { useUiContext } from './uiStore';
+
 export const getServerSideProps: GetServerSideProps<{
   pitches: PitchType[];
 }> = async () => {
@@ -151,10 +152,6 @@ const useStyle = makeStyles()((theme) => ({
     height: '100%',
     flex1: 1,
   },
-  pitchInfo: {
-    width: '100%',
-  },
-
   listTitle: {
     fontSize: 24,
     padding: 16,

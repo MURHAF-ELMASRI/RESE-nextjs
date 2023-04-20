@@ -1,13 +1,16 @@
+import Box from '@mui/material/Box';
 import Logo from 'assets/logo.png';
 import rectangle from 'assets/rectangle.png';
 import ButtonRese from 'components/ButtonRese';
 import ImageRese from 'components/ImageRese';
+import PhoneNumber from 'components/PhoneNumber';
 import TextFieldRese from 'components/TextFieldRese';
 import { useFormik } from 'formik';
 import { motion } from 'framer-motion';
 import { useLoginMutation } from 'hooks/generated/apolloHooks';
+import useFlex from 'hooks/useFlex';
 import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { makeStyles } from 'tss-react/mui';
 import { pageTransition } from 'util/const';
 import { formValidation } from './formValidation';
@@ -18,12 +21,18 @@ function Login() {
   const { classes } = useStyles();
   const { push } = useRouter();
   const [mutate, result] = useLoginMutation();
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const { column } = useFlex();
 
   const formik = useFormik({
     validationSchema: formValidation,
     initialValues: {
+      name: '',
       email: '',
+      phone: '',
       password: '',
+      confirmPassword: '',
     },
     onSubmit: async (v, helper) => {
       console.log('submitting');
@@ -52,10 +61,6 @@ function Login() {
     },
   });
 
-  const navigateToSignup = useCallback(() => {
-    push('/signup');
-  }, [push]);
-
   return (
     <motion.div className={classes.container} {...pageTransition}>
       <div className={classes.logoContainer}>
@@ -65,36 +70,57 @@ function Login() {
 
       <ImageRese width={270} src={rectangle} className={classes.rightRect} />
 
-      <div className={classes.inputContainer}>
+      <Box className={column} maxWidth={400} width="100%">
+        <TextFieldRese
+          title="Name"
+          onChange={formik.handleChange}
+          name="name"
+          variant="outlined"
+          value={formik.values.name}
+          type="name"
+          helperText={formik.errors.name}
+          touched={formik.touched.name}
+        />
+
         <TextFieldRese
           title="Email"
           onChange={formik.handleChange}
           name="email"
-          className={classes.input}
           variant="outlined"
           value={formik.values.email}
           type="email"
           helperText={formik.errors.email}
+          touched={formik.touched.email}
         />
-        <div className={classes.passwordContainer}>
-          <TextFieldRese
-            title="Password"
-            onChange={formik.handleChange}
-            name="password"
-            className={classes.passwordInput}
-            variant="outlined"
-            value={formik.values.password}
-            type="password"
-            helperText={formik.errors.password}
-          />
 
-          {/* <LinkMUI textAlign="end" component={Link} href="/forget-password">
-            <Typography className={classes.forgetPassword}>
-              Forgot Password?
-            </Typography>
-          </LinkMUI> */}
-        </div>
-      </div>
+        <PhoneNumber value={formik.values.phone}></PhoneNumber>
+
+        <TextFieldRese
+          title="Password"
+          onChange={formik.handleChange}
+          name="password"
+          variant="outlined"
+          value={formik.values.password}
+          type={showPassword ? 'password' : 'text'}
+          helperText={formik.errors.password}
+          touched={formik.touched.password}
+          icon={showPassword ? 'mdi:eye-off' : 'mdi:eye'}
+          iconClick={() => setShowPassword(!showPassword)}
+        />
+
+        <TextFieldRese
+          title="Confirm Password"
+          onChange={formik.handleChange}
+          name="confirmPassword"
+          variant="outlined"
+          value={formik.values.confirmPassword}
+          type={showConfirmPassword ? 'password' : 'text'}
+          helperText={formik.errors.confirmPassword}
+          touched={formik.touched.confirmPassword}
+          icon={showConfirmPassword ? 'mdi:eye-off' : 'mdi:eye'}
+          iconClick={() => setShowConfirmPassword(!showConfirmPassword)}
+        />
+      </Box>
 
       <div className={classes.buttonContainer}>
         <ButtonRese
@@ -135,17 +161,6 @@ const useStyles = makeStyles()(() => ({
     right: -180,
     top: 300,
   },
-  input: {
-    marginBottom: 24,
-    width: '100%',
-  },
-  inputContainer: {
-    maxWidth: 400,
-    zIndex: 10,
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-  },
   buttonContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -153,19 +168,8 @@ const useStyles = makeStyles()(() => ({
     maxWidth: 400,
     width: '100%',
   },
-  passwordInput: {
-    width: '100%',
-  },
-  passwordContainer: {
+  logoContainer: {
+    width: 108,
     display: 'flex',
-    justifyContent: 'flex-end',
-    flexDirection: 'column',
-
-    width: '100%',
-    marginBottom: 24,
   },
-  logoContainer:{
-    width:108,
-    display: 'flex',
-  }
 }));
