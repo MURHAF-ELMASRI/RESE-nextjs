@@ -15,9 +15,7 @@ import { makeStyles } from 'tss-react/mui';
 import { pageTransition } from 'util/const';
 import { formValidation } from './formValidation';
 
-export default React.memo(Login);
-
-function Login() {
+export default function Signup() {
   const { classes } = useStyles();
   const { push } = useRouter();
   const [mutate, result] = useLoginMutation();
@@ -30,36 +28,18 @@ function Login() {
     initialValues: {
       name: '',
       email: '',
-      phone: '',
+      phone: '4234233',
       password: '',
       confirmPassword: '',
     },
     onSubmit: async (v, helper) => {
-      console.log('submitting');
+      console.log('submitting', v);
 
-      try {
-        const { data } = await mutate({ variables: v });
-        console.log({ data });
-        if (!data) {
-          //TODO: show global error if there no data - or for server errors and bad request
-          return;
-        }
-
-        if (data?.login.__typename === 'LoginError') {
-          return helper.setErrors({
-            email: data.login.emailField ?? '',
-            password: data.login.password ?? '',
-          });
-        }
-        const a = data.login.status;
-
-        // dispatch(setUser({ ...data.login }));
-        push('/');
-      } catch (e) {
-        return;
-      }
+      return;
     },
   });
+
+  console.log(formik.values.phone);
 
   return (
     <motion.div className={classes.container} {...pageTransition}>
@@ -79,7 +59,7 @@ function Login() {
           value={formik.values.name}
           type="name"
           helperText={formik.errors.name}
-          touched={formik.touched.name}
+          showError={!!formik.touched.name && !!formik.errors.name}
         />
 
         <TextFieldRese
@@ -90,10 +70,15 @@ function Login() {
           value={formik.values.email}
           type="email"
           helperText={formik.errors.email}
-          touched={formik.touched.email}
+          showError={!!formik.touched.email && !!formik.errors.email}
         />
 
-        <PhoneNumber value={formik.values.phone}></PhoneNumber>
+        <PhoneNumber
+          onChange={formik.handleChange('phone')}
+          value={formik.values.phone}
+          helperText={formik.errors.phone}
+          showError={!!formik.touched.phone && !!formik.errors.phone}
+        ></PhoneNumber>
 
         <TextFieldRese
           title="Password"
@@ -103,7 +88,7 @@ function Login() {
           value={formik.values.password}
           type={showPassword ? 'password' : 'text'}
           helperText={formik.errors.password}
-          touched={formik.touched.password}
+          showError={!!formik.touched.password && !!formik.errors.password}
           icon={showPassword ? 'mdi:eye-off' : 'mdi:eye'}
           iconClick={() => setShowPassword(!showPassword)}
         />
@@ -116,7 +101,7 @@ function Login() {
           value={formik.values.confirmPassword}
           type={showConfirmPassword ? 'password' : 'text'}
           helperText={formik.errors.confirmPassword}
-          touched={formik.touched.confirmPassword}
+          showError={!!formik.touched.confirmPassword && !!formik.errors.confirmPassword}
           icon={showConfirmPassword ? 'mdi:eye-off' : 'mdi:eye'}
           iconClick={() => setShowConfirmPassword(!showConfirmPassword)}
         />

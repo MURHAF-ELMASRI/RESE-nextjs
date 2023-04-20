@@ -16,8 +16,8 @@ interface Props {
   className?: string;
   type?: React.InputHTMLAttributes<unknown>['type'];
   helperText?: string;
-  touched?: boolean;
   iconClick?: () => void;
+  showError?: boolean;
 }
 
 export default memo(TextFieldRese);
@@ -33,13 +33,12 @@ function TextFieldRese(props: Props) {
     className,
     type = 'text',
     helperText,
-    touched,
-    iconClick
+    iconClick,
+    showError
   } = props;
 
   const { classes, cx } = useStyles();
 
-  const shouldShowError = useMemo(() => !!touched, [touched]);
 
   return (
     <TextField
@@ -51,9 +50,9 @@ function TextFieldRese(props: Props) {
       variant={variant}
       className={cx(classes.input, className)}
       helperText={
-        <HelperText text={helperText} shouldRender={shouldShowError} />
+        <HelperText text={helperText} shouldRender={showError} />
       }
-      error={shouldShowError}
+      error={showError}
       InputProps={{
         endAdornment: icon && (
           <InputAdornment position="end">
