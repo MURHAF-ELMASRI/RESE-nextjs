@@ -22,7 +22,7 @@ const PhoneNumber = (props: Props) => {
   const theme = useTheme();
 
   return (
-    <Box className={column} mb={theme.spacing(4)} width="100%">
+    <Box className={column} position="relative" mb={theme.spacing(4)} width="100%">
       {props.label}
       <Box>
         <PhoneInput

@@ -3,17 +3,17 @@ import { memo } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
 interface Props {
-  width: number;
+  maxWidth?: number;
   src: StaticImageData;
   className?: string;
 }
 
 function ImageRese(props: Props) {
-  const { width, src, className } = props;
+  const { maxWidth, src, className } = props;
   const { classes,cx } = useStyles();
 
   return (
-    <div className={cx(classes.container, className)} style={{ width }}>
+    <div className={cx(classes.container, className)} style={{ maxWidth }}>
       <Image src={src} objectFit="cover" />
     </div>
   );
@@ -28,5 +28,6 @@ const useStyles = makeStyles()(() => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    width: '100%',
   },
 }));
