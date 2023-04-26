@@ -1,4 +1,3 @@
-import Typography from '@mui/material/Typography';
 import Logo from 'assets/logo.png';
 import rectangle from 'assets/rectangle.png';
 import ButtonRese from 'components/ButtonRese';
@@ -7,13 +6,11 @@ import TextFieldRese from 'components/TextFieldRese';
 import { useFormik } from 'formik';
 import { motion } from 'framer-motion';
 import { useLoginMutation } from 'hooks/generated/apolloHooks';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import { pageTransition } from 'util/const';
 import { formValidation } from './formValidation';
-import TextField from '@mui/material/TextField';
 
 export default React.memo(Login);
 
@@ -21,7 +18,6 @@ function Login() {
   const { classes } = useStyles();
   const { push } = useRouter();
   const [mutate, result] = useLoginMutation();
-
   const formik = useFormik({
     validationSchema: formValidation,
     initialValues: {
@@ -29,11 +25,8 @@ function Login() {
       password: '',
     },
     onSubmit: async (v, helper) => {
-      console.log('submitting');
-
       try {
         const { data } = await mutate({ variables: v });
-        console.log({ data });
         if (!data) {
           //TODO: show global error if there no data - or for server errors and bad request
           return;
@@ -45,7 +38,6 @@ function Login() {
             password: data.login.password ?? '',
           });
         }
-        const a = data.login.status;
 
         // dispatch(setUser({ ...data.login }));
         push('/');
@@ -58,14 +50,14 @@ function Login() {
   const navigateToSignup = useCallback(() => {
     push('/signup');
   }, [push]);
-  
+
   return (
     <motion.div className={classes.container} {...pageTransition}>
-      <ImageRese width={112} src={Logo} className={classes.logo} />
+      <ImageRese maxWidth={112} src={Logo} className={classes.logo} />
 
-      <ImageRese width={200} src={rectangle} className={classes.leftRect} />
+      <ImageRese maxWidth={200} src={rectangle} className={classes.leftRect} />
 
-      <ImageRese width={270} src={rectangle} className={classes.rightRect} />
+      <ImageRese maxWidth={270} src={rectangle} className={classes.rightRect} />
 
       <div className={classes.inputContainer}>
         <TextFieldRese
@@ -77,7 +69,7 @@ function Login() {
           value={formik.values.email}
           type="email"
           helperText={formik.errors.email}
-          touched={formik.touched.email}
+          showError={!!formik.touched.email && !!formik.errors.email}
         />
 
         <div className={classes.passwordContainer}>
@@ -90,14 +82,8 @@ function Login() {
             value={formik.values.password}
             type="password"
             helperText={formik.errors.password}
-            touched={formik.touched.password}
+            showError={!!formik.touched.password && !!formik.errors.password}
           />
-
-          {/* <LinkMUI textAlign="end" component={Link} href="/forget-password">
-            <Typography className={classes.forgetPassword}>
-              Forgot Password?
-            </Typography>
-          </LinkMUI> */}
         </div>
       </div>
 

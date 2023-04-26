@@ -1,0 +1,17 @@
+type SignupError implements Error {
+  email: String
+  phone: String
+  params: ErrorParams!
+}
+
+input signUpInput {
+  fullName: String!
+  email: String!
+  password: String!
+  phone: String!
+  userType: UserType!
+}
+
+type Mutation {
+  signup(signUpInput: signUpInput!): SignupError!
+}

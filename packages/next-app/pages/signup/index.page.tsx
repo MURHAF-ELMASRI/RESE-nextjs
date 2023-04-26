@@ -5,19 +5,29 @@ import rectangle from 'assets/rectangle.png';
 import ButtonRese from 'components/ButtonRese';
 import ImageRese from 'components/ImageRese';
 import PhoneNumber from 'components/PhoneNumber';
+import Select from 'components/Select';
 import TextFieldRese from 'components/TextFieldRese';
 import { useFormik } from 'formik';
-import { useLoginMutation } from 'hooks/generated/apolloHooks';
+import { motion } from 'framer-motion';
+import { UserType, useSignupMutation } from 'hooks/generated/apolloHooks';
+import { useAlert } from 'hooks/useAlert';
 import useFlex from 'hooks/useFlex';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { makeStyles } from 'tss-react/mui';
+import { pageTransition } from 'util/const';
 import { formValidation } from './formValidation';
+
+const SelectData: { title: string; value: UserType }[] = [
+  { title: 'Player', value: UserType.Player  },
+  { title: 'Manger', value: UserType.Manger},
+];
 
 export default function Signup() {
   const { classes } = useStyles();
+
   return (
-    <div className={classes.container}>
+    <motion.div className={classes.container} {...pageTransition}>
       <ImageRese maxWidth={200} src={rectangle} className={classes.leftRect} />
 
       <ImageRese maxWidth={270} src={rectangle} className={classes.rightRect} />
@@ -29,30 +39,39 @@ export default function Signup() {
           className={classes.juniorSoccer}
         />
       </Box>
-    </div>
+    </motion.div>
   );
 }
+type initialValues = {
+  fullName: string;
+  email: string;
+  phone: string;
+  password: string;
+  confirmPassword: string;
+  userType: UserType | undefined;
+};
 
 function LeftSide() {
   const { classes } = useStyles();
   const { push } = useRouter();
-  const [mutate, result] = useLoginMutation();
+  const [mutate, result] = useSignupMutation();
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const { column4 } = useFlex();
+  const { alert } = useAlert();
 
-  const formik = useFormik({
+  const formik = useFormik<initialValues, 'userType'>({
     validationSchema: formValidation,
     initialValues: {
-      name: '',
+      fullName: '',
       email: '',
       phone: '',
       password: '',
       confirmPassword: '',
+      userType: undefined,
     },
-    onSubmit: async (v, helper) => {
-      console.log('submitting', v);
-
+    onSubmit: async (signUpInput, helper) => {
+      mutate({ variables: { signUpInput } });
       return;
     },
   });
@@ -65,14 +84,14 @@ function LeftSide() {
         </div>
         <Box className={column4} maxWidth={400} width="100%">
           <TextFieldRese
-            title="Name"
+            title="Full Name"
             onChange={formik.handleChange}
-            name="name"
+            name="fullName"
             variant="outlined"
-            value={formik.values.name}
-            type="name"
-            helperText={formik.errors.name}
-            showError={!!formik.touched.name && !!formik.errors.name}
+            value={formik.values.fullName}
+            type="fullName"
+            helperText={formik.errors.fullName}
+            showError={!!formik.touched.fullName && !!formik.errors.fullName}
           />
           <TextFieldRese
             title="Email"
@@ -117,6 +136,16 @@ function LeftSide() {
             icon={showConfirmPassword ? 'mdi:eye-off' : 'mdi:eye'}
             iconClick={() => setShowConfirmPassword(!showConfirmPassword)}
           />
+
+          <Select
+            data={SelectData}
+            value={formik.values.userType}
+            label="User Type"
+            onChange={formik.handleChange}
+            name="userType"
+            helperText={formik.errors.userType}
+            showError={!!formik.touched.userType && !!formik.errors.userType}
+          />
         </Box>
         <div className={classes.buttonContainer}>
           <ButtonRese
@@ -125,7 +154,7 @@ function LeftSide() {
             onClick={formik.submitForm}
             disabled={result.loading}
           />
-        </div>
+        </div> 
       </Box>
     </Box>
   );
@@ -167,7 +196,7 @@ const useStyles = makeStyles()((theme) => ({
     display: 'flex',
   },
   rightSideContainer: {
-    display:'flex',
+    display: 'flex',
     backgroundColor: theme.palette.grey[100],
     borderLeft: `3px solid ${theme.palette.divider}`,
   },

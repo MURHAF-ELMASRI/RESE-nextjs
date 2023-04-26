@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 
 export default React.memo(Select);
 
-interface Props<V = any> {
+interface Props<V = string | undefined | number> {
   label: string;
   data: {
     title: string;
@@ -23,6 +23,7 @@ interface Props<V = any> {
   helperText?: string;
   variant?: 'filled' | 'outlined' | 'standard';
   className?: string;
+  showError?: boolean;
 }
 
 function Select(props: Props) {
@@ -35,6 +36,7 @@ function Select(props: Props) {
     variant = 'outlined',
     className,
     name,
+    showError = false,
   } = props;
   const { classes, cx } = useStyles();
   const [id] = useState(uniqueId());
@@ -43,6 +45,7 @@ function Select(props: Props) {
     <FormControl
       variant={variant}
       className={cx(classes.formControl, className)}
+      error={showError}
     >
       <InputLabel id={id}>{label}</InputLabel>
       <SelectMui
@@ -63,8 +66,9 @@ function Select(props: Props) {
   );
 }
 
-const useStyles = makeStyles()(() => ({
+const useStyles = makeStyles()((theme) => ({
   formControl: {
+    marginBottom: theme.spacing(4),
     minWidth: 120,
   },
 }));

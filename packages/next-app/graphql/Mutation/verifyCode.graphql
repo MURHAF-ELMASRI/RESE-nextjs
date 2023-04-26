@@ -3,6 +3,9 @@ enum UserStatus {
   active
 }
 
+type Query {
+  greetings: String!
+}
 
 type User {
   id: String!

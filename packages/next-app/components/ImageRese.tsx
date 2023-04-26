@@ -14,7 +14,7 @@ function ImageRese(props: Props) {
 
   return (
     <div className={cx(classes.container, className)} style={{ maxWidth }}>
-      <Image src={src} objectFit="cover" />
+      <Image draggable={false} src={src} objectFit="cover" />
     </div>
   );
 }
@@ -29,5 +29,6 @@ const useStyles = makeStyles()(() => ({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
+    userSelect: 'none',
   },
 }));

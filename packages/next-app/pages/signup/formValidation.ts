@@ -18,6 +18,6 @@ export const formValidation = yup.object({
     .string()
     .email('Enter a valid email')
     .required('Email is required'),
-  
+  userType: yup.string().required(),
 });
 

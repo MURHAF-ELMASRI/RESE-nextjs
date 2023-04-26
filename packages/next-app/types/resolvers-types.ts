@@ -42,6 +42,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   login: LoginOrError;
   loginByToken: UserOrError;
+  signup: SignupError;
 };
 
 
@@ -50,9 +51,21 @@ export type MutationLoginArgs = {
   password: Scalars['String'];
 };
 
+
+export type MutationSignupArgs = {
+  signUpInput: SignUpInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   greetings: Scalars['String'];
+};
+
+export type SignupError = Error & {
+  __typename?: 'SignupError';
+  email?: Maybe<Scalars['String']>;
+  params: ErrorParams;
+  phone?: Maybe<Scalars['String']>;
 };
 
 export type User = {
@@ -71,9 +84,22 @@ export enum UserStatus {
   Pending = 'pending'
 }
 
+export enum UserType {
+  Manger = 'manger',
+  Player = 'player'
+}
+
 export type LoginByTokenError = Error & {
   __typename?: 'loginByTokenError';
   params: ErrorParams;
+};
+
+export type SignUpInput = {
+  email: Scalars['String'];
+  fullName: Scalars['String'];
+  password: Scalars['String'];
+  phone: Scalars['String'];
+  userType: UserType;
 };
 
 
@@ -146,7 +172,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  Error: ResolversTypes['LoginError'] | ResolversTypes['loginByTokenError'];
+  Error: ResolversTypes['LoginError'] | ResolversTypes['SignupError'] | ResolversTypes['loginByTokenError'];
   ErrorDescription: never;
   ErrorParams: ResolverTypeWrapper<ErrorParams>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
@@ -155,17 +181,20 @@ export type ResolversTypes = {
   LoginOrError: ResolversTypes['LoginError'] | ResolversTypes['User'];
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  SignupError: ResolverTypeWrapper<SignupError>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
   UserOrError: ResolversTypes['User'] | ResolversTypes['loginByTokenError'];
   UserStatus: UserStatus;
+  UserType: UserType;
   loginByTokenError: ResolverTypeWrapper<LoginByTokenError>;
+  signUpInput: SignUpInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
-  Error: ResolversParentTypes['LoginError'] | ResolversParentTypes['loginByTokenError'];
+  Error: ResolversParentTypes['LoginError'] | ResolversParentTypes['SignupError'] | ResolversParentTypes['loginByTokenError'];
   ErrorDescription: never;
   ErrorParams: ErrorParams;
   Int: Scalars['Int'];
@@ -174,14 +203,16 @@ export type ResolversParentTypes = {
   LoginOrError: ResolversParentTypes['LoginError'] | ResolversParentTypes['User'];
   Mutation: {};
   Query: {};
+  SignupError: SignupError;
   String: Scalars['String'];
   User: User;
   UserOrError: ResolversParentTypes['User'] | ResolversParentTypes['loginByTokenError'];
   loginByTokenError: LoginByTokenError;
+  signUpInput: SignUpInput;
 };
 
 export type ErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']> = {
-  __resolveType: TypeResolveFn<'LoginError' | 'loginByTokenError', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'LoginError' | 'SignupError' | 'loginByTokenError', ParentType, ContextType>;
   params?: Resolver<ResolversTypes['ErrorParams'], ParentType, ContextType>;
 };
 
@@ -214,10 +245,18 @@ export type LoginOrErrorResolvers<ContextType = any, ParentType extends Resolver
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   login?: Resolver<ResolversTypes['LoginOrError'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
   loginByToken?: Resolver<ResolversTypes['UserOrError'], ParentType, ContextType>;
+  signup?: Resolver<ResolversTypes['SignupError'], ParentType, ContextType, RequireFields<MutationSignupArgs, 'signUpInput'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   greetings?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+};
+
+export type SignupErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignupError'] = ResolversParentTypes['SignupError']> = {
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  params?: Resolver<ResolversTypes['ErrorParams'], ParentType, ContextType>;
+  phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -247,6 +286,7 @@ export type Resolvers<ContextType = any> = {
   LoginOrError?: LoginOrErrorResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  SignupError?: SignupErrorResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   UserOrError?: UserOrErrorResolvers<ContextType>;
   loginByTokenError?: LoginByTokenErrorResolvers<ContextType>;

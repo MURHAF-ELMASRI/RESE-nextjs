@@ -12,6 +12,7 @@ import SideBar from '../containers/SideBar/SideBar';
 import '../styles/global.css';
 import { UiProvider } from './uiStore';
 import { UserProvider } from './userStore';
+import { AlertProvider } from 'hooks/useAlert';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -29,18 +30,20 @@ function MyApp(props: MyAppProps) {
         <Head>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
-        <UiProvider>
-          <UserProvider>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              <TopLine />
-              <div id="main-page">
-                <SideBar />
-                <Component {...pageProps} />
-              </div>
-            </ThemeProvider>
-          </UserProvider>
-        </UiProvider>
+        <AlertProvider>
+          <UiProvider>
+            <UserProvider>
+              <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <TopLine />
+                <div id="main-page">
+                  <SideBar />
+                  <Component {...pageProps} />
+                </div>
+              </ThemeProvider>
+            </UserProvider>
+          </UiProvider>
+        </AlertProvider>
       </ApolloProvider>
     </CacheProvider>
   );
