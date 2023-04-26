@@ -12,6 +12,7 @@ const config: CodegenConfig = {
       ],
       config: {
         withHooks: true,
+        enumsAsTypes: true,
       },
     },
     './packages/next-app/types/resolvers-types.ts': {
