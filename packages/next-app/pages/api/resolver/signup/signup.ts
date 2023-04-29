@@ -10,7 +10,7 @@ export const signup: MutationResolvers['signup'] = async (_, args) => {
     const { signUpInput } = args;
     await formValidation.validate(signUpInput);
     const data = await query.getUserByEmail(signUpInput);
-    console.log(data)
+    console.log(data);
     if (data) {
       return {
         __typename: 'SignupError',
@@ -39,7 +39,6 @@ export const signup: MutationResolvers['signup'] = async (_, args) => {
 
     const confirmationCode = '698506';
 
-
     await create.createUser({
       ...signUpInput,
       type: signUpInput.type,
@@ -56,7 +55,7 @@ export const signup: MutationResolvers['signup'] = async (_, args) => {
     );
 
     return null;
-  } catch (err) {
+  } catch (err: any) {
     console.log(err.message);
     return {
       __typename: 'SignupError',
