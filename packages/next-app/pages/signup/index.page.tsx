@@ -12,6 +12,7 @@ import { motion } from 'framer-motion';
 import { UserType, useSignupMutation } from 'hooks/generated/apolloHooks';
 import { useAlert } from 'hooks/useAlert';
 import useFlex from 'hooks/useFlex';
+import { omit } from 'lodash';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { makeStyles } from 'tss-react/mui';
@@ -19,8 +20,8 @@ import { pageTransition } from 'util/const';
 import { formValidation } from './formValidation';
 
 const SelectData: { title: string; value: UserType }[] = [
-  { title: 'Player', value: UserType.Player  },
-  { title: 'Manger', value: UserType.Manger},
+  { title: 'Player', value: 'player' },
+  { title: 'Manger', value: 'manger' },
 ];
 
 export default function Signup() {
@@ -42,13 +43,13 @@ export default function Signup() {
     </motion.div>
   );
 }
-type initialValues = {
-  fullName: string;
-  email: string;
-  phone: string;
-  password: string;
-  confirmPassword: string;
-  userType: UserType | undefined;
+const initialValues = {
+  fullName: '',
+  email: '',
+  phone: '',
+  password: '',
+  confirmPassword: '',
+  type: 'player' as undefined | UserType,
 };
 
 function LeftSide() {
@@ -60,18 +61,26 @@ function LeftSide() {
   const { column4 } = useFlex();
   const { alert } = useAlert();
 
-  const formik = useFormik<initialValues, 'userType'>({
+  const formik = useFormik({
     validationSchema: formValidation,
-    initialValues: {
-      fullName: '',
-      email: '',
-      phone: '',
-      password: '',
-      confirmPassword: '',
-      userType: undefined,
-    },
+    initialValues,
     onSubmit: async (signUpInput, helper) => {
-      mutate({ variables: { signUpInput } });
+      const variables = omit(signUpInput, 'confirmPassword');
+      const result = await mutate({ variables: { signUpInput: variables } });
+      if (result.data?.signup?.__typename !== 'SignupError') {
+        return push('/login');
+      }
+      if (result.data.signup.email) {
+        helper.setFieldError('email', result.data.signup.email);
+        return;
+      }
+      if (result.data.signup.phone) {
+        helper.setFieldError('phone', result.data.signup.phone);
+        return;
+      }
+
+      alert('error', 'something went wrong');
+
       return;
     },
   });
@@ -139,22 +148,24 @@ function LeftSide() {
 
           <Select
             data={SelectData}
-            value={formik.values.userType}
+            value={formik.values.type}
             label="User Type"
             onChange={formik.handleChange}
-            name="userType"
-            helperText={formik.errors.userType}
-            showError={!!formik.touched.userType && !!formik.errors.userType}
+            name="type"
+            helperText={formik.errors.type}
+            showError={!!formik.touched.type && !!formik.errors.type}
           />
         </Box>
         <div className={classes.buttonContainer}>
           <ButtonRese
             label="Submit"
             icon="mdi:login-variant"
-            onClick={formik.submitForm}
+            onClick={()=>{
+              console.log(formik.values)
+              formik.submitForm()}}
             disabled={result.loading}
           />
-        </div> 
+        </div>
       </Box>
     </Box>
   );

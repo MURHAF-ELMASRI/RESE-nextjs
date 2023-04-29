@@ -17,6 +17,6 @@
     "incremental": true,
     "baseUrl": ".",
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "graphql/Mutation/login.graphql", "graphql/Mutation/loginByToken.graphql", "graphql/common/scalars/JSON.graphql", "graphql/common/Error.graphql", "graphql/Query/greeting.graphql"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "graphql/Mutation/login.ts", "graphgraphql/Mutation/loginByToken.tsraphql/common/scalars/JSON.ts", "graphql/common/Error.ts", "graphql/Query/greeting.ts"],
   "exclude": ["**/node_modules", "**/.*/"]
 }

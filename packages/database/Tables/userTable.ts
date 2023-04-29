@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema<UserType>(
       trim: true,
     },
     phone: {
-      type: Number,
+      type: String,
       required: true,
     },
     password: {
@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema<UserType>(
       required: true,
       unique: true,
     },
-    userType: {
+    type: {
       type: String,
       required: true,
       enum: ["player", "manger"],

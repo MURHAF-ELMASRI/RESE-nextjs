@@ -1,17 +1,17 @@
 import query from '@rese/database/query/query';
 
-import { MutationResolvers, UserStatus } from 'types/resolvers-types';
-import jsonwebtoken from 'jsonwebtoken'
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcryptjs';
+import jsonwebtoken from 'jsonwebtoken';
+import { MutationResolvers } from 'types/resolvers-types';
 
-export const login:MutationResolvers['login'] = async (_, args, context) => {
+export const login: MutationResolvers['login'] = async (_, args, context) => {
   try {
     const { email, password } = args;
     const { res } = context;
     if (!email || !password) {
       throw new Error();
     }
-    const data = await query.getUser({ email });
+    const data = await query.getUserByEmail({ email });
     if (!data) {
       return {
         __typename: 'LoginError',
@@ -36,7 +36,7 @@ export const login:MutationResolvers['login'] = async (_, args, context) => {
     }
 
     const token = jsonwebtoken.sign(
-      { id: data.id },
+      { _id: data._id },
       process.env.JWT_SECRET ?? 'secret',
       {
         expiresIn: '1w',
@@ -49,10 +49,10 @@ export const login:MutationResolvers['login'] = async (_, args, context) => {
     return {
       __typename: 'User',
       email: data.email,
-      id: 23,
+      _id: data._id,
       fullName: data.fullName,
       phone: data.phone,
-      status: UserStatus.Active,
+      status: 'active',
       token,
     };
   } catch {

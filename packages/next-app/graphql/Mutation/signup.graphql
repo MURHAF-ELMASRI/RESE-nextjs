@@ -9,9 +9,9 @@ input signUpInput {
   email: String!
   password: String!
   phone: String!
-  userType: UserType!
+  type: UserType!
 }
 
 type Mutation {
-  signup(signUpInput: signUpInput!): SignupError!
+  signup(signUpInput: signUpInput!): SignupError
 }

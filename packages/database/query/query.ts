@@ -1,7 +1,6 @@
 import connectMongo from '../connectMongo';
 import pitchTable from '../Tables/pitchTable';
 import userTable from '../Tables/userTable';
-import jwt from 'jsonwebtoken';
 
 export const query = {
   getPitches: async () => {
@@ -9,9 +8,19 @@ export const query = {
     return pitchTable.find({}).lean();
   },
   //TODO : return the types of the query according to requested dataField
-  getUser: async ({ email }: { email: string }) => {
+  getUserByEmail: async ({ email }: { email: string }) => {
     await connectMongo();
     return userTable.findOne({ email }, [
+      'email',
+      'fullName',
+      'password',
+      'phone',
+      'status',
+    ] as const);
+  },
+  getUserByPhone: async ({ phone }: { phone: string }) => {
+    await connectMongo();
+    return userTable.findOne({ phone }, [
       'email',
       'fullName',
       'password',

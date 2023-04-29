@@ -1,4 +1,5 @@
-export type UserTypeType = "player" | "manger";
+import { UserType as UserTypeType } from "packages/next-app/types/resolvers-types";
+
 
 export interface UserType {
   _id: string;
@@ -7,7 +8,7 @@ export interface UserType {
   salt: string;
   phone: string;
   email: string;
-  userType: UserTypeType;
+  type: UserTypeType;
   status: "pending" | "active"
   confirmationCode?: string
   confirmationCodeDate?:Date

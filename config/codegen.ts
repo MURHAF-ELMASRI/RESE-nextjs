@@ -17,6 +17,9 @@ const config: CodegenConfig = {
     },
     './packages/next-app/types/resolvers-types.ts': {
       plugins: ['typescript', 'typescript-resolvers'],
+      config: {
+        enumsAsTypes: true,
+      },
     },
   },
 };

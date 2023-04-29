@@ -1,6 +1,5 @@
 import * as yup from 'yup';
 
-
 export const formValidation = yup.object({
   fullName: yup.string().required(),
   password: yup
@@ -11,10 +10,6 @@ export const formValidation = yup.object({
     .string()
     .min(10, 'Phone number should be of minimum 10 characters length')
     .required().matches(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/, "Must be only digits"),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref('password'), null], 'Passwords must match')
-    .required('Confirm password is required'),
   email: yup
     .string()
     .email('Enter a valid email')

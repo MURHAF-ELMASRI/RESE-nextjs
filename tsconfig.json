@@ -11,7 +11,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "checkJs": true,
-    "importHelpers": true
+    "importHelpers": true,
   },
   "include": ["./packages/**/**/*", "./packages/**/*", "./config/*"]
 }

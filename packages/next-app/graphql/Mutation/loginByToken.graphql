@@ -3,13 +3,6 @@ enum UserStatus {
   active
 }
 
-type User {
-  id: String!
-  fullName: String!
-  email: String!
-  phone: String!
-  status: UserStatus!
-}
 
 type loginByTokenError implements Error {
   params: ErrorParams!

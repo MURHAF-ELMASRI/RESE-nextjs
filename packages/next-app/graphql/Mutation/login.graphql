@@ -1,17 +1,3 @@
-enum UserStatus {
-  pending
-  active
-}
-
-
-type User {
-  id: String!
-  fullName: String!
-  email: String!
-  phone: String!
-  status: UserStatus!
-}
-
 type LoginError implements Error {
   email: String
   password: String

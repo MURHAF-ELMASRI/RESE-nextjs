@@ -22,6 +22,7 @@
 [ ] optimize query using dataloader https://vscode.dev/github/juffalow/express-graphql-example/blob/master/src/repositories/AuthorKnexRepository.ts
 [ ] add resolver and graphql types inside feature folder
 [ ] convert phone number component to use material ui
+[ ] refactor error handling to better way
 # learned topics
 
 - difference between plugin and extends in eslint
@@ -34,6 +35,7 @@
 - problem: reading graphql files because nodejs read file does not work for webpack or next
   - use gql tag and exports the schema to use it in graphql-yoga
 - update leaflet after rendering it
+- create eslint rule to prevent developer from assigning types in graphql without importing it from its file
 ### data loader
 
 ### graphql

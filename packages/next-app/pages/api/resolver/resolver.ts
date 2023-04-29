@@ -2,6 +2,7 @@ import { Resolvers } from 'types/resolvers-types';
 import { Context } from '../types';
 import { login } from './login/login';
 import { loginByToken } from './loginByToken/loginByToken';
+import { signup } from './signup/signup';
 
 export const resolvers: Resolvers<Context> = {
   Query: {
@@ -10,5 +11,6 @@ export const resolvers: Resolvers<Context> = {
   Mutation: {
     login,
     loginByToken,
+    signup,
   },
 };

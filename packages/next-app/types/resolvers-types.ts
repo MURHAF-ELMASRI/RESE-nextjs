@@ -42,7 +42,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   login: LoginOrError;
   loginByToken: UserOrError;
-  signup: SignupError;
+  signup?: Maybe<SignupError>;
 };
 
 
@@ -70,24 +70,25 @@ export type SignupError = Error & {
 
 export type User = {
   __typename?: 'User';
+  _id: Scalars['String'];
   email: Scalars['String'];
   fullName: Scalars['String'];
   id: Scalars['String'];
   phone: Scalars['String'];
   status: UserStatus;
+  token: Scalars['String'];
+  type: UserType;
 };
 
 export type UserOrError = User | LoginByTokenError;
 
-export enum UserStatus {
-  Active = 'active',
-  Pending = 'pending'
-}
+export type UserStatus =
+  | 'active'
+  | 'pending';
 
-export enum UserType {
-  Manger = 'manger',
-  Player = 'player'
-}
+export type UserType =
+  | 'manger'
+  | 'player';
 
 export type LoginByTokenError = Error & {
   __typename?: 'loginByTokenError';
@@ -99,7 +100,7 @@ export type SignUpInput = {
   fullName: Scalars['String'];
   password: Scalars['String'];
   phone: Scalars['String'];
-  userType: UserType;
+  type: UserType;
 };
 
 
@@ -245,7 +246,7 @@ export type LoginOrErrorResolvers<ContextType = any, ParentType extends Resolver
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   login?: Resolver<ResolversTypes['LoginOrError'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
   loginByToken?: Resolver<ResolversTypes['UserOrError'], ParentType, ContextType>;
-  signup?: Resolver<ResolversTypes['SignupError'], ParentType, ContextType, RequireFields<MutationSignupArgs, 'signUpInput'>>;
+  signup?: Resolver<Maybe<ResolversTypes['SignupError']>, ParentType, ContextType, RequireFields<MutationSignupArgs, 'signUpInput'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -260,11 +261,14 @@ export type SignupErrorResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  _id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   fullName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   phone?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['UserStatus'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['UserType'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
