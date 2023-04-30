@@ -14,7 +14,6 @@
   "rules": {
     "no-console": "warn",
     "tss-unused-classes/unused-classes": "warn",
-    "mui-path-imports/mui-path-imports": "error",
-    
+    "mui-path-imports/mui-path-imports": "error"
   }
 }

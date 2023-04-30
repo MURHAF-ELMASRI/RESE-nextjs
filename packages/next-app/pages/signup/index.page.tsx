@@ -1,21 +1,41 @@
 import Box from '@mui/material/Box';
 import juniorSoccer from 'assets/juniorSoccer.svg';
+import Logo from 'assets/logo.png';
 import rectangle from 'assets/rectangle.png';
 import ImageRese from 'components/ImageRese';
+import Transaction from 'components/Transaction';
 import { motion } from 'framer-motion';
+import { useMemo } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import { pageTransition } from 'util/const';
-import LeftSide from './LeftSide';
+import ConfirmationStep from './ConfirmationStep';
+import UserInfoStep from './UserInfoStep';
+import { useSignupStore } from './useSignupStore';
 
 export default function Signup() {
   const { classes } = useStyles();
+  const { page } = useSignupStore();
+
+  const steps = useMemo(() => [() => UserInfoStep, () => ConfirmationStep], []);
 
   return (
     <motion.div className={classes.container} {...pageTransition}>
       <ImageRese maxWidth={200} src={rectangle} className={classes.leftRect} />
-
       <ImageRese maxWidth={270} src={rectangle} className={classes.rightRect} />
-      <LeftSide />
+
+      <Box flex={1}>
+        <Box display={'flex'} flexDirection={'column'} ml={12}>
+          <div className={classes.logoContainer}>
+            <ImageRese maxWidth={112} src={Logo} className={classes.logo} />
+          </div>
+          {
+            <Transaction animate="slide" controlKey={page === 'UserInfo' ? 1 : 0}>
+              {page=== 'UserInfo' ? <UserInfoStep /> : <ConfirmationStep />}
+            </Transaction>
+          }
+        </Box>
+      </Box>
+
       <Box flex={1} className={classes.rightSideContainer}>
         <ImageRese
           maxWidth={700}
@@ -50,13 +70,6 @@ const useStyles = makeStyles()((theme) => ({
     position: 'absolute',
     right: -180,
     top: 300,
-  },
-  buttonContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 16,
-    maxWidth: 400,
-    width: '100%',
   },
   logoContainer: {
     width: 108,

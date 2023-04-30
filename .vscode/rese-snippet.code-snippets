@@ -1,0 +1,25 @@
+{
+  "UserInfoStep": {
+    "prefix": "component",
+    "body": [
+      "import { Box } from '@mui/material';",
+      "import { useAlert } from 'hooks/useAlert';",
+      "import useFlex from 'hooks/useFlex';",
+      "import React from 'react';",
+      "import { makeStyles } from 'tss-react/mui';",
+      "",
+      "export default React.memo(${1:${TM_FILENAME_BASE}});",
+      "",
+      "function ${1:${TM_FILENAME_BASE}}() {",
+      "\tconst { classes } = useStyles();",
+      "\tconst { column } = useFlex();",
+      "\tconst { alert } = useAlert();",
+      "",
+      "\treturn <Box>${2:}</Box>;",
+      "}",
+      "",
+      "const useStyles = makeStyles()((theme) => ({}));"
+    ],
+    "description": "Component for rese project"
+  }
+}

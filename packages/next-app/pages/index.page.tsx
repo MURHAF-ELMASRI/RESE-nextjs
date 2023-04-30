@@ -4,7 +4,8 @@ import { PitchType } from '@rese/common/model/Pitch';
 import query from '@rese/database/query/query';
 import IconButtonRese from 'components/IconButtonRese';
 import TextFieldRese from 'components/TextFieldRese';
-import { AnimatePresence, motion } from 'framer-motion';
+import Transaction from 'components/Transaction';
+import { AnimatePresence } from 'framer-motion';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
@@ -96,15 +97,9 @@ export default function Home({
         </Paper>
         <AnimatePresence>
           {!selectedPitch ? null : (
-            <motion.div
-              style={{ height: '100%', flex: 1 }}
-              initial={{  opacity: 0 }}
-              animate={{ opacity: 1}}
-              transition={{ duration: 0.5 }}
-              key={selectedPitch._id}
-            >
+            <Transaction animate="dissolve" controlKey={selectedPitch._id}>
               <PitchView pitch={selectedPitch}></PitchView>
-            </motion.div>
+            </Transaction>
           )}
         </AnimatePresence>
       </div>
