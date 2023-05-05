@@ -4,6 +4,11 @@ import bcrypt from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
 import { MutationResolvers } from 'types/resolvers-types';
 
+const TOKEN_EXPIRATION = {
+  text: '1w',
+  value: 60 * 60 * 24 * 7,
+}
+
 export const login: MutationResolvers['login'] = async (_, args, context) => {
   try {
     const { email, password } = args;
@@ -39,12 +44,11 @@ export const login: MutationResolvers['login'] = async (_, args, context) => {
       { _id: data._id },
       process.env.JWT_SECRET ?? 'secret',
       {
-        expiresIn: '1w',
+        expiresIn: TOKEN_EXPIRATION.text,
       }
     );
 
-    const one_week = 60 * 60 * 24 * 7;
-    res.setHeader('Set-Cookie', `token=${token};Max-Age=${one_week};path=/`);
+    res.setHeader('Set-Cookie', `token=${token};Max-Age=${TOKEN_EXPIRATION.value};path=/`);
 
     return {
       __typename: 'User',

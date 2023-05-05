@@ -1,6 +1,5 @@
+import getUserByToken from 'pages/api/util/getUserByToken';
 import { MutationResolvers } from 'types/resolvers-types';
-import jsonwebtoken from 'jsonwebtoken';
-import query from '@rese/database/query/query';
 
 export const loginByToken: MutationResolvers['loginByToken'] = async (
   _,
@@ -8,13 +7,7 @@ export const loginByToken: MutationResolvers['loginByToken'] = async (
   context
 ) => {
   try {
-    const { req } = context;
-    const token = jsonwebtoken.decode(req.cookies.token ?? '');
-    const { id } = token as { id: string };
-    if (!id) {
-      throw new Error();
-    }
-    const user = await query.getUserByToken(id);
+    const user = await getUserByToken(context.req.cookies.token);
     if (!user) {
       throw new Error();
     }

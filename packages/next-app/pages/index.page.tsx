@@ -4,7 +4,7 @@ import { PitchType } from '@rese/common/model/Pitch';
 import query from '@rese/database/query/query';
 import IconButtonRese from 'components/IconButtonRese';
 import TextFieldRese from 'components/TextFieldRese';
-import Transaction from 'components/Transaction';
+import Transition from 'components/Transition';
 import { AnimatePresence } from 'framer-motion';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
@@ -97,9 +97,9 @@ export default function Home({
         </Paper>
         <AnimatePresence>
           {!selectedPitch ? null : (
-            <Transaction animate="dissolve" controlKey={selectedPitch._id}>
+            <Transition animate="dissolve" controlKey={selectedPitch._id}>
               <PitchView pitch={selectedPitch}></PitchView>
-            </Transaction>
+            </Transition>
           )}
         </AnimatePresence>
       </div>

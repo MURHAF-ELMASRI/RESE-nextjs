@@ -1,4 +1,4 @@
-import { UserType as UserTypeType } from "packages/next-app/types/resolvers-types";
+import { UserStatus, UserType as UserTypeType } from "packages/next-app/types/resolvers-types";
 
 
 export interface UserType {
@@ -9,7 +9,7 @@ export interface UserType {
   phone: string;
   email: string;
   type: UserTypeType;
-  status: "pending" | "active"
+  status: UserStatus
   confirmationCode?: string
   confirmationCodeDate?:Date
 }

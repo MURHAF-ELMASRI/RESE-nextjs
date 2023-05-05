@@ -1,7 +1,0 @@
-use("rese")
-db.pitches.find({})
-
-db.pitches.updateMany({_id:"632079b0cdaebb964e83c8d2"}, {$set: {location:[
-    38.670666,
-    39.197717
-  ]}})

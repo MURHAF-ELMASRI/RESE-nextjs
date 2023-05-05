@@ -23,6 +23,8 @@
 [ ] add resolver and graphql types inside feature folder
 [ ] convert phone number component to use material ui
 [ ] refactor error handling to better way
+[ ] separate ui from logic
+[ ] create error e.g. createError("SignupError","message","errorCode")
 # learned topics
 
 - difference between plugin and extends in eslint
@@ -36,6 +38,7 @@
   - use gql tag and exports the schema to use it in graphql-yoga
 - update leaflet after rendering it
 - create eslint rule to prevent developer from assigning types in graphql without importing it from its file
+- change setField error in formik to take object of fields with its error instead of taking helper.setFieldError('email', result.data.signup.email); it should get helper.setError({email:result.data.signup.email,otherField:result.data.signup.otherField}) ** I found out there is such function called setErrors({})
 ### data loader
 
 ### graphql

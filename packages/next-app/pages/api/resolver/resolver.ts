@@ -3,6 +3,7 @@ import { Context } from '../types';
 import { login } from './login/login';
 import { loginByToken } from './loginByToken/loginByToken';
 import { signup } from './signup/signup';
+import { confirmCode } from './confirmCode/confirmCode';
 
 export const resolvers: Resolvers<Context> = {
   Query: {
@@ -12,5 +13,6 @@ export const resolvers: Resolvers<Context> = {
     login,
     loginByToken,
     signup,
+    confirmCode
   },
 };

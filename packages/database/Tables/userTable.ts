@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema<UserType>(
   {
     _id: {
       type: String,
-      required: true,
+      default: () => new mongoose.Types.ObjectId().toString(),
     },
     fullName: {
       type: String,

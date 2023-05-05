@@ -1,4 +1,6 @@
 import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 import ButtonRese from 'components/ButtonRese';
 import PhoneNumber from 'components/PhoneNumber';
 import Select from 'components/Select';
@@ -8,6 +10,7 @@ import { useSignupMutation } from 'hooks/generated/apolloHooks';
 import { useAlert } from 'hooks/useAlert';
 import useFlex from 'hooks/useFlex';
 import { omit } from 'lodash';
+import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { makeStyles } from 'tss-react/mui';
@@ -33,13 +36,13 @@ export default React.memo(UserInfoStep);
 
 function UserInfoStep() {
   const { classes } = useStyles();
-  const { push } = useRouter();
+  const { replace } = useRouter();
   const [mutate, result] = useSignupMutation();
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const { column4 } = useFlex();
   const { alert } = useAlert();
-  const {setPage} = useSignupStore();
+  const { setPage } = useSignupStore();
 
   const formik = useFormik({
     validationSchema: formValidation,
@@ -48,16 +51,12 @@ function UserInfoStep() {
       const variables = omit(signUpInput, 'confirmPassword');
       const result = await mutate({ variables: { signUpInput: variables } });
       if (result.data?.signup?.__typename !== 'SignupError') {
-        return push('/login');
+        console.log('success');
+        return setPage(1)
       }
-      if (result.data.signup.email) {
-        helper.setFieldError('email', result.data.signup.email);
-        return;
-      }
-      if (result.data.signup.phone) {
-        helper.setFieldError('phone', result.data.signup.phone);
-        return;
-      }
+      console.log('error');
+      //TODO: fix this small ts error
+      helper.setErrors(result.data.signup);
 
       alert('error', 'something went wrong');
 
@@ -131,24 +130,28 @@ function UserInfoStep() {
           showError={!!formik.touched.type && !!formik.errors.type}
         />
       </Box>
-      <div className={classes.buttonContainer}>
-        <ButtonRese
-          label="Submit"
-          icon="mdi:login-variant"
-          onClick={()=>setPage("confirmation")}
-          disabled={result.loading}
-        />
+      <div>
+        <Box className={column4} maxWidth={400} width="100%">
+          <Typography>
+            You already have account{' '}
+            <NextLink href={'/login'}>
+              <Link className={classes.link}>login</Link>
+            </NextLink>
+          </Typography>
+          <ButtonRese
+            label="Submit"
+            icon="mdi:login-variant"
+            onClick={formik.handleSubmit}
+            disabled={result.loading}
+          />
+        </Box>
       </div>
     </Box>
   );
 }
 
 const useStyles = makeStyles()(() => ({
-  buttonContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 16,
-    maxWidth: 400,
-    width: '100%',
-  },
+  link:{
+    cursor:'pointer'
+  }
 }));

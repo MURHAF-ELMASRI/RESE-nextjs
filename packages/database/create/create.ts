@@ -17,8 +17,10 @@ function createCreate<T>(o: Obj<T>): RemoveId<Obj<T>> {
 }
 
 const create = {
-  createUser: async (user: UserType): Promise<UserType> => {
+  createUser: async (user: Omit<UserType,"_id">): Promise<UserType> => {
     await connectMongo();
+    console.log("user",user);
+    
     return userTable.create(user);
   },
 };

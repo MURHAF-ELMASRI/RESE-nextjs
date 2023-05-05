@@ -1,6 +1,7 @@
 type ErrorParams{
   ok: Boolean!
   status: Int!
+  message: String
 }
 
 interface Error {

@@ -15,6 +15,11 @@ export type Scalars = {
   JSON: any;
 };
 
+export type ConfirmCodeError = Error & {
+  __typename?: 'ConfirmCodeError';
+  params: ErrorParams;
+};
+
 export type Error = {
   params: ErrorParams;
 };
@@ -25,6 +30,7 @@ export type ErrorDescription = {
 
 export type ErrorParams = {
   __typename?: 'ErrorParams';
+  message?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
   status: Scalars['Int'];
 };
@@ -40,9 +46,15 @@ export type LoginOrError = LoginError | User;
 
 export type Mutation = {
   __typename?: 'Mutation';
+  confirmCode?: Maybe<ConfirmCodeError>;
   login: LoginOrError;
   loginByToken: UserOrError;
   signup?: Maybe<SignupError>;
+};
+
+
+export type MutationConfirmCodeArgs = {
+  confirmCodeInput: ConfirmCodeInput;
 };
 
 
@@ -73,10 +85,8 @@ export type User = {
   _id: Scalars['String'];
   email: Scalars['String'];
   fullName: Scalars['String'];
-  id: Scalars['String'];
   phone: Scalars['String'];
   status: UserStatus;
-  token: Scalars['String'];
   type: UserType;
 };
 
@@ -89,6 +99,10 @@ export type UserStatus =
 export type UserType =
   | 'manger'
   | 'player';
+
+export type ConfirmCodeInput = {
+  code: Scalars['String'];
+};
 
 export type LoginByTokenError = Error & {
   __typename?: 'loginByTokenError';
@@ -173,7 +187,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  Error: ResolversTypes['LoginError'] | ResolversTypes['SignupError'] | ResolversTypes['loginByTokenError'];
+  ConfirmCodeError: ResolverTypeWrapper<ConfirmCodeError>;
+  Error: ResolversTypes['ConfirmCodeError'] | ResolversTypes['LoginError'] | ResolversTypes['SignupError'] | ResolversTypes['loginByTokenError'];
   ErrorDescription: never;
   ErrorParams: ResolverTypeWrapper<ErrorParams>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
@@ -188,6 +203,7 @@ export type ResolversTypes = {
   UserOrError: ResolversTypes['User'] | ResolversTypes['loginByTokenError'];
   UserStatus: UserStatus;
   UserType: UserType;
+  confirmCodeInput: ConfirmCodeInput;
   loginByTokenError: ResolverTypeWrapper<LoginByTokenError>;
   signUpInput: SignUpInput;
 };
@@ -195,7 +211,8 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
-  Error: ResolversParentTypes['LoginError'] | ResolversParentTypes['SignupError'] | ResolversParentTypes['loginByTokenError'];
+  ConfirmCodeError: ConfirmCodeError;
+  Error: ResolversParentTypes['ConfirmCodeError'] | ResolversParentTypes['LoginError'] | ResolversParentTypes['SignupError'] | ResolversParentTypes['loginByTokenError'];
   ErrorDescription: never;
   ErrorParams: ErrorParams;
   Int: Scalars['Int'];
@@ -208,12 +225,18 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
   User: User;
   UserOrError: ResolversParentTypes['User'] | ResolversParentTypes['loginByTokenError'];
+  confirmCodeInput: ConfirmCodeInput;
   loginByTokenError: LoginByTokenError;
   signUpInput: SignUpInput;
 };
 
+export type ConfirmCodeErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['ConfirmCodeError'] = ResolversParentTypes['ConfirmCodeError']> = {
+  params?: Resolver<ResolversTypes['ErrorParams'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type ErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']> = {
-  __resolveType: TypeResolveFn<'LoginError' | 'SignupError' | 'loginByTokenError', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'ConfirmCodeError' | 'LoginError' | 'SignupError' | 'loginByTokenError', ParentType, ContextType>;
   params?: Resolver<ResolversTypes['ErrorParams'], ParentType, ContextType>;
 };
 
@@ -223,6 +246,7 @@ export type ErrorDescriptionResolvers<ContextType = any, ParentType extends Reso
 };
 
 export type ErrorParamsResolvers<ContextType = any, ParentType extends ResolversParentTypes['ErrorParams'] = ResolversParentTypes['ErrorParams']> = {
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -244,6 +268,7 @@ export type LoginOrErrorResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  confirmCode?: Resolver<Maybe<ResolversTypes['ConfirmCodeError']>, ParentType, ContextType, RequireFields<MutationConfirmCodeArgs, 'confirmCodeInput'>>;
   login?: Resolver<ResolversTypes['LoginOrError'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
   loginByToken?: Resolver<ResolversTypes['UserOrError'], ParentType, ContextType>;
   signup?: Resolver<Maybe<ResolversTypes['SignupError']>, ParentType, ContextType, RequireFields<MutationSignupArgs, 'signUpInput'>>;
@@ -264,10 +289,8 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   _id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   fullName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   phone?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['UserStatus'], ParentType, ContextType>;
-  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['UserType'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -282,6 +305,7 @@ export type LoginByTokenErrorResolvers<ContextType = any, ParentType extends Res
 };
 
 export type Resolvers<ContextType = any> = {
+  ConfirmCodeError?: ConfirmCodeErrorResolvers<ContextType>;
   Error?: ErrorResolvers<ContextType>;
   ErrorDescription?: ErrorDescriptionResolvers<ContextType>;
   ErrorParams?: ErrorParamsResolvers<ContextType>;

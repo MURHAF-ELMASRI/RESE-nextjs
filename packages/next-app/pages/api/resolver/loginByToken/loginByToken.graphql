@@ -2,7 +2,7 @@ mutation LoginByToken {
   loginByToken {
     __typename
     ... on User {
-      id
+      _id
       fullName
       phone
       status

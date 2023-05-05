@@ -1,0 +1,12 @@
+mutation ConfirmCode($confirmCodeInput: confirmCodeInput!) {
+  confirmCode(confirmCodeInput: $confirmCodeInput) {
+    __typename
+    ... on ConfirmCodeError {
+      params {
+        ok
+        status
+        message
+      }
+    }
+  }
+}

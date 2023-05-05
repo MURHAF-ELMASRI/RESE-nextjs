@@ -2,9 +2,8 @@ import useTheme from '@mui/material/styles/useTheme';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery/useMediaQuery';
 import { motion } from 'framer-motion';
-import { useIndex } from 'pages/index/indexStore';
 import { useUiContext } from 'pages/uiStore';
-import { useUserContext } from 'pages/userStore';
+import { useUser } from 'pages/userStore';
 import { memo } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import Avatar from '../../components/Avatar';
@@ -26,13 +25,12 @@ function SideBar() {
   const { classes } = useStyles();
   const theme = useTheme();
   const breakpoint = useMediaQuery(theme.breakpoints.up('sm'));
-  const user = useUserContext();
+  const user = useUser();
   const { uiState } = useUiContext();
 
   if (!user) {
     return null;
   }
-
   return (
     <motion.div
       className={classes.container}

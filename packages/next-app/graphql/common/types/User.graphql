@@ -5,5 +5,4 @@ type User {
   phone: String!
   status: UserStatus!
   type: UserType!
-  token: String!
 }

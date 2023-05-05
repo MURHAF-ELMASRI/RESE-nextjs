@@ -1,0 +1,11 @@
+type ConfirmCodeError implements Error {
+  params: ErrorParams!
+}
+
+input confirmCodeInput {
+  code: String!
+}
+
+type Mutation {
+  confirmCode(confirmCodeInput: confirmCodeInput!): ConfirmCodeError
+}

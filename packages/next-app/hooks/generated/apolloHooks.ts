@@ -16,6 +16,11 @@ export type Scalars = {
   JSON: any;
 };
 
+export type ConfirmCodeError = Error & {
+  __typename?: 'ConfirmCodeError';
+  params: ErrorParams;
+};
+
 export type Error = {
   params: ErrorParams;
 };
@@ -26,6 +31,7 @@ export type ErrorDescription = {
 
 export type ErrorParams = {
   __typename?: 'ErrorParams';
+  message?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
   status: Scalars['Int'];
 };
@@ -41,9 +47,15 @@ export type LoginOrError = LoginError | User;
 
 export type Mutation = {
   __typename?: 'Mutation';
+  confirmCode?: Maybe<ConfirmCodeError>;
   login: LoginOrError;
   loginByToken: UserOrError;
   signup?: Maybe<SignupError>;
+};
+
+
+export type MutationConfirmCodeArgs = {
+  confirmCodeInput: ConfirmCodeInput;
 };
 
 
@@ -74,10 +86,8 @@ export type User = {
   _id: Scalars['String'];
   email: Scalars['String'];
   fullName: Scalars['String'];
-  id: Scalars['String'];
   phone: Scalars['String'];
   status: UserStatus;
-  token: Scalars['String'];
   type: UserType;
 };
 
@@ -90,6 +100,10 @@ export type UserStatus =
 export type UserType =
   | 'manger'
   | 'player';
+
+export type ConfirmCodeInput = {
+  code: Scalars['String'];
+};
 
 export type LoginByTokenError = Error & {
   __typename?: 'loginByTokenError';
@@ -110,12 +124,12 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename: 'LoginError', password?: string | null, emailField?: string | null, params: { __typename?: 'ErrorParams', ok: boolean, status: number } } | { __typename: 'User', id: string, fullName: string, phone: string, status: UserStatus, email: string } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename: 'LoginError', password?: string | null, emailField?: string | null, params: { __typename?: 'ErrorParams', ok: boolean, status: number } } | { __typename: 'User', _id: string, fullName: string, phone: string, status: UserStatus, email: string } };
 
 export type LoginByTokenMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoginByTokenMutation = { __typename?: 'Mutation', loginByToken: { __typename: 'User', id: string, fullName: string, phone: string, status: UserStatus, email: string } | { __typename: 'loginByTokenError', params: { __typename?: 'ErrorParams', ok: boolean, status: number } } };
+export type LoginByTokenMutation = { __typename?: 'Mutation', loginByToken: { __typename: 'User', _id: string, fullName: string, phone: string, status: UserStatus, email: string } | { __typename: 'loginByTokenError', params: { __typename?: 'ErrorParams', ok: boolean, status: number } } };
 
 export type SignupMutationVariables = Exact<{
   signUpInput: SignUpInput;
@@ -124,13 +138,20 @@ export type SignupMutationVariables = Exact<{
 
 export type SignupMutation = { __typename?: 'Mutation', signup?: { __typename: 'SignupError', email?: string | null, phone?: string | null, params: { __typename?: 'ErrorParams', ok: boolean, status: number } } | null };
 
+export type ConfirmCodeMutationVariables = Exact<{
+  confirmCodeInput: ConfirmCodeInput;
+}>;
+
+
+export type ConfirmCodeMutation = { __typename?: 'Mutation', confirmCode?: { __typename: 'ConfirmCodeError', params: { __typename?: 'ErrorParams', ok: boolean, status: number, message?: string | null } } | null };
+
 
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
     __typename
     ... on User {
-      id
+      _id
       fullName
       phone
       status
@@ -179,7 +200,7 @@ export const LoginByTokenDocument = gql`
   loginByToken {
     __typename
     ... on User {
-      id
+      _id
       fullName
       phone
       status
@@ -260,3 +281,43 @@ export function useSignupMutation(baseOptions?: Apollo.MutationHookOptions<Signu
 export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
 export type SignupMutationResult = Apollo.MutationResult<SignupMutation>;
 export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, SignupMutationVariables>;
+export const ConfirmCodeDocument = gql`
+    mutation ConfirmCode($confirmCodeInput: confirmCodeInput!) {
+  confirmCode(confirmCodeInput: $confirmCodeInput) {
+    __typename
+    ... on ConfirmCodeError {
+      params {
+        ok
+        status
+        message
+      }
+    }
+  }
+}
+    `;
+export type ConfirmCodeMutationFn = Apollo.MutationFunction<ConfirmCodeMutation, ConfirmCodeMutationVariables>;
+
+/**
+ * __useConfirmCodeMutation__
+ *
+ * To run a mutation, you first call `useConfirmCodeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useConfirmCodeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [confirmCodeMutation, { data, loading, error }] = useConfirmCodeMutation({
+ *   variables: {
+ *      confirmCodeInput: // value for 'confirmCodeInput'
+ *   },
+ * });
+ */
+export function useConfirmCodeMutation(baseOptions?: Apollo.MutationHookOptions<ConfirmCodeMutation, ConfirmCodeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ConfirmCodeMutation, ConfirmCodeMutationVariables>(ConfirmCodeDocument, options);
+      }
+export type ConfirmCodeMutationHookResult = ReturnType<typeof useConfirmCodeMutation>;
+export type ConfirmCodeMutationResult = Apollo.MutationResult<ConfirmCodeMutation>;
+export type ConfirmCodeMutationOptions = Apollo.BaseMutationOptions<ConfirmCodeMutation, ConfirmCodeMutationVariables>;

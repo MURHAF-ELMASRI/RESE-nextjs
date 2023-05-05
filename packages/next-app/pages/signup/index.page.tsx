@@ -3,9 +3,11 @@ import juniorSoccer from 'assets/juniorSoccer.svg';
 import Logo from 'assets/logo.png';
 import rectangle from 'assets/rectangle.png';
 import ImageRese from 'components/ImageRese';
-import Transaction from 'components/Transaction';
+import Transition from 'components/Transition';
 import { motion } from 'framer-motion';
-import { useMemo } from 'react';
+import { useRouter } from 'next/router';
+import { useUser } from 'pages/userStore';
+import { useEffect } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import { pageTransition } from 'util/const';
 import ConfirmationStep from './ConfirmationStep';
@@ -15,8 +17,14 @@ import { useSignupStore } from './useSignupStore';
 export default function Signup() {
   const { classes } = useStyles();
   const { page } = useSignupStore();
+  const user = useUser();
+  const { replace } = useRouter();
 
-  const steps = useMemo(() => [() => UserInfoStep, () => ConfirmationStep], []);
+  useEffect(() => {
+    if (user) {
+      replace('/');
+    }
+  }, [replace, user]);
 
   return (
     <motion.div className={classes.container} {...pageTransition}>
@@ -29,9 +37,9 @@ export default function Signup() {
             <ImageRese maxWidth={112} src={Logo} className={classes.logo} />
           </div>
           {
-            <Transaction animate="slide" controlKey={page === 'UserInfo' ? 1 : 0}>
-              {page=== 'UserInfo' ? <UserInfoStep /> : <ConfirmationStep />}
-            </Transaction>
+            <Transition animate="slide" controlKey={page}>
+              {page === 0 ? <UserInfoStep /> : <ConfirmationStep />}
+            </Transition>
           }
         </Box>
       </Box>
