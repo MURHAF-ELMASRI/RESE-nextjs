@@ -33,7 +33,7 @@ export const confirmCode: MutationResolvers['confirmCode'] = async (
       };
     }
     if(user.confirmationCode !== confirmCodeInput.code) {
-      console.log("30",user.confirmationCode, confirmCodeInput.code)
+      console.log("30",user, confirmCodeInput.code)
       return {
         __typename: 'ConfirmCodeError',
         params: {

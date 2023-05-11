@@ -7,6 +7,8 @@ import ButtonRese from 'components/ButtonRese';
 import { useConfirmCodeMutation } from 'hooks/generated/apolloHooks';
 import { useAlert } from 'hooks/useAlert';
 import useFlex from 'hooks/useFlex';
+import { replace } from 'lodash';
+import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import { useSignupStore } from './useSignupStore';
@@ -22,6 +24,7 @@ function ConfirmationStep() {
   const [code, setCode] = React.useState(['', '', '', '', '', '']);
   const [mutate, result] = useConfirmCodeMutation();
   const inputRef = React.useRef<HTMLInputElement[]>([]);
+  const {replace} = useRouter();
 
   const submit = useCallback(async () => {
     const codeString = code.join('');
@@ -38,11 +41,12 @@ function ConfirmationStep() {
         alert('error', data.confirmCode.params.message!);
         return;
       }
-      setPage(0);
+      alert('success', 'Signup successfully')
+      replace('/')
     } catch (error) {
       alert('error', 'something went wrong, please try again');
     }
-  }, [alert, code, mutate, setPage]);
+  }, [alert, code, mutate, replace]);
 
   const handleChange = useCallback(
     (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,11 +1,25 @@
 import { useLoginByTokenMutation } from 'hooks/generated/apolloHooks';
 import { useGlobalLoader } from 'hooks/useGlobalLoader';
-import { useRouter } from 'next/router';
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { User } from 'types/resolvers-types';
 import { useUiContext } from './uiStore';
 
-const defaultUserState = undefined as User | undefined;
+interface DefaultUserState {
+  user?: User;
+  fetchUserToStore: () => void;
+}
+
+const defaultUserState: DefaultUserState = {
+  user: undefined,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  fetchUserToStore: () => {},
+};
 
 const userContext = createContext(defaultUserState);
 
@@ -13,19 +27,26 @@ export function useUser() {
   return useContext(userContext);
 }
 export function UserProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState(defaultUserState);
-  const [getUser, { data, error, loading }] = useLoginByTokenMutation();
+  const [user, setUser] = useState<User | undefined>(undefined);
+  const [getUser, { loading }] = useLoginByTokenMutation();
   const { openMenu } = useUiContext();
-  const { showLoader,hideLoader } = useGlobalLoader();
+  const { showLoader, hideLoader } = useGlobalLoader();
+
+  const fetchUserToStore = useCallback(async () => {
+    const user = await getUser();
+    if (user.data?.loginByToken.__typename === 'User') {
+      setUser(user.data.loginByToken);
+      openMenu();
+    }
+  }, [getUser, openMenu]);
 
   useEffect(() => {
     if (loading) {
       showLoader();
-    }else{
+    } else {
       hideLoader();
     }
   }, [hideLoader, loading, showLoader]);
-
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -34,15 +55,15 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       return;
     }
     setUser(JSON.parse(user));
-  }, [getUser]);
+  }, [getUser, setUser]);
 
   useEffect(() => {
-    if (!error && data?.loginByToken.__typename === 'User') {
-      const user = data?.loginByToken;
-      setUser(user);
-      openMenu();
-    }
-  }, [data, error, openMenu]);
+    fetchUserToStore();
+  }, [fetchUserToStore, openMenu]);
 
-  return <userContext.Provider value={user}>{children}</userContext.Provider>;
+  return (
+    <userContext.Provider value={{ user, fetchUserToStore }}>
+      {children}
+    </userContext.Provider>
+  );
 }

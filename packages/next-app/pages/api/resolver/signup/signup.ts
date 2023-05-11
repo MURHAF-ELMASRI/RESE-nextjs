@@ -47,7 +47,8 @@ export const signup: MutationResolvers['signup'] = async (_, args, context) => {
       salt,
       status: 'pending',
       confirmationCode,
-      confirmationCodeDate: new Date(),
+      //date after 1 minute
+      confirmationCodeDate: new Date(Date.now() + 60 * 1000),
     });
 
     const token = jsonwebtoken.sign(

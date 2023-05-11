@@ -1,6 +1,5 @@
 import useTheme from '@mui/material/styles/useTheme';
 import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery/useMediaQuery';
 import { motion } from 'framer-motion';
 import { useUiContext } from 'pages/uiStore';
 import { useUser } from 'pages/userStore';
@@ -24,8 +23,7 @@ const WIDTH = 308;
 function SideBar() {
   const { classes } = useStyles();
   const theme = useTheme();
-  const breakpoint = useMediaQuery(theme.breakpoints.up('sm'));
-  const user = useUser();
+  const {user} = useUser();
   const { uiState } = useUiContext();
 
   if (!user) {

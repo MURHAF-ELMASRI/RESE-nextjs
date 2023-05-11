@@ -32,12 +32,7 @@ export const query = {
     await connectMongo();
     try {
       return userTable
-        .findOne({ _id }, [
-          'email',
-          'fullName',
-          'phone',
-          'status',
-        ] as const)
+        .findOne({ _id })
         .lean();
     } catch (e) {
       console.error(e);

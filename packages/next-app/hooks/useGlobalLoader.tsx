@@ -2,7 +2,14 @@
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useTheme } from '@mui/system';
-import { createContext, useCallback, useContext, useState } from 'react';
+import { useRouter } from 'next/router';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 const defaultGlobalLoaderState = {
   showLoader: () => {},
@@ -19,6 +26,7 @@ export function GlobalLoaderProvider({
   children: React.ReactNode;
 }) {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const theme = useTheme();
   const hideLoader = useCallback(() => {
     setLoading(false);
@@ -26,6 +34,22 @@ export function GlobalLoaderProvider({
   const showLoader = useCallback(() => {
     setLoading(true);
   }, []);
+
+  useEffect(() => {
+    const handleStart = (url: string) => url !== router.asPath && showLoader();
+    const handleComplete = (url: string) =>
+      url === router.asPath && hideLoader();
+
+    router.events.on('routeChangeStart', handleStart);
+    router.events.on('routeChangeComplete', handleComplete);
+    router.events.on('routeChangeError', handleComplete);
+
+    return () => {
+      router.events.off('routeChangeStart', handleStart);
+      router.events.off('routeChangeComplete', handleComplete);
+      router.events.off('routeChangeError', handleComplete);
+    };
+  }, [hideLoader, router.asPath, router.events, showLoader]);
 
   return (
     <globalLoaderContext.Provider value={{ hideLoader, showLoader }}>
@@ -42,7 +66,7 @@ export function GlobalLoaderProvider({
         >
           <CircularProgress />
         </Box>
-      ):null}
+      ) : null}
       {children}
     </globalLoaderContext.Provider>
   );

@@ -129,7 +129,7 @@ export type LoginMutation = { __typename?: 'Mutation', login: { __typename: 'Log
 export type LoginByTokenMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoginByTokenMutation = { __typename?: 'Mutation', loginByToken: { __typename: 'User', _id: string, fullName: string, phone: string, status: UserStatus, email: string } | { __typename: 'loginByTokenError', params: { __typename?: 'ErrorParams', ok: boolean, status: number } } };
+export type LoginByTokenMutation = { __typename?: 'Mutation', loginByToken: { __typename: 'User', _id: string, fullName: string, phone: string, status: UserStatus, email: string, type: UserType } | { __typename: 'loginByTokenError', params: { __typename?: 'ErrorParams', ok: boolean, status: number } } };
 
 export type SignupMutationVariables = Exact<{
   signUpInput: SignUpInput;
@@ -205,6 +205,7 @@ export const LoginByTokenDocument = gql`
       phone
       status
       email
+      type
     }
     ... on loginByTokenError {
       params {

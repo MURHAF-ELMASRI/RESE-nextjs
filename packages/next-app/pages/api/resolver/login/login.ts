@@ -2,12 +2,12 @@ import query from '@rese/database/query/query';
 
 import bcrypt from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
-import { MutationResolvers } from 'types/resolvers-types';
+import { MutationResolvers, User } from 'types/resolvers-types';
 
 const TOKEN_EXPIRATION = {
   text: '1w',
   value: 60 * 60 * 24 * 7,
-}
+};
 
 export const login: MutationResolvers['login'] = async (_, args, context) => {
   try {
@@ -48,17 +48,21 @@ export const login: MutationResolvers['login'] = async (_, args, context) => {
       }
     );
 
-    res.setHeader('Set-Cookie', `token=${token};Max-Age=${TOKEN_EXPIRATION.value};path=/`);
-
-    return {
+    res.setHeader(
+      'Set-Cookie',
+      `token=${token};Max-Age=${TOKEN_EXPIRATION.value};path=/`
+    );
+    const user: User = {
       __typename: 'User',
-      email: data.email,
       _id: data._id,
+      email: data.email,
       fullName: data.fullName,
       phone: data.phone,
-      status: 'active',
-      token,
+      status: data.status,
+      type: data.type,
     };
+
+    return user;
   } catch {
     return {
       __typename: 'LoginError',

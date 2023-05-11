@@ -40,7 +40,8 @@ export function AlertProvider({ children }: { children: React.ReactNode }) {
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         open={isAlertOpen}
-        autoHideDuration={2000}
+        autoHideDuration={1000}
+        onClose={handleClose}
       >
         <Alert onClose={handleClose} severity={variant} sx={{ width: '100%' }}>
           {message}

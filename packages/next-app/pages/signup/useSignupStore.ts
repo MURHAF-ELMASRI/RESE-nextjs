@@ -7,6 +7,6 @@ interface State {
 }
 
 export const useSignupStore = create<State>()((set) => ({
-  page: 1 ,
+  page: 0 ,
   setPage: (page) => set(() => ({ page })),
 }));

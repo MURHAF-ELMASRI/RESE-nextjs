@@ -13,7 +13,6 @@ export const loginByToken: MutationResolvers['loginByToken'] = async (
     }
     return {
       __typename: 'User',
-      id: user._id,
       ...user,
     };
   } catch {

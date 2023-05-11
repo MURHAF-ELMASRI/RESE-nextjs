@@ -6,7 +6,9 @@ import TextFieldRese from 'components/TextFieldRese';
 import { useFormik } from 'formik';
 import { motion } from 'framer-motion';
 import { useLoginMutation } from 'hooks/generated/apolloHooks';
+import { useAlert } from 'hooks/useAlert';
 import { useRouter } from 'next/router';
+import { useUser } from 'pages/userStore';
 import React, { useCallback } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import { pageTransition } from 'util/const';
@@ -16,8 +18,10 @@ export default React.memo(Login);
 
 function Login() {
   const { classes } = useStyles();
-  const { push } = useRouter();
+  const { replace, push } = useRouter();
   const [mutate, result] = useLoginMutation();
+  const { alert } = useAlert();
+  const {fetchUserToStore}=useUser()
   const formik = useFormik({
     validationSchema: formValidation,
     initialValues: {
@@ -27,22 +31,17 @@ function Login() {
     onSubmit: async (v, helper) => {
       try {
         const { data } = await mutate({ variables: v });
-        if (!data) {
-          //TODO: show global error if there no data - or for server errors and bad request
-          return;
-        }
-
         if (data?.login.__typename === 'LoginError') {
           return helper.setErrors({
             email: data.login.emailField ?? '',
             password: data.login.password ?? '',
           });
         }
-
-        // dispatch(setUser({ ...data.login }));
-        push('/');
+        alert('success', "you're logged in");
+        fetchUserToStore()
+        replace('/');
       } catch (e) {
-        return;
+        return alert('error', 'something went wrong');
       }
     },
   });
@@ -100,7 +99,7 @@ function Login() {
           color="gray"
           label="Login with google"
           onClick={() => {
-            alert('this need to be implemented');
+            alert('error', "this feature isn't available yet");
           }}
         />
 
