@@ -5,28 +5,30 @@ import { makeStyles } from 'tss-react/mui';
 
 interface Props {
   icon: string;
-  onClick: () => void;
+  onClick: ((event?: any) => void) | undefined;
   size?: number;
   className?: string;
+  variant?: 'primary' | 'secondary' | 'text';
 }
 
 export default memo(IconButtonRese);
 
 function IconButtonRese(props: Props) {
-  const { onClick, icon, className, size = 24 } = props;
+  const { onClick, icon, className, size = 24, variant = 'text' } = props;
 
-  const { classes } = useStyles();
+  const { classes ,cx} = useStyles();
 
-  const hanldeClick=useCallback(() => {
-    console.log('render');
-    onClick()
-  }, [onClick]);
-
+  const handleClick = useCallback(
+    (event: any) => {
+      onClick?.(event);
+    },
+    [onClick]
+  );
 
   return (
     <div className={className}>
-      <ButtonBase className={classes.iconButton} onClick={hanldeClick}>
-        <Icon width={size} height={size} className={classes.icon} icon={icon} />
+      <ButtonBase className={classes.iconButton} onClick={handleClick}>
+        <Icon width={size} height={size} className={classes[variant]} icon={icon} />
       </ButtonBase>
     </div>
   );
@@ -37,7 +39,16 @@ const useStyles = makeStyles()((theme) => ({
     borderRadius: '50%',
     padding: 8,
   },
-  icon: {
-    color: theme.palette.text.primary,
+  // eslint-disable-next-line tss-unused-classes/unused-classes
+  primary: {
+    color: theme.palette.primary.main,
   },
+    // eslint-disable-next-line tss-unused-classes/unused-classes
+  secondary: {
+    color: theme.palette.secondary.main,
+  },
+    // eslint-disable-next-line tss-unused-classes/unused-classes
+  text:{
+    color: theme.palette.text.primary,
+  }
 }));

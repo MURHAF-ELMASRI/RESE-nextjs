@@ -1,9 +1,9 @@
 import { PitchId } from 'packages/next-app/types/nominal';
+import { Coord } from '../types/Coord';
 
 export type PaidService = 'referee';
 export type FreeService = 'treat' | 'transportation' | 'counter';
 
-export type Coord = [number, number];
 
 export type PitchType = {
   _id: PitchId;

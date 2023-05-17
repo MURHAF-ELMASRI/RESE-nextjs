@@ -5,18 +5,21 @@ export default React.memo(Transition);
 
 const config = {
   dissolve: {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
+    initial: { opacity: 0,scaleY: 0  },
+    animate: { opacity: 1, scaleY: 1 },
+    exit: { opacity: 0, scaleY: 0 },
     transition: { duration: 0.5 },
   },
   slideLeft: {
     initial: { x: 100, opacity: 0 },
     animate: { x: 0, opacity: 1 },
+    exit: { x: -100, opacity: 0 },
     transition: { duration: 0.5 },
   },
   slideRight: {
     initial: { x: -100, opacity: 0 },
     animate: { x: 0, opacity: 1 },
+    exit: { x: 100, opacity: 0 },
     transition: { duration: 0.5 },
   },
 };
@@ -54,6 +57,7 @@ function Transition(props: Props) {
       style={{ height: '100%', flex: 1 }}
       initial={selectedType.initial}
       animate={selectedType.animate}
+      exit={selectedType.exit}
       transition={selectedType.transition}
       key={controlKey}
     >

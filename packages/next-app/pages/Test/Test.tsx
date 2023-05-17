@@ -1,4 +1,4 @@
-import { Paper } from '@mui/material';
+import Paper from '@mui/material/Paper';
 import { useAppSelector } from 'hooks/state';
 import type { NextPage } from 'next';
 import Link from 'next/link';

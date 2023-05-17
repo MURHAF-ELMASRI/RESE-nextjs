@@ -14,11 +14,11 @@ import { useRouter } from 'next/Router';
 import { memo, useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useToggle } from 'react-use';
+import Filter from '../pages/index/Filter';
+import PitchListItem from '../pages/index/PitchListItem';
 import queryQL from '../src/graphql/queryQL';
 import { initializePitches } from '../state/Pitch/pitchSlice';
 import { pageTransition } from '../util/const';
-import Filter from './Filter';
-import PitchListItem from '../pages/index/PitchListItem';
 
 export default memo(UnSignedUser);
 

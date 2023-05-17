@@ -1,6 +1,6 @@
 import { Icon, Map } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { memo, useEffect, useRef } from 'react';
+import { memo, useCallback, useRef } from 'react';
 import { MapContainer, Marker, TileLayer } from 'react-leaflet';
 import { makeStyles } from 'tss-react/mui';
 
@@ -20,14 +20,11 @@ function LeafletMap(props: Props) {
   const { location } = props;
   const mapRef = useRef<Map>(null);
 
-  useEffect(() => {    
-    setTimeout(() => {
-      if(mapRef.current) {
-        mapRef.current.invalidateSize()
-      }
-    }, 0);
+  const whenReady = useCallback(() => {
+    if (mapRef.current) {
+      mapRef.current.invalidateSize();
+    }
   }, []);
-
 
   return (
     <MapContainer
@@ -35,6 +32,7 @@ function LeafletMap(props: Props) {
       center={location}
       zoom={13}
       style={{ height: '100%', width: '100%' }}
+      whenReady={whenReady}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Marker icon={PitchIcon} position={location}></Marker>

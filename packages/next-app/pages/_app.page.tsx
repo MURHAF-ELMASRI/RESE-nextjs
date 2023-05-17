@@ -2,6 +2,7 @@ import { ApolloProvider } from '@apollo/client';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 import TopLine from 'components/TopLine';
 import { AlertProvider } from 'hooks/useAlert';
 import { GlobalLoaderProvider } from 'hooks/useGlobalLoader';
@@ -14,6 +15,7 @@ import SideBar from '../containers/SideBar/SideBar';
 import '../styles/global.css';
 import { UiProvider } from './uiStore';
 import { UserProvider } from './userStore';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -36,13 +38,15 @@ function MyApp(props: MyAppProps) {
             <UiProvider>
               <GlobalLoaderProvider>
                 <UserProvider>
-                  <CssBaseline />
-                  <TopLine />
+                  <LocalizationProvider dateAdapter={AdapterMoment}>
+                    <CssBaseline />
+                    <TopLine />
 
-                  <div id="main-page">
-                    <SideBar />
-                    <Component {...pageProps} />
-                  </div>
+                    <div id="main-page">
+                      <SideBar />
+                      <Component {...pageProps} />
+                    </div>
+                  </LocalizationProvider>
                 </UserProvider>
               </GlobalLoaderProvider>
             </UiProvider>
